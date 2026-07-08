@@ -1,0 +1,42 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import InnerBanner from '../components/InnerBanner.astro';
+import { AR_SLUGS } from '../data/site';
+---
+
+<BaseLayout
+  title="About San Ramon General Trading & Cont. Co. - San Ramon General Trading & Cont. Co."
+  description="San Ramon General Trading & Cont. Co. is a trademark in Kuwait which offers high quality products and services locally and globally across oil & gas, food & beverages, beauty, cafés & restaurants and interior design."
+  lang="en"
+  path="/about-sanramon/"
+  altLangPath={`/ar/${encodeURI(AR_SLUGS.about)}/`}
+>
+  <InnerBanner image="/images/career-banner.png" alt="" />
+
+  <article class="max-w-[1200px] mx-auto px-5 lg:px-8 pt-10 lg:pt-14 pb-16 lg:pb-24">
+    <div class="grid gap-8 lg:grid-cols-12">
+      <header class="lg:col-span-4">
+        <h1 class="display text-[clamp(2.2rem,4.5vw,3.4rem)] lg:sticky lg:top-8">
+          About <b>San Ramon General Trading &amp; Cont. Co.</b>
+        </h1>
+      </header>
+      <div class="lg:col-span-7 lg:col-start-6">
+        <p class="drop-cap !text-[0.95rem] !leading-[2.05]">
+          San Ramon General Trading &amp; Cont. Co. is a trademark in Kuwait which offers high quality
+          products and services locally and globally. San Ramon’s competitive advantage lies in its wide
+          distribution network. In 2004, San Ramon established its first department, producing products
+          under the gas and oil sector. A few years later in 2012, San Ramon expanded to include food and
+          beverages with a focus on production and distribution. San Ramon is the owner and main
+          manufacturer of many brands under this department, namely Karak Tea, Shahad Honey, Food Hacks,
+          and Food Experts. A year later in 2013, San Ramon added further diversity by offering beauty
+          products, and in 2015, San Ramon opened it fourth department, cafes and restaurants to offer
+          services. Soon enough in 2018, San Ramon established its fifth department under interior
+          designing, and aspires to have more departments and collaborations in the near future.
+        </p>
+        <p class="mt-10 pt-6 border-t border-hairline">
+          <a class="link-caps !text-accent-deep" href="/message/">General Manager’s Message <span aria-hidden="true">&#8594;</span></a>
+        </p>
+      </div>
+    </div>
+  </article>
+</BaseLayout>

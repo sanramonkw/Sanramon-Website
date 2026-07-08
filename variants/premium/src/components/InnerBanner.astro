@@ -1,0 +1,38 @@
+---
+/**
+ * Full-width page banner used on inner pages (brand categories, about, careers…).
+ * Premium treatment: constrained-height image, graphite veil, bottom-aligned
+ * editorial title with eyebrow — visible on every breakpoint.
+ */
+interface Props {
+  image: string;
+  title?: string;
+  kicker?: string;
+  alt?: string;
+}
+const { image, title, kicker, alt = '' } = Astro.props;
+---
+
+<section class="relative overflow-hidden bg-graphite">
+  <img
+    src={image}
+    alt={alt}
+    class={`w-full h-[38vh] min-h-[260px] max-h-[440px] object-cover ${title ? 'opacity-70' : 'opacity-85'}`}
+    width="1920"
+    height="500"
+    fetchpriority="high"
+  />
+  <div
+    class="absolute inset-0 bg-gradient-to-t from-graphite/90 via-graphite/25 to-transparent"
+    aria-hidden="true"
+  >
+  </div>
+  {title && (
+    <div class="absolute inset-x-0 bottom-0">
+      <div class="mx-auto max-w-[1240px] px-5 lg:px-8 pb-10 lg:pb-14">
+        {kicker && <p class="eyebrow eyebrow-light mb-4">{kicker}</p>}
+        <h1 class="display !text-white text-[2.2rem] lg:text-[3.2rem] m-0">{title}</h1>
+      </div>
+    </div>
+  )}
+</section>

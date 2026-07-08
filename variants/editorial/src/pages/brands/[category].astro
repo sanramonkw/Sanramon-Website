@@ -1,0 +1,25 @@
+---
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import CategorySection from '../../components/CategorySection.astro';
+import { CATEGORIES, categoryPath } from '../../data/brands';
+
+export function getStaticPaths() {
+  return CATEGORIES.map((category) => ({
+    params: { category: category.slug },
+    props: { category },
+  }));
+}
+
+const { category } = Astro.props;
+---
+
+<BaseLayout
+  title={`${category.title.en} Archives - San Ramon General Trading & Cont. Co.`}
+  description={category.homeDesc.en}
+  lang="en"
+  path={categoryPath(category, 'en')}
+  altLangPath={categoryPath(category, 'ar')}
+  ogImage={category.banner}
+>
+  <CategorySection category={category} lang="en" />
+</BaseLayout>

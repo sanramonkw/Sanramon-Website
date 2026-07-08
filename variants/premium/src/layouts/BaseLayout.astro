@@ -1,0 +1,223 @@
+---
+import '../styles/global.css';
+import { SITE, type Lang } from '../data/site';
+import Header from '../components/Header.astro';
+import Footer from '../components/Footer.astro';
+
+interface Props {
+  title: string;
+  description: string;
+  lang?: Lang;
+  /** Site-relative path of this page, e.g. "/careers/". Defaults to current URL. */
+  path?: string;
+  /** Site-relative path of the same page in the other language (for hreflang). */
+  altLangPath?: string;
+  ogImage?: string;
+}
+
+const {
+  title,
+  description,
+  lang = 'en',
+  path = Astro.url.pathname,
+  altLangPath,
+  ogImage = '/images/sanramon-logo.png',
+} = Astro.props;
+
+const canonical = new URL(path, SITE.url).href;
+const altLang: Lang = lang === 'en' ? 'ar' : 'en';
+const altUrl = altLangPath ? new URL(altLangPath, SITE.url).href : undefined;
+const siteName = SITE.name[lang];
+const dir = lang === 'ar' ? 'rtl' : 'ltr';
+
+const organizationSchema = {
+  '@context': 'https://schema.org',
+  '@type': 'Organization',
+  '@id': `${SITE.url}/#organization`,
+  name: SITE.name.en,
+  alternateName: [SITE.name.ar, 'San Ramon', 'Sanramon Kuwait'],
+  url: SITE.url,
+  logo: `${SITE.url}/images/sanramon-logo.png`,
+  email: SITE.email,
+  telephone: '+96522204332',
+  foundingDate: '2004',
+  sameAs: [SITE.social.facebook, SITE.social.instagram, SITE.social.twitter],
+  address: {
+    '@type': 'PostalAddress',
+    postOfficeBoxNumber: '5485',
+    addressLocality: 'Hawalli',
+    postalCode: '32085',
+    addressCountry: 'KW',
+  },
+  brand: [
+    { '@type': 'Brand', name: 'Karak Tea' },
+    { '@type': 'Brand', name: 'Shahad Honey' },
+    { '@type': 'Brand', name: 'Food Hacks' },
+    { '@type': 'Brand', name: 'Food Experts' },
+    { '@type': 'Brand', name: 'Capri' },
+    { '@type': 'Brand', name: 'Najdiya' },
+    { '@type': 'Brand', name: 'Kif Al Mosafer' },
+    { '@type': 'Brand', name: 'Finjan Al Arab' },
+    { '@type': 'Brand', name: 'Kakawna' },
+    { '@type': 'Brand', name: 'Jacket Potato & Hot Dogs' },
+    { '@type': 'Brand', name: 'Bella Terra Cosmetics' },
+    { '@type': 'Brand', name: 'Marshmallows Nail Spa' },
+    { '@type': 'Brand', name: 'Fit Out' },
+  ],
+};
+
+const localBusinessSchema = {
+  '@context': 'https://schema.org',
+  '@type': 'LocalBusiness',
+  '@id': `${SITE.url}/#localbusiness`,
+  name: SITE.name.en,
+  image: `${SITE.url}/images/sanramon-logo.png`,
+  url: SITE.url,
+  telephone: '+96522204332',
+  email: SITE.email,
+  priceRange: '$$',
+  address: {
+    '@type': 'PostalAddress',
+    streetAddress: 'Tunisia St',
+    addressLocality: 'Hawalli',
+    postalCode: '32085',
+    postOfficeBoxNumber: '5485',
+    addressCountry: 'KW',
+  },
+  geo: {
+    '@type': 'GeoCoordinates',
+    latitude: SITE.geo.lat,
+    longitude: SITE.geo.lng,
+  },
+  hasMap: SITE.mapUrl,
+  areaServed: ['Kuwait', 'GCC'],
+  parentOrganization: { '@id': `${SITE.url}/#organization` },
+};
+---
+
+<!doctype html>
+<html lang={lang} dir={dir} class="no-js">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>{title}</title>
+    <meta name="description" content={description} />
+    <link rel="canonical" href={canonical} />
+    <link rel="icon" type="image/jpeg" href="/favicon.jpg" />
+    <meta name="robots" content="index, follow, max-image-preview:large, max-snippet:-1, max-video-preview:-1" />
+    <meta name="generator" content={Astro.generator} />
+
+    {/* hreflang — the site is bilingual EN/AR */}
+    <link rel="alternate" href={canonical} hreflang={lang} />
+    {altUrl && <link rel="alternate" href={altUrl} hreflang={altLang} />}
+    {altUrl && lang !== 'en' && <link rel="alternate" href={altUrl} hreflang="x-default" />}
+    {lang === 'en' && <link rel="alternate" href={canonical} hreflang="x-default" />}
+
+    {/* Open Graph */}
+    <meta property="og:locale" content={lang === 'en' ? 'en_US' : 'ar_AR'} />
+    <meta property="og:locale:alternate" content={lang === 'en' ? 'ar_AR' : 'en_US'} />
+    <meta property="og:type" content="website" />
+    <meta property="og:title" content={title} />
+    <meta property="og:description" content={description} />
+    <meta property="og:url" content={canonical} />
+    <meta property="og:site_name" content={siteName} />
+    <meta property="og:image" content={new URL(ogImage, SITE.url).href} />
+    <meta property="article:publisher" content={SITE.social.facebook} />
+
+    {/* Twitter */}
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:site" content={SITE.social.twitterHandle} />
+    <meta name="twitter:title" content={title} />
+    <meta name="twitter:description" content={description} />
+    <meta name="twitter:image" content={new URL(ogImage, SITE.url).href} />
+
+    {/* Fonts: self-hosted Montserrat + display serif, preloaded */}
+    <link
+      rel="preload"
+      href="/fonts/montserrat-variable-latin.woff2"
+      as="font"
+      type="font/woff2"
+      crossorigin
+    />
+    {lang === 'en' && (
+      <link
+        rel="preload"
+        href="/fonts/cormorant-garamond-variable-latin.woff2"
+        as="font"
+        type="font/woff2"
+        crossorigin
+      />
+    )}
+    {lang === 'ar' && (
+      <link
+        rel="preload"
+        href="/fonts/el-messiri-variable-arabic.woff2"
+        as="font"
+        type="font/woff2"
+        crossorigin
+      />
+    )}
+
+    <link rel="sitemap" href="/sitemap-index.xml" />
+
+    {/* Structured data: Organization + LocalBusiness (Kuwait local SEO) */}
+    <script type="application/ld+json" set:html={JSON.stringify(organizationSchema)} />
+    <script type="application/ld+json" set:html={JSON.stringify(localBusinessSchema)} />
+
+    <script>
+      // Progressive enhancement flag (scroll-reveal only runs with JS).
+      document.documentElement.classList.remove('no-js');
+    </script>
+  </head>
+  <body class="min-h-screen flex flex-col">
+    <Header lang={lang} altLangPath={altLangPath} />
+    <main class="flex-1" id="main">
+      <slot />
+    </main>
+    <Footer lang={lang} />
+
+    <script>
+      // Subtle scroll-reveal — IntersectionObserver toggling a class;
+      // motion is transform/opacity only and disabled by the
+      // prefers-reduced-motion block in global.css.
+      const els = document.querySelectorAll('[data-reveal]');
+      if ('IntersectionObserver' in window && els.length) {
+        const io = new IntersectionObserver(
+          (entries) => {
+            for (const e of entries) {
+              if (e.isIntersecting) {
+                e.target.classList.add('is-in');
+                io.unobserve(e.target);
+              }
+            }
+          },
+          { threshold: 0.12, rootMargin: '0px 0px -8% 0px' }
+        );
+        els.forEach((el) => io.observe(el));
+      } else {
+        els.forEach((el) => el.classList.add('is-in'));
+      }
+
+      // Condensed glass header state after scrolling past the top.
+      const header = document.querySelector('[data-site-header]');
+      if (header) {
+        let ticking = false;
+        const update = () => {
+          header.classList.toggle('is-scrolled', window.scrollY > 12);
+          ticking = false;
+        };
+        addEventListener(
+          'scroll',
+          () => {
+            if (!ticking) {
+              ticking = true;
+              requestAnimationFrame(update);
+            }
+          },
+          { passive: true }
+        );
+        update();
+      }
+    </script>
+  </body>
+</html>

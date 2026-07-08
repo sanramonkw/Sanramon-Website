@@ -1,0 +1,42 @@
+---
+import type { BrandCategory } from '../data/brands';
+import type { Lang } from '../data/site';
+import InnerBanner from './InnerBanner.astro';
+import BrandCard from './BrandCard.astro';
+
+interface Props {
+  category: BrandCategory;
+  lang: Lang;
+}
+const { category, lang } = Astro.props;
+const sectionTitleHtml = lang === 'en' ? 'OUR <b>BRANDS</b>' : 'علاماتنا التجارية';
+---
+
+<InnerBanner
+  image={category.banner}
+  kicker={category.kicker[lang]}
+  title={category.title[lang]}
+  alt={category.title[lang]}
+/>
+
+<section class="mx-auto max-w-[1240px] px-5 lg:px-8 pt-14 lg:pt-20" data-reveal>
+  <div class="flex items-end justify-between gap-6 border-b hairline pb-8">
+    <div>
+      <h2 class="display text-[1.9rem] lg:text-[2.3rem] normal-case" set:html={sectionTitleHtml} />
+      <p class="uppercase tracking-[0.28em] text-[11px] text-accent-deep mt-3 rtl:tracking-[0.08em] rtl:text-[13px]">
+        {category.title[lang]}
+      </p>
+    </div>
+    <span class="index-num hidden sm:block !text-[3rem] opacity-40" aria-hidden="true">
+      {String(category.items.length).padStart(2, '0')}
+    </span>
+  </div>
+</section>
+
+<section class="mx-auto max-w-[1240px] px-5 lg:px-8 py-12 lg:py-16">
+  <div class="grid gap-8 md:grid-cols-2 lg:grid-cols-3">
+    {category.items.map((item, i) => (
+      <BrandCard item={item} lang={lang} index={i} />
+    ))}
+  </div>
+</section>

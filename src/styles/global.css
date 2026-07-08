@@ -1,0 +1,135 @@
+@import "tailwindcss";
+
+/*
+ * Design tokens extracted from the original WordPress theme
+ * (wp-content/themes/sanramonkw/assets/css/style.css + style-ar.css):
+ *   body font  : 'Montserrat', sans-serif — weight 300, 16px base (Bootstrap default)
+ *   AR font    : 'El Messiri', sans-serif (style-ar.css) — self-hosted below
+ *   paragraphs : 13px / line-height 1.7 (EN); 14px (AR)
+ *   body color : #414141
+ *   dark/brand : #343a40 (buttons, footer band, headings accents)
+ *   accent     : #5aaecd (vertical "More" ribbon)
+ *   rule/line  : #030302 (heading tick line)
+ *   borders    : #ccc, #f5f5f5
+ */
+@theme {
+  --font-sans: "Montserrat", ui-sans-serif, system-ui, sans-serif;
+
+  --color-ink: #414141;
+  --color-dark: #343a40;
+  --color-accent: #5aaecd;
+  --color-line: #030302;
+  --color-border-soft: #cccccc;
+  --color-border-faint: #f5f5f5;
+}
+
+/* Self-hosted Montserrat (variable weight axis, downloaded from Google Fonts). */
+@font-face {
+  font-family: "Montserrat";
+  font-style: normal;
+  font-weight: 100 900;
+  font-display: swap;
+  src: url("/fonts/montserrat-variable-latin.woff2") format("woff2");
+  unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA,
+    U+02DC, U+0304, U+0308, U+0329, U+2000-206F, U+20AC, U+2122, U+2191, U+2193,
+    U+2212, U+2215, U+FEFF, U+FFFD;
+}
+@font-face {
+  font-family: "Montserrat";
+  font-style: normal;
+  font-weight: 100 900;
+  font-display: swap;
+  src: url("/fonts/montserrat-variable-latin-ext.woff2") format("woff2");
+  unicode-range: U+0100-02BA, U+02BD-02C5, U+02C7-02CC, U+02CE-02D7, U+02DD-02FF,
+    U+0304, U+0308, U+0329, U+1D00-1DBF, U+1E00-1EFF, U+2020, U+20A0-20AB,
+    U+20AD-20C0, U+2113, U+2C60-2C7F, U+A720-A7FF;
+}
+
+/*
+ * Self-hosted El Messiri (variable wght 400-700) — the original AR pages load
+ * it via style-ar.css `@import ...El+Messiri:wght@300;500;700` (Google clamps
+ * the nonexistent 300 to 400).
+ */
+@font-face {
+  font-family: "El Messiri";
+  font-style: normal;
+  font-weight: 400 700;
+  font-display: swap;
+  src: url("/fonts/el-messiri-variable-arabic.woff2") format("woff2");
+  unicode-range: U+0600-06FF, U+0750-077F, U+0870-088E, U+0890-0891, U+0897-08E1,
+    U+08E3-08FF, U+200C-200E, U+2010-2011, U+204F, U+2E41, U+FB50-FDFF,
+    U+FE70-FE74, U+FE76-FEFC;
+}
+@font-face {
+  font-family: "El Messiri";
+  font-style: normal;
+  font-weight: 400 700;
+  font-display: swap;
+  src: url("/fonts/el-messiri-variable-latin.woff2") format("woff2");
+  unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA,
+    U+02DC, U+0304, U+0308, U+0329, U+2000-206F, U+20AC, U+2122, U+2191, U+2193,
+    U+2212, U+2215, U+FEFF, U+FFFD;
+}
+
+@layer base {
+  html {
+    scroll-behavior: smooth;
+  }
+  body {
+    @apply font-sans font-light text-ink bg-white;
+    font-size: 16px; /* original: Bootstrap 1rem default, theme never overrode it */
+  }
+  /* Original theme: p { font-size: 13px !important; line-height: 1.7em } */
+  p {
+    font-size: 13px;
+    line-height: 1.7;
+  }
+  b,
+  strong {
+    font-weight: 600;
+  }
+  /* Arabic pages use El Messiri (original style-ar.css) and 14px paragraphs. */
+  [dir="rtl"] body,
+  body[dir="rtl"] {
+    font-family: "El Messiri", "Segoe UI", Tahoma, ui-sans-serif, system-ui, sans-serif;
+  }
+  [dir="rtl"] p {
+    font-size: 14px;
+  }
+}
+
+@layer components {
+  /* Kicker with the short tick line before it (original .home-title:
+     padding-left 14% / line 10% of the column ⇒ ~46px / 33px at 1440). */
+  .kicker {
+    @apply relative text-[13px] tracking-wide;
+    padding-inline-start: 46px;
+  }
+  .kicker::before {
+    content: "";
+    @apply absolute top-1/2 h-[3px] w-[33px] bg-line;
+    inset-inline-start: 0;
+  }
+  .kicker-light::before {
+    @apply bg-white h-[2px] w-[38px];
+  }
+
+  /* Outlined text button (original .home-cat-btn: 1px #ccc, 6px 10px, 13px). */
+  .btn-outline {
+    @apply inline-block border border-border-soft px-2.5 py-1.5 text-[13px] text-[#333] transition-colors hover:border-dark hover:text-dark;
+  }
+
+  /* Solid dark button (original .btn-vy: 10px 30px, 16px, weight 400). */
+  .btn-dark {
+    @apply inline-block bg-dark px-[30px] py-2.5 text-base leading-normal font-normal text-white uppercase transition-opacity hover:opacity-90;
+  }
+
+  /* Underline-only form field (original CF7 styling: 0.8rem, #f5f5f5 rule;
+     the AR stylesheet uses a #ccc rule instead). */
+  .field-line {
+    @apply block w-full border-0 border-b border-border-faint bg-transparent px-3 py-1.5 text-[0.8rem] font-normal outline-none transition-colors focus:border-[#555];
+  }
+  [dir="rtl"] .field-line {
+    @apply border-border-soft;
+  }
+}

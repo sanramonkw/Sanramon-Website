@@ -1,0 +1,19 @@
+{
+  "name": "sanramonkw",
+  "type": "module",
+  "version": "1.0.0",
+  "private": true,
+  "description": "San Ramon General Trading & Cont. Co. — Astro rebuild of sanramonkw.com",
+  "scripts": {
+    "dev": "astro dev",
+    "build": "astro build",
+    "preview": "astro preview",
+    "astro": "astro"
+  },
+  "dependencies": {
+    "@astrojs/sitemap": "^3.4.0",
+    "@tailwindcss/vite": "^4.1.0",
+    "astro": "^5.8.0",
+    "tailwindcss": "^4.1.0"
+  }
+}

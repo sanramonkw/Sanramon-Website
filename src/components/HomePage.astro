@@ -1,0 +1,232 @@
+---
+import { SITE, T, type Lang, AR_SLUGS } from '../data/site';
+import { CATEGORIES, categoryPath, HOME_BRAND_LOGOS } from '../data/brands';
+import ClientsGrid from './ClientsGrid.astro';
+
+interface Props {
+  lang: Lang;
+}
+const { lang } = Astro.props;
+const t = T[lang];
+
+const copy =
+  lang === 'en'
+    ? {
+        bannerKicker: 'WORLD WIDE PRODUCTS RING YOUR DOOR',
+        typewriter: ['Beauty', 'Restaurants & Shops', 'Oil & Gas'],
+        aboutTagline: 'Create & distribute high quality products',
+        aboutKicker: 'Origin',
+        aboutTitleHtml: 'About <b>San Ramon General Trading &amp; Cont. Co.</b>',
+        aboutBody:
+          'San Ramon General Trading & Cont. Co. is a trademark in Kuwait which offers high quality products and services locally and globally. San Ramon’s competitive advantage lies in its wide distribution network. In 2004, San Ramon established its first department, producing products under the gas and oil sector. A few years later in 2012, San Ramon expanded to include food and beverages with a focus on production and distribution. San Ramon is the owner and main manufacturer of many brands under this department, namely Karak Tea, Shahad Honey, Food Hacks, and Food Experts. A year later in 2013, San Ramon added further diversity by offering beauty products, and in 2015, San Ramon opened it fourth department, cafes and restaurants to offer services. Soon enough in 2018, San Ramon established its fifth department under interior designing, and aspires to have more departments and collaborations in the near future.',
+        gmHref: '/message/',
+        brandsKicker: 'Explore',
+        brandsTitleHtml: 'Our <b>Brands</b>',
+        clientsKicker: 'The esteemed',
+        clientsTitleHtml: 'Our <b>Clients</b>',
+        careersKicker: 'Careers',
+        careersTitleHtml: 'Join Our <b>TEAM</b>',
+        careersBody: 'Please feel free to upload your Resume if you are interested to join us!',
+        careersCta: 'Apply Now',
+        careersHref: '/careers/',
+      }
+    : {
+        bannerKicker: 'المنتجات العالمية  الي باب بيتك',
+        typewriter: ['الجمال', 'مطاعم وكوفي شوب', 'النفط والغاز'],
+        aboutTagline: 'إنشاء وتوزيع منتجات عالية الجودة',
+        aboutKicker: 'الأصل',
+        aboutTitleHtml: 'حول سان ريمون للتجارة العامة والمقاولات',
+        aboutBody:
+          'سان ريمون للتجارة العامة والمقاولات علامة تجارية في الكويت تقدم منتجات وخدمات عالية الجودة محليًا وعالميًا. نحن في سان ريمون نطمح لتقديم منتجاتنا وخدماتنا للجميع وتوسيع شبكة توزيعنا في جميع أنحاء العالم. تبدأ قصتنا في عام 2004 عندما أنشأت شركة سان ريمون أول قسم لها لإنتاج المنتجات في قطاع الغاز والنفط. توسعت شركتنا في عام 2012 لتشمل الأطعمة والمشروبات مع التركيز على الإنتاج والتوزيع. سان ريمون هي الشركة المصنعة الرئيسية للعديد من العلامات التجارية تحت قسم الأطعمة والمشروبات منها "شاي كرك" و"عسل شهد" و"فود هاكز" و"فود اكسبرتز". أضافت شركة سان ريمون مزيدًا من التنوع إلى اقسامها في عام 2013 من خلال تقديم منتجات التجميل وفي عام 2015 افتتحت شركة سان ريمون قسم المقاهي والمطاعم لتقدم الخدمات إضافة إلى المنتجات. في عام 2018 أنشأت سان ريمون قسمها الخامس تحت التصميم الداخلي وتطمح للحصول على المزيد من الأقسام والمنتجات في المستقبل القريب.',
+        gmHref: `/ar/${encodeURI(AR_SLUGS.message)}/`,
+        brandsKicker: 'اكتشف',
+        brandsTitleHtml: 'علاماتنا التجارية',
+        clientsKicker: 'أكبر العلامات التجارية',
+        clientsTitleHtml: 'العملاء',
+        careersKicker: 'وظائف',
+        careersTitleHtml: 'انضم إلى فريقنا',
+        careersBody: '!لا تتردد في تحميل سيرتك الذاتية ، إذا كنت مهتمًا بالانضمام إلينا!',
+        careersCta: 'قدم الآن',
+        careersHref: `/ar/${encodeURI(AR_SLUGS.careers)}/`,
+      };
+
+const banners = [
+  { src: '/images/banner-1604384711.jpg', w: 1099, h: 797 },
+  { src: '/images/banner-1603776625.png', w: 1097, h: 794 },
+  { src: '/images/banner-1603776635.png', w: 1097, h: 794 },
+  { src: '/images/banner-1608543316.png', w: 1099, h: 797 },
+];
+---
+
+{/* ============ Hero banner ============ */}
+<section class="grid lg:grid-cols-12 items-center gap-4" id="top">
+  <div class="lg:col-span-5 ps-4 lg:ps-12 pt-6">
+    <p class="text-base tracking-wide">{copy.bannerKicker}</p>
+    <h1 class="font-bold text-3xl lg:text-[2.5rem] leading-[1.2] min-h-[1.2em]">
+      <span class="typewrite" data-period="2000" data-words={JSON.stringify(copy.typewriter)}>
+        {copy.typewriter[0]}
+      </span><span class="caret" aria-hidden="true">|</span>
+    </h1>
+  </div>
+  <div class="lg:col-span-7 relative">
+    <div class="hero-carousel relative overflow-hidden" data-interval="4500">
+      {banners.map((bnr, i) => (
+        <img
+          src={bnr.src}
+          alt=""
+          width={bnr.w}
+          height={bnr.h}
+          class={`hero-slide w-full h-auto transition-opacity duration-700 ${i === 0 ? '' : 'absolute inset-0 opacity-0'}`}
+          loading={i === 0 ? 'eager' : 'lazy'}
+          fetchpriority={i === 0 ? 'high' : undefined}
+        />
+      ))}
+      <button
+        type="button"
+        class="hero-next absolute bottom-0 end-0 bg-dark text-white text-[40px] font-extralight px-2.5 py-[15px] leading-none cursor-pointer"
+        aria-label="Next slide"
+      >&#8250;</button>
+    </div>
+    <div class="hidden lg:block absolute -bottom-[70px] end-0 w-[85%] h-[250px] bg-dark -z-10" aria-hidden="true"></div>
+  </div>
+</section>
+
+{/* ============ About + departments ============ */}
+<section class="relative mt-16" id="about-us">
+  <div class="max-w-[1140px] mx-auto px-4 grid gap-10 lg:grid-cols-12">
+    <div class="lg:col-span-3">
+      <p class="mb-6 font-light text-base" set:html={copy.aboutTagline.replace('high quality products', '<b>high quality products</b>')} />
+      <p class="kicker mb-2">{copy.aboutKicker}</p>
+      <h2 class="text-[1.75rem] leading-tight mb-3 font-normal" set:html={copy.aboutTitleHtml} />
+      <p class="text-justify">{copy.aboutBody}</p>
+      <p class="mt-5">
+        <a class="btn-outline" href={copy.gmHref}>{t.gmMessage}</a>
+      </p>
+    </div>
+    <div class="lg:col-span-9 lg:ps-8 lg:pt-[110px]">
+      <div class="grid gap-8 sm:grid-cols-2 xl:grid-cols-3">
+        {CATEGORIES.map((cat) => (
+          <article class="px-2">
+            {cat.homeImage && (
+              <img src={cat.homeImage} alt="" class="pb-5 h-24 w-auto object-contain" loading="lazy" width="90" height="90" />
+            )}
+            <h3 class="font-medium text-xl mb-2">{cat.title[lang]}</h3>
+            <p class="mb-4">{cat.homeDesc[lang]}</p>
+            <a href={categoryPath(cat, lang)} class="btn-outline">{t.readMore}</a>
+          </article>
+        ))}
+      </div>
+    </div>
+  </div>
+</section>
+
+{/* ============ Our Brands logo strip ============ */}
+<section id="brands-main" class="mt-20 relative">
+  <div class="bg-dark py-6 lg:w-2/3">
+    <div class="px-4 lg:px-12 text-white">
+      <div class="lg:ms-12 pt-2">
+        <p class="kicker kicker-light mb-2 text-white">{copy.brandsKicker}</p>
+        <h2 class="text-[1.75rem] font-light" set:html={copy.brandsTitleHtml} />
+      </div>
+      <div class="mt-3 mb-4 flex flex-wrap items-center gap-1">
+        {HOME_BRAND_LOGOS.map((brnd) =>
+          brnd.href ? (
+            <a href={brnd.href} target="_blank" rel="noopener" aria-label={brnd.name}>
+              <img src={brnd.logo} alt={brnd.name} class="w-[100px] lg:w-[130px] h-auto p-2.5" loading="lazy" width="130" height="130" />
+            </a>
+          ) : (
+            <img src={brnd.logo} alt={brnd.name} class="w-[100px] lg:w-[130px] h-auto p-2.5" loading="lazy" width="130" height="130" />
+          )
+        )}
+      </div>
+    </div>
+  </div>
+  <div class="hidden lg:block absolute top-[20%] end-0 -z-10 w-1/2">
+    <img src="/images/brand-bg.png" alt="" class="w-full h-auto" loading="lazy" width="1115" height="685" />
+  </div>
+</section>
+
+{/* ============ Our Clients ============ */}
+<section class="max-w-[1140px] mx-auto px-4 mt-12">
+  <p class="kicker mb-2">{copy.clientsKicker}</p>
+  <h2 class="text-[1.75rem] mb-3 font-light" set:html={copy.clientsTitleHtml} />
+  <ClientsGrid lang={lang} />
+</section>
+
+{/* ============ Careers CTA (original .quick-link-hm: left half, mt 120px) ============ */}
+<section class="lg:w-1/2 px-4 lg:ps-12 mt-10 lg:mt-[120px]">
+  <div class="grid gap-8 lg:grid-cols-2 items-center">
+    <div class="lg:mt-12">
+      <p class="kicker mb-2">{copy.careersKicker}</p>
+      <h2 class="text-[1.75rem] mb-3 font-light" set:html={copy.careersTitleHtml} />
+      <p>{copy.careersBody}</p>
+      <a href={copy.careersHref} class="btn-dark rounded mt-6">{copy.careersCta}</a>
+    </div>
+    <div class="text-center py-3">
+      <img src="/images/job-bg.png" alt="" class="inline-block w-[240px] h-auto" loading="lazy" width="240" height="240" />
+    </div>
+  </div>
+</section>
+
+<style>
+  .caret {
+    animation: blink 1s step-end infinite;
+    font-weight: 300;
+  }
+  @keyframes blink {
+    50% {
+      opacity: 0;
+    }
+  }
+</style>
+
+<script>
+  // Hero carousel — fade between slides, mirrors the original Bootstrap carousel-fade.
+  document.querySelectorAll<HTMLElement>('.hero-carousel').forEach((root) => {
+    const slides = Array.from(root.querySelectorAll<HTMLImageElement>('.hero-slide'));
+    if (slides.length < 2) return;
+    let i = 0;
+    const show = (n: number) => {
+      slides.forEach((s, k) => {
+        s.classList.toggle('opacity-0', k !== n);
+        if (k !== 0) s.classList.add('absolute', 'inset-0');
+      });
+    };
+    const next = () => {
+      i = (i + 1) % slides.length;
+      show(i);
+    };
+    let timer = setInterval(next, Number(root.dataset.interval ?? 4500));
+    root.querySelector('.hero-next')?.addEventListener('click', () => {
+      clearInterval(timer);
+      next();
+      timer = setInterval(next, Number(root.dataset.interval ?? 4500));
+    });
+  });
+
+  // Typewriter headline — mirrors the original .typewrite behaviour.
+  document.querySelectorAll<HTMLElement>('.typewrite').forEach((el) => {
+    const words: string[] = JSON.parse(el.dataset.words ?? '[]');
+    if (!words.length) return;
+    const period = Number(el.dataset.period ?? 2000);
+    let wi = 0;
+    let txt = '';
+    let deleting = false;
+    const tick = () => {
+      const full = words[wi % words.length] ?? '';
+      txt = deleting ? full.substring(0, txt.length - 1) : full.substring(0, txt.length + 1);
+      el.textContent = txt;
+      let delta = deleting ? 80 : 160;
+      if (!deleting && txt === full) {
+        delta = period;
+        deleting = true;
+      } else if (deleting && txt === '') {
+        deleting = false;
+        wi++;
+        delta = 400;
+      }
+      setTimeout(tick, delta);
+    };
+    tick();
+  });
+</script>

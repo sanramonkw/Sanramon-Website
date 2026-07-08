@@ -1,0 +1,84 @@
+---
+/**
+ * Directory entry — one brand as a typographic row: folio number, logo as
+ * small marginalia, name set in the serif, description in a reading
+ * measure, photograph as a framed side plate, links as quiet metadata.
+ */
+import type { BrandItem } from '../data/brands';
+import type { Lang } from '../data/site';
+
+interface Props {
+  item: BrandItem;
+  lang: Lang;
+  index: number;
+}
+const { item, lang, index } = Astro.props;
+const folio = String(index + 1).padStart(2, '0');
+---
+
+<article class="grid grid-cols-[auto_1fr] lg:grid-cols-12 gap-x-5 gap-y-6 lg:gap-8 py-10 lg:py-12 border-b border-hairline">
+  <span class="folio text-[1.7rem] lg:text-[2rem] text-accent leading-none lg:col-span-1" aria-hidden="true">{folio}</span>
+
+  <div class="lg:col-span-6 lg:col-start-2">
+    <div class="flex items-center gap-4 mb-4">
+      {item.logoLink ? (
+        <a href={item.logoLink} target="_blank" rel="noopener" aria-label={item.name} class="shrink-0">
+          <img src={item.logo} alt={`${item.name} logo`} class="w-14 h-14 object-contain" loading="lazy" width="56" height="56" />
+        </a>
+      ) : (
+        <img src={item.logo} alt={`${item.name} logo`} class="w-14 h-14 object-contain shrink-0" loading="lazy" width="56" height="56" />
+      )}
+      <h3 class="font-serif text-[1.5rem] lg:text-[1.75rem] text-ink-deep leading-tight">{item.name}</h3>
+    </div>
+    <p class="text-[0.875rem] leading-[1.95] max-w-[64ch]">{item.desc[lang]}</p>
+    {item.socials.length > 0 && (
+      <p class="mt-5 flex items-center gap-3">
+        {item.socials.map((s) => (
+          <a
+            href={s.url}
+            target="_blank"
+            rel="noopener"
+            class="social-mark inline-block"
+            aria-label={`${item.name} ${s.kind === 'instagram' ? 'Instagram' : 'website'}`}
+          >
+            {s.kind === 'instagram' ? (
+              <img src="/images/insta-round.png" alt="" width="30" height="30" loading="lazy" class="w-[30px] h-[30px]" />
+            ) : (
+              <img src="/images/web-round.png" alt="" width="30" height="30" loading="lazy" class="w-[30px] h-[30px]" />
+            )}
+          </a>
+        ))}
+      </p>
+    )}
+  </div>
+
+  <div class="col-span-2 lg:col-span-4 lg:col-start-9">
+    <div class="border border-hairline bg-white p-1.5">
+      <img
+        src={item.image}
+        alt={item.name}
+        width="500"
+        height="200"
+        class="w-full h-40 lg:h-44 object-cover"
+        loading="lazy"
+      />
+    </div>
+  </div>
+</article>
+
+<style>
+  .social-mark img {
+    filter: grayscale(1);
+    opacity: 0.55;
+    transition: filter 200ms ease, opacity 200ms ease;
+  }
+  .social-mark:hover img {
+    filter: none;
+    opacity: 1;
+  }
+  @media (prefers-reduced-motion: reduce) {
+    .social-mark img {
+      transition: none;
+    }
+  }
+</style>

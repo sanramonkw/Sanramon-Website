@@ -1,0 +1,95 @@
+---
+/**
+ * Colophon footer — paper ground, newspaper double rule, columns of
+ * small-caps metadata. Blue appears only in links.
+ */
+import { SITE, T, type Lang, AR_SLUGS } from '../data/site';
+
+interface Props {
+  lang: Lang;
+}
+const { lang } = Astro.props;
+const t = T[lang];
+const homeHref = lang === 'en' ? '/' : '/ar/';
+const careersHref = lang === 'en' ? '/careers/' : `/ar/${encodeURI(AR_SLUGS.careers)}/`;
+const siteName = SITE.name[lang];
+---
+
+<footer class="mt-20 bg-paper">
+  <div class="max-w-[1200px] mx-auto px-5 lg:px-8">
+    <div class="rule-double"></div>
+
+    <div class="grid gap-10 lg:grid-cols-12 py-12 lg:py-16">
+      {/* Imprint */}
+      <div class="lg:col-span-5">
+        <img
+          src="/images/sanramon-logo.png"
+          alt={siteName}
+          width="400"
+          height="200"
+          class="w-52 max-w-full h-auto -ms-2"
+          loading="lazy"
+        />
+        <p class="label-caps !text-[10px] mt-4 max-w-[34ch] leading-loose">{siteName}</p>
+      </div>
+
+      {/* Address column */}
+      <address class="lg:col-span-3 not-italic">
+        <h2 class="label-caps !text-ink-deep mb-4 pb-2 border-b border-hairline">{t.address}</h2>
+        <p class="leading-[2.3] text-[0.85rem]">
+          {SITE.address[lang].map((line, i) => (
+            <>
+              {line}
+              {i < SITE.address[lang].length - 1 && <br />}
+            </>
+          ))}
+        </p>
+      </address>
+
+      {/* Contact column */}
+      <div class="lg:col-span-2">
+        <h2 class="label-caps !text-ink-deep mb-4 pb-2 border-b border-hairline">{t.getInTouch}</h2>
+        <p class="leading-[2.3] text-[0.85rem]">
+          <a href={SITE.phoneHref} dir="ltr" class="link-edit">{SITE.phone}</a><br />
+          <a href={`mailto:${SITE.email}`} class="link-edit">{SITE.email}</a><br />
+          <a href={SITE.mapUrl} target="_blank" rel="noopener" class="link-edit">{t.viewOnMap}</a>
+        </p>
+      </div>
+
+      {/* Index + social column */}
+      <div class="lg:col-span-2">
+        <nav aria-label="Footer">
+          <ul class="space-y-2">
+            <li><a class="link-caps" href={homeHref}>{t.home}</a></li>
+            <li><a class="link-caps" href={`${homeHref}#brands-main`}>{t.brands}</a></li>
+            <li><a class="link-caps" href={careersHref}>{t.careers}</a></li>
+            <li>
+              <a class="link-caps !text-accent-deep" href={lang === 'en' ? '/ar/' : '/'} lang={lang === 'en' ? 'ar' : 'en'}>
+                {t.langSwitch}
+              </a>
+            </li>
+          </ul>
+        </nav>
+        <div class="flex gap-4 mt-6 text-ink-soft">
+          <a href={SITE.social.facebook} aria-label="Facebook" class="hover:text-accent-deep transition-colors">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M22 12.06C22 6.5 17.52 2 12 2S2 6.5 2 12.06c0 5.02 3.66 9.18 8.44 9.94v-7.03H7.9v-2.9h2.54V9.85c0-2.5 1.5-3.9 3.77-3.9 1.1 0 2.24.2 2.24.2v2.46H15.2c-1.24 0-1.63.77-1.63 1.56v1.88h2.78l-.45 2.9h-2.33V22c4.78-.76 8.44-4.92 8.44-9.94Z"/></svg>
+          </a>
+          <a href={SITE.social.instagram} target="_blank" rel="noopener" aria-label="Instagram" class="hover:text-accent-deep transition-colors">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M12 2.16c3.2 0 3.58.01 4.85.07 1.17.05 1.8.25 2.23.41.56.22.96.48 1.38.9.42.42.68.82.9 1.38.16.42.36 1.06.41 2.23.06 1.27.07 1.65.07 4.85s-.01 3.58-.07 4.85c-.05 1.17-.25 1.8-.41 2.23-.22.56-.48.96-.9 1.38-.42.42-.82.68-1.38.9-.42.16-1.06.36-2.23.41-1.27.06-1.65.07-4.85.07s-3.58-.01-4.85-.07c-1.17-.05-1.8-.25-2.23-.41a3.72 3.72 0 0 1-1.38-.9 3.72 3.72 0 0 1-.9-1.38c-.16-.42-.36-1.06-.41-2.23C2.17 15.58 2.16 15.2 2.16 12s.01-3.58.07-4.85c.05-1.17.25-1.8.41-2.23.22-.56.48-.96.9-1.38.42-.42.82-.68 1.38-.9.42-.16 1.06-.36 2.23-.41C8.42 2.17 8.8 2.16 12 2.16Zm0 1.8c-3.15 0-3.52.01-4.77.07-1.08.05-1.66.23-2.05.38-.51.2-.88.44-1.26.82-.38.38-.62.75-.82 1.26-.15.39-.33.97-.38 2.05-.06 1.25-.07 1.62-.07 4.77s.01 3.52.07 4.77c.05 1.08.23 1.66.38 2.05.2.51.44.88.82 1.26.38.38.75.62 1.26.82.39.15.97.33 2.05.38 1.25.06 1.62.07 4.77.07s3.52-.01 4.77-.07c1.08-.05 1.66-.23 2.05-.38.51-.2.88-.44 1.26-.82.38-.38.62-.75.82-1.26.15-.39.33-.97.38-2.05.06-1.25.07-1.62.07-4.77s-.01-3.52-.07-4.77c-.05-1.08-.23-1.66-.38-2.05-.2-.51-.44-.88-.82-1.26a3.4 3.4 0 0 0-1.26-.82c-.39-.15-.97-.33-2.05-.38-1.25-.06-1.62-.07-4.77-.07Zm0 3.06a5 5 0 1 1 0 10 5 5 0 0 1 0-10Zm0 8.2a3.2 3.2 0 1 0 0-6.4 3.2 3.2 0 0 0 0 6.4Zm6.4-8.4a1.17 1.17 0 1 1-2.34 0 1.17 1.17 0 0 1 2.34 0Z"/></svg>
+          </a>
+          <a href={SITE.social.twitter} aria-label="Twitter" class="hover:text-accent-deep transition-colors">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M23.95 4.57a10 10 0 0 1-2.82.77 4.96 4.96 0 0 0 2.16-2.72c-.95.56-2 .97-3.13 1.19a4.92 4.92 0 0 0-8.38 4.48A13.98 13.98 0 0 1 1.64 3.16a4.92 4.92 0 0 0 1.52 6.57 4.9 4.9 0 0 1-2.23-.61v.06a4.92 4.92 0 0 0 3.95 4.83 4.94 4.94 0 0 1-2.22.08 4.93 4.93 0 0 0 4.6 3.42A9.87 9.87 0 0 1 0 19.54a13.94 13.94 0 0 0 7.55 2.21c9.06 0 14.01-7.5 14.01-14.01 0-.21 0-.42-.02-.63a10 10 0 0 0 2.41-2.54Z"/></svg>
+          </a>
+        </div>
+      </div>
+    </div>
+
+    {/* Colophon line */}
+    <div class="rule-hair flex flex-col sm:flex-row items-center justify-between gap-2 py-5">
+      <p class="label-caps !text-[9.5px] !tracking-[0.14em] text-center sm:text-start normal-case">{t.copyright}</p>
+      <a href="#top" class="link-caps !text-accent-deep shrink-0" aria-label="Back to top">
+        {t.top} <span aria-hidden="true">&#8593;</span>
+      </a>
+    </div>
+  </div>
+</footer>

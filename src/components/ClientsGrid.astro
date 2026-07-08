@@ -1,0 +1,24 @@
+---
+import { CLIENTS } from '../data/clients';
+import type { Lang } from '../data/site';
+
+interface Props {
+  lang: Lang;
+}
+const { lang } = Astro.props;
+---
+
+{/* Original #client-logo .logo: 126x61, object-fit contain, 1px #d9d9d9 border,
+    4px padding, 5px margin, white bg, hover scale(1.2). */}
+<div class="flex flex-wrap items-center py-4">
+  {CLIENTS.map((c) => (
+    <img
+      src={c.image}
+      alt={lang === 'en' ? c.name : c.nameAr}
+      class="w-[126px] h-[61px] object-contain border border-[#d9d9d9] p-1 m-[5px] bg-white transition-transform duration-200 hover:scale-120 hover:border-white"
+      loading="lazy"
+      width="126"
+      height="61"
+    />
+  ))}
+</div>

@@ -1,0 +1,78 @@
+---
+/**
+ * Careers application form — markup preserved from the original Contact Form 7
+ * form (fields: your-name, your-email, your-phone, your-place, file-cv).
+ *
+ * TODO(form endpoint): the original posted to WordPress/Contact Form 7 which no
+ * longer exists in this static build. Point `action` at a form backend
+ * (e.g. a serverless function that emails info@sanramonkw.com, Formspree,
+ * Basin, or a Cloudflare Worker) and remove the `data-todo` attribute.
+ * See CLAUDE.md → "Contact form wiring".
+ */
+import type { Lang } from '../data/site';
+
+interface Props {
+  lang: Lang;
+}
+const { lang } = Astro.props;
+
+const t =
+  lang === 'en'
+    ? {
+        heading: 'Careers',
+        intro: 'Please feel free to upload your Resume if you are interested to join us !',
+        name: 'Your Name',
+        email: 'Email address',
+        phone: 'Phone Number',
+        place: 'Your Place',
+        cvNote: 'Upload your CV (File type: doc, docx, pdf) Max. File size limit: 5 MB',
+        submit: 'Apply Now',
+      }
+    : {
+        heading: 'وظائف',
+        intro: '!لا تتردد في تحميل سيرتك الذاتية ، إذا كنت مهتمًا بالانضمام إلينا',
+        name: 'اسمك',
+        email: 'البريد الالكتروني',
+        phone: 'رقم الهاتف',
+        place: 'مكانك',
+        cvNote: 'حمل سيرتك الذاتية (File type: doc, docx, pdf) Max. File size limit: 5 MB',
+        submit: 'قدم الآن',
+      };
+---
+
+<div class="px-7 lg:px-14">
+  <h1 class="display text-[2.2rem] lg:text-[2.8rem] mb-3">{t.heading}</h1>
+  <hr class="rule-accent mb-7" />
+  <form
+    method="post"
+    action="#"
+    data-todo="wire-form-endpoint"
+    enctype="multipart/form-data"
+    aria-label="Careers application form"
+    class="space-y-8"
+  >
+    <p class="text-ink/75">{t.intro}</p>
+    <label class="block">
+      <span class="sr-only">{t.name}</span>
+      <input class="field-line" type="text" name="your-name" maxlength="400" placeholder={t.name} required />
+    </label>
+    <label class="block">
+      <span class="sr-only">{t.email}</span>
+      <input class="field-line" type="email" name="your-email" maxlength="400" placeholder={t.email} required />
+    </label>
+    <label class="block">
+      <span class="sr-only">{t.phone}</span>
+      <input class="field-line" type="tel" name="your-phone" maxlength="400" placeholder={t.phone} required />
+    </label>
+    <label class="block">
+      <span class="sr-only">{t.place}</span>
+      <input class="field-line" type="text" name="your-place" maxlength="400" placeholder={t.place} required />
+    </label>
+    <label class="block">
+      <span class="sr-only">CV</span>
+      <input class="field-line" type="file" name="file-cv" accept=".pdf,.doc,.docx" required />
+    </label>
+    <p class="text-[12.5px] text-ink/60 rtl:text-[14px]">{t.cvNote}</p>
+    <button type="submit" class="btn-dark cursor-pointer">{t.submit}</button>
+  </form>
+</div>

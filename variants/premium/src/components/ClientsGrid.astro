@@ -1,0 +1,26 @@
+---
+import { CLIENTS } from '../data/clients';
+import type { Lang } from '../data/site';
+
+interface Props {
+  lang: Lang;
+}
+const { lang } = Astro.props;
+---
+
+{/* Quiet marque strip — the 25-client wall as a hushed, borderless grid:
+    grayscale marks resting at reduced presence, waking on hover. */}
+<ul class="grid grid-cols-3 sm:grid-cols-4 md:grid-cols-5 lg:grid-cols-6 border-t border-s hairline list-none m-0 p-0">
+  {CLIENTS.map((c) => (
+    <li class="border-b border-e hairline bg-white flex items-center justify-center p-5 min-h-[104px]">
+      <img
+        src={c.image}
+        alt={lang === 'en' ? c.name : c.nameAr}
+        class="max-w-[120px] max-h-[56px] w-auto h-auto object-contain grayscale opacity-60 transition-[opacity,filter,transform] duration-300 hover:grayscale-0 hover:opacity-100 hover:scale-105"
+        loading="lazy"
+        width="126"
+        height="61"
+      />
+    </li>
+  ))}
+</ul>

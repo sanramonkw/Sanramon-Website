@@ -1,0 +1,31 @@
+---
+/**
+ * Bold-variant page banner: dark stage band with a duotone-clipped image and
+ * a massive display headline (same props/content as the original banner).
+ */
+interface Props {
+  image: string;
+  title?: string;
+  kicker?: string;
+  alt?: string;
+}
+const { image, title, kicker, alt = '' } = Astro.props;
+---
+
+<section class="relative overflow-hidden border-b border-edge">
+  {/* Image backdrop, duotone-washed toward the slate stage */}
+  <div class="absolute inset-0" aria-hidden="true">
+    <img src={image} alt="" class="w-full h-full object-cover opacity-30" width="1920" height="500" fetchpriority="high" />
+    <div class="absolute inset-0 bg-gradient-to-t from-night via-night/70 to-night/30"></div>
+    <div class="absolute inset-0 bg-accent/10 mix-blend-overlay"></div>
+  </div>
+
+  <div class={`relative mx-auto max-w-[1320px] px-4 lg:px-6 ${title ? 'py-20 lg:py-32' : 'py-14 lg:py-20'}`}>
+    {kicker && <p class="kicker-x mb-5">{kicker}</p>}
+    {title && <h1 class="display text-[clamp(2.4rem,7vw,5.5rem)]">{title}</h1>}
+    {!title && alt && <span class="sr-only">{alt}</span>}
+  </div>
+
+  {/* Diagonal base cut */}
+  <div class="absolute bottom-0 inset-x-0 h-8 lg:h-12 bg-night [clip-path:polygon(0_100%,100%_0,100%_100%)]" aria-hidden="true"></div>
+</section>

@@ -1,0 +1,117 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import InnerBanner from '../components/InnerBanner.astro';
+import { AR_SLUGS } from '../data/site';
+---
+
+<BaseLayout
+  title="General Manager’s Message - San Ramon General Trading & Cont. Co."
+  description="A message from San Ramon’s General Manager: our five core values, mission and vision — expanding and distributing meticulously hand-picked products and services worldwide."
+  lang="en"
+  path="/message/"
+  altLangPath={`/ar/${encodeURI(AR_SLUGS.message)}/`}
+>
+  <InnerBanner image="/images/career-banner.png" alt="" />
+
+  {/* Chairman's-letter treatment: narrow measure, serif lead, ruled sections */}
+  <article class="mx-auto max-w-[760px] px-5 pt-16 pb-20 lg:pt-20">
+    <header data-reveal>
+      <h1 class="display text-[2.4rem] lg:text-[3.2rem] mb-4">General Manager’s Message</h1>
+      <hr class="rule-accent mb-10" />
+    </header>
+
+    <p class="letter-lead" data-reveal>
+      We at San Ramon are well aware of the competitive market surrounding us locally and globally.
+      To distinct ourselves, we simplify the purchase process for customers. We find the highest
+      quality products in a wide range of departments, and do all the necessary work to ensure that
+      our products and services ring your door.
+    </p>
+
+    <section class="mt-14" data-reveal>
+      <div class="flex items-baseline gap-4 border-t hairline pt-8 mb-6">
+        <span class="index-num" aria-hidden="true">01</span>
+        <h2 class="display text-[1.6rem] lg:text-[1.9rem] m-0">Our 5 Core Values</h2>
+      </div>
+      <ol class="values-list">
+        <li>Collaboration and Partnership</li>
+        <li>Professionalism</li>
+        <li>Diversity</li>
+        <li>Growth</li>
+        <li>Quality</li>
+      </ol>
+    </section>
+
+    <section class="mt-14" data-reveal>
+      <div class="flex items-baseline gap-4 border-t hairline pt-8 mb-6">
+        <span class="index-num" aria-hidden="true">02</span>
+        <h2 class="display text-[1.6rem] lg:text-[1.9rem] m-0">Our Mission</h2>
+      </div>
+      <blockquote class="pullquote">
+        <p>
+          To expand and distribute a wide-range of meticulously hand-picked products and services
+          worldwide.
+        </p>
+      </blockquote>
+    </section>
+
+    <section class="mt-14" data-reveal>
+      <div class="flex items-baseline gap-4 border-t hairline pt-8 mb-6">
+        <span class="index-num" aria-hidden="true">03</span>
+        <h2 class="display text-[1.6rem] lg:text-[1.9rem] m-0">Our Vision</h2>
+      </div>
+      <blockquote class="pullquote">
+        <p>
+          To change lives by offering the highest quality products and the most convenient services for
+          every customer and consumer across the world.
+        </p>
+      </blockquote>
+    </section>
+  </article>
+</BaseLayout>
+
+<style>
+  .letter-lead {
+    font-family: var(--font-display);
+    font-size: 1.45rem;
+    line-height: 1.65;
+    font-weight: 450;
+    color: var(--color-dark);
+  }
+  .values-list {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    counter-reset: value;
+  }
+  .values-list li {
+    counter-increment: value;
+    display: flex;
+    align-items: baseline;
+    gap: 1.1rem;
+    padding: 0.85rem 0;
+    border-bottom: 1px solid var(--color-hairline);
+    font-size: 15px;
+    color: var(--color-dark);
+  }
+  .values-list li::before {
+    content: counter(value, decimal-leading-zero);
+    font-family: var(--font-display);
+    font-style: italic;
+    font-size: 1.1rem;
+    color: var(--color-accent-deep);
+    min-width: 2ch;
+  }
+  .pullquote {
+    margin: 0;
+    padding-inline-start: 1.75rem;
+    border-inline-start: 2px solid var(--color-accent);
+  }
+  .pullquote p {
+    font-family: var(--font-display);
+    font-style: italic;
+    font-size: 1.5rem;
+    line-height: 1.55;
+    font-weight: 450;
+    color: var(--color-dark);
+  }
+</style>

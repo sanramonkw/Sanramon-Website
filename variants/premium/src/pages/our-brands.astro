@@ -1,0 +1,42 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import { CATEGORIES, categoryPath } from '../data/brands';
+import { AR_SLUGS } from '../data/site';
+---
+
+<BaseLayout
+  title="Our Brands - San Ramon General Trading & Cont. Co."
+  description="Explore San Ramon’s brand portfolio across six departments: Oil & Gas, Products, Food & Beverages, Café & Restaurants, Beauty Products and Interior Design."
+  lang="en"
+  path="/our-brands/"
+  altLangPath={`/ar/${encodeURI(AR_SLUGS.ourBrands)}/`}
+>
+  <section class="mx-auto max-w-[860px] px-5 pt-16 pb-24 lg:pt-24">
+    <header data-reveal>
+      <h1 class="display text-[2.4rem] lg:text-[3.2rem] mb-4">Our <b>Brands</b></h1>
+      <hr class="rule-accent mb-12" />
+    </header>
+    {/* The original page was an empty stub; the department index is presented
+        as a portfolio table of contents. */}
+    <ul class="list-none m-0 p-0 border-t hairline" data-reveal>
+      {CATEGORIES.map((cat, i) => (
+        <li class="border-b hairline">
+          <a
+            href={categoryPath(cat, 'en')}
+            class="group flex items-baseline gap-6 py-6 px-2 transition-colors hover:bg-white"
+          >
+            <span class="index-num !text-[1.2rem] min-w-[2.5ch]" aria-hidden="true">
+              {String(i + 1).padStart(2, '0')}
+            </span>
+            <span class="display text-[1.5rem] lg:text-[1.8rem] flex-1 transition-transform duration-300 group-hover:translate-x-1.5 rtl:group-hover:-translate-x-1.5">
+              {cat.title.en}
+            </span>
+            <span class="text-accent-deep opacity-0 group-hover:opacity-100 transition-opacity duration-300 text-xl" aria-hidden="true">
+              &#8594;
+            </span>
+          </a>
+        </li>
+      ))}
+    </ul>
+  </section>
+</BaseLayout>

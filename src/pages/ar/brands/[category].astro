@@ -1,0 +1,25 @@
+---
+import BaseLayout from '../../../layouts/BaseLayout.astro';
+import CategorySection from '../../../components/CategorySection.astro';
+import { CATEGORIES, categoryPath } from '../../../data/brands';
+
+export function getStaticPaths() {
+  return CATEGORIES.map((category) => ({
+    params: { category: category.slugAr },
+    props: { category },
+  }));
+}
+
+const { category } = Astro.props;
+---
+
+<BaseLayout
+  title={`${category.title.ar} - شركة سان ريمون للتجارة العامة والمقاولات`}
+  description={category.homeDesc.ar}
+  lang="ar"
+  path={categoryPath(category, 'ar')}
+  altLangPath={categoryPath(category, 'en')}
+  ogImage={category.banner}
+>
+  <CategorySection category={category} lang="ar" />
+</BaseLayout>

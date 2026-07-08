@@ -1,0 +1,28 @@
+---
+/**
+ * Editorial page opener. The banner image becomes a restrained, framed
+ * plate; the kicker + title sit below it as a huge quiet headline over a
+ * hairline rule (instead of the original gradient overlay).
+ */
+interface Props {
+  image: string;
+  title?: string;
+  kicker?: string;
+  alt?: string;
+}
+const { image, title, kicker, alt = '' } = Astro.props;
+---
+
+<section class="max-w-[1200px] mx-auto px-5 lg:px-8 pt-8 lg:pt-12">
+  <div class="border border-hairline bg-white p-2 lg:p-3">
+    <img src={image} alt={alt} class="w-full h-[220px] lg:h-[320px] object-cover" width="1920" height="500" fetchpriority="high" />
+  </div>
+  {title && (
+    <div class="pt-8 lg:pt-12">
+      {kicker && (
+        <p class="label-caps label-accent mb-4"><span class="tick" aria-hidden="true"></span>{kicker}</p>
+      )}
+      <h1 class="display text-[clamp(2.4rem,6vw,4.25rem)]">{title}</h1>
+    </div>
+  )}
+</section>

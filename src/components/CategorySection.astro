@@ -1,0 +1,33 @@
+---
+import type { BrandCategory } from '../data/brands';
+import type { Lang } from '../data/site';
+import InnerBanner from './InnerBanner.astro';
+import BrandCard from './BrandCard.astro';
+
+interface Props {
+  category: BrandCategory;
+  lang: Lang;
+}
+const { category, lang } = Astro.props;
+const sectionTitleHtml = lang === 'en' ? 'OUR <b>BRANDS</b>' : 'علاماتنا التجارية';
+---
+
+<InnerBanner
+  image={category.banner}
+  kicker={category.kicker[lang]}
+  title={category.title[lang]}
+  alt={category.title[lang]}
+/>
+
+<section class="text-center my-10">
+  <h2 class="text-[1.75rem] font-light text-dark" set:html={sectionTitleHtml} />
+  <p class="uppercase text-[#595959]">{category.title[lang]}</p>
+</section>
+
+<section class="max-w-[1140px] mx-auto px-4">
+  <div class="grid gap-[30px] md:grid-cols-2 lg:grid-cols-3">
+    {category.items.map((item) => (
+      <BrandCard item={item} lang={lang} />
+    ))}
+  </div>
+</section>

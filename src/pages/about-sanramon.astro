@@ -1,0 +1,36 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import InnerBanner from '../components/InnerBanner.astro';
+import { AR_SLUGS } from '../data/site';
+---
+
+<BaseLayout
+  title="About San Ramon General Trading & Cont. Co. - San Ramon General Trading & Cont. Co."
+  description="San Ramon General Trading & Cont. Co. is a trademark in Kuwait which offers high quality products and services locally and globally across oil & gas, food & beverages, beauty, cafés & restaurants and interior design."
+  lang="en"
+  path="/about-sanramon/"
+  altLangPath={`/ar/${encodeURI(AR_SLUGS.about)}/`}
+>
+  <InnerBanner image="/images/career-banner.png" alt="" />
+
+  <section class="max-w-[950px] mx-auto px-4 pt-12 pb-6">
+    <h1 class="uppercase text-[2rem] font-medium mb-2">
+      About <b>San Ramon General Trading &amp; Cont. Co.</b>
+    </h1>
+    <p>
+      San Ramon General Trading &amp; Cont. Co. is a trademark in Kuwait which offers high quality
+      products and services locally and globally. San Ramon’s competitive advantage lies in its wide
+      distribution network. In 2004, San Ramon established its first department, producing products
+      under the gas and oil sector. A few years later in 2012, San Ramon expanded to include food and
+      beverages with a focus on production and distribution. San Ramon is the owner and main
+      manufacturer of many brands under this department, namely Karak Tea, Shahad Honey, Food Hacks,
+      and Food Experts. A year later in 2013, San Ramon added further diversity by offering beauty
+      products, and in 2015, San Ramon opened it fourth department, cafes and restaurants to offer
+      services. Soon enough in 2018, San Ramon established its fifth department under interior
+      designing, and aspires to have more departments and collaborations in the near future.
+    </p>
+    <p class="mt-5">
+      <a class="btn-outline" href="/message/">General Manager’s Message</a>
+    </p>
+  </section>
+</BaseLayout>

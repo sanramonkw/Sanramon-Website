@@ -1,0 +1,42 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import { CATEGORIES, categoryPath } from '../data/brands';
+import { AR_SLUGS, T } from '../data/site';
+const pad = (n: number) => String(n + 1).padStart(2, '0');
+---
+
+<BaseLayout
+  title="Our Brands - San Ramon General Trading & Cont. Co."
+  description="Explore San Ramon’s brand portfolio across six departments: Oil & Gas, Products, Food & Beverages, Café & Restaurants, Beauty Products and Interior Design."
+  lang="en"
+  path="/our-brands/"
+  altLangPath={`/ar/${encodeURI(AR_SLUGS.ourBrands)}/`}
+>
+  <section class="max-w-[1200px] mx-auto px-5 lg:px-8 pt-12 lg:pt-20 pb-16 lg:pb-24">
+    <div class="flex items-baseline justify-between mb-2">
+      <p class="folio text-[0.8rem] text-ink-soft" aria-hidden="true">01–{pad(CATEGORIES.length - 1)}</p>
+    </div>
+    <h1 class="display text-[clamp(2.4rem,6vw,4.25rem)] mb-12">Our <b>Brands</b></h1>
+
+    {/* The original page was an empty stub; the six departments are listed
+        as a numbered index for usability. */}
+    <ol class="border-t border-hairline">
+      {CATEGORIES.map((cat, i) => (
+        <li class="border-b border-hairline">
+          <a
+            href={categoryPath(cat, 'en')}
+            class="group grid grid-cols-[auto_1fr_auto] items-baseline gap-6 lg:gap-10 py-7 lg:py-8"
+          >
+            <span class="folio text-[1.6rem] lg:text-[1.9rem] text-accent leading-none" aria-hidden="true">{pad(i)}</span>
+            <span class="font-serif text-[1.4rem] lg:text-[1.8rem] text-ink-deep leading-snug group-hover:text-accent-deep transition-colors">
+              {cat.title.en}
+            </span>
+            <span class="label-caps !text-[10px] text-end">
+              {T.en.brands} <span class="folio text-accent-deep text-[0.85rem]">{pad(cat.items.length - 1)}</span>
+            </span>
+          </a>
+        </li>
+      ))}
+    </ol>
+  </section>
+</BaseLayout>

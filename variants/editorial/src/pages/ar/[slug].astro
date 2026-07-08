@@ -1,0 +1,199 @@
+---
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import InnerBanner from '../../components/InnerBanner.astro';
+import CareersForm from '../../components/CareersForm.astro';
+import { AR_SLUGS, T } from '../../data/site';
+import { CATEGORIES, categoryPath } from '../../data/brands';
+
+/**
+ * Arabic content pages. Slugs are preserved verbatim from the original
+ * WordPress site (Arabic URL segments) so indexed URLs keep resolving.
+ */
+export function getStaticPaths() {
+  return [
+    { params: { slug: AR_SLUGS.about }, props: { page: 'about' as const } },
+    { params: { slug: AR_SLUGS.message }, props: { page: 'message' as const } },
+    { params: { slug: AR_SLUGS.careers }, props: { page: 'careers' as const } },
+    { params: { slug: AR_SLUGS.ourBrands }, props: { page: 'ourBrands' as const } },
+  ];
+}
+
+const { page } = Astro.props;
+const { slug } = Astro.params;
+const pad = (n: number) => String(n + 1).padStart(2, '0');
+
+const meta = {
+  about: {
+    title: 'حول سان ريمون للتجارة العامة والمقاولات - شركة سان ريمون للتجارة العامة والمقاولات',
+    description:
+      'سان ريمون للتجارة العامة والمقاولات علامة تجارية في الكويت تقدم منتجات وخدمات عالية الجودة محليًا وعالميًا في قطاعات النفط والغاز والأطعمة والمشروبات والتجميل والمطاعم والتصميم الداخلي.',
+    alt: '/about-sanramon/',
+  },
+  message: {
+    title: 'كلمة المدير العام - شركة سان ريمون للتجارة العامة والمقاولات',
+    description: 'كلمة المدير العام لشركة سان ريمون: قيمنا الأساسية الخمس ومهمتنا ورؤيتنا.',
+    alt: '/message/',
+  },
+  careers: {
+    title: 'انضم إلى فريقنا - شركة سان ريمون للتجارة العامة والمقاولات',
+    description: 'وظائف في شركة سان ريمون للتجارة العامة والمقاولات في الكويت — حمل سيرتك الذاتية وانضم إلى فريقنا.',
+    alt: '/careers/',
+  },
+  ourBrands: {
+    title: 'علاماتنا التجارية - شركة سان ريمون للتجارة العامة والمقاولات',
+    description:
+      'اكتشف علامات سان ريمون التجارية في ستة أقسام: النفط والغاز، منتجات، الأطعمة والمشروبات، المطاعم والمقاهي، منتجات التجميل والتصميم الداخلي.',
+    alt: '/our-brands/',
+  },
+}[page];
+---
+
+<BaseLayout
+  title={meta.title}
+  description={meta.description}
+  lang="ar"
+  path={`/ar/${encodeURI(slug!)}/`}
+  altLangPath={meta.alt}
+>
+  {page !== 'ourBrands' && <InnerBanner image="/images/career-banner.png" alt="" />}
+
+  {page === 'about' && (
+    <article class="max-w-[1200px] mx-auto px-5 lg:px-8 pt-10 lg:pt-14 pb-16 lg:pb-24">
+      <div class="grid gap-8 lg:grid-cols-12">
+        <header class="lg:col-span-4">
+          <h1 class="display text-[clamp(2rem,4.5vw,3.1rem)] lg:sticky lg:top-8">حول سان ريمون للتجارة العامة والمقاولات</h1>
+        </header>
+        <div class="lg:col-span-7 lg:col-start-6">
+          <p class="!leading-[2.15]">
+            سان ريمون للتجارة العامة والمقاولات علامة تجارية في الكويت تقدم منتجات وخدمات عالية الجودة
+            محليًا وعالميًا. نحن في سان ريمون نطمح لتقديم منتجاتنا وخدماتنا للجميع وتوسيع شبكة توزيعنا في
+            جميع أنحاء العالم. تبدأ قصتنا في عام 2004 عندما أنشأت شركة سان ريمون أول قسم لها لإنتاج
+            المنتجات في قطاع الغاز والنفط. توسعت شركتنا في عام 2012 لتشمل الأطعمة والمشروبات مع التركيز
+            على الإنتاج والتوزيع. سان ريمون هي الشركة المصنعة الرئيسية للعديد من العلامات التجارية تحت
+            قسم الأطعمة والمشروبات منها &laquo;شاي كرك&raquo; و&laquo;عسل شهد&raquo; و&laquo;فود
+            هاكز&raquo; و&laquo;فود اكسبرتز&raquo;. أضافت شركة سان ريمون مزيدًا من التنوع إلى اقسامها في
+            عام 2013 من خلال تقديم منتجات التجميل وفي عام 2015 افتتحت شركة سان ريمون قسم المقاهي
+            والمطاعم لتقدم الخدمات إضافة إلى المنتجات. في عام 2018 أنشأت سان ريمون قسمها الخامس تحت
+            التصميم الداخلي وتطمح للحصول على المزيد من الأقسام والمنتجات في المستقبل القريب.
+          </p>
+          <p class="mt-10 pt-6 border-t border-hairline">
+            <a class="link-caps !text-accent-deep" href={`/ar/${encodeURI(AR_SLUGS.message)}/`}>كلمة المدير العام <span aria-hidden="true">&#8592;</span></a>
+          </p>
+        </div>
+      </div>
+    </article>
+  )}
+
+  {page === 'message' && (
+    <article class="max-w-[1200px] mx-auto px-5 lg:px-8 pt-10 lg:pt-14 pb-16 lg:pb-24">
+      <div class="grid gap-8 lg:grid-cols-12">
+        <header class="lg:col-span-4">
+          <h1 class="display text-[clamp(2.2rem,4.5vw,3.4rem)] lg:sticky lg:top-8">كلمة المدير العام</h1>
+        </header>
+        <div class="lg:col-span-7 lg:col-start-6">
+          <p class="lede !text-[1.2rem] !leading-[2]">
+            نحن في سان ريمون نتميز بمستوى خدماتنا وجودة منتجاتنا ولتمييز شركتنا عن الآخرين نقوم بتبسيط
+            عملية الشراء للعملاء محليًا وعالميًا. لضمان مصلحة العميل نبحث عن أفضل الخدمات والمنتجات في
+            مجموعة واسعة من الأقسام ونعرض الأفضل لنضمن أن منتجاتنا العالمية توصل إلى باب بيت العملاء.
+          </p>
+
+          <section class="mt-12">
+            <div class="rule-double"></div>
+            <h2 class="font-serif text-[1.35rem] text-ink-deep pt-5 mb-4">قيمنا الأساسية الخمس في سان ريمون</h2>
+            <ol class="values-index">
+              <li>التعاون والشراكة</li>
+              <li>الاحتراف</li>
+              <li>التنوع</li>
+              <li>النمو</li>
+              <li>الجودة</li>
+            </ol>
+          </section>
+
+          <section class="mt-12">
+            <div class="rule-double"></div>
+            <h2 class="font-serif text-[1.35rem] text-ink-deep pt-5 mb-3">مهمتنا في سان ريمون</h2>
+            <p class="lede !text-[1.1rem]">التوسيع في جميع أنحاء العالم وتوزيع مجموعة متنوعة من المنتجات والخدمات المختارة بدقة.</p>
+          </section>
+
+          <section class="mt-12">
+            <div class="rule-double"></div>
+            <h2 class="font-serif text-[1.35rem] text-ink-deep pt-5 mb-3">رؤيتنا في سان ريمون</h2>
+            <p class="lede !text-[1.1rem]">
+              تغيير حياة كل عميل ومستهلك عن طريق تقديم أفضل الخدمات والمنتجات عالية الجودة في جميع أنحاء
+              العالم.
+            </p>
+          </section>
+        </div>
+      </div>
+    </article>
+  )}
+
+  {page === 'careers' && (
+    <section class="max-w-[1200px] mx-auto px-5 lg:px-8 pt-10 lg:pt-14 pb-16 lg:pb-24">
+      <div class="grid gap-10 lg:grid-cols-12 items-start">
+        <div class="lg:col-span-7 lg:col-start-1">
+          <div class="rule-double"></div>
+          <div class="border-x border-b border-hairline bg-white/60">
+            <CareersForm lang="ar" />
+          </div>
+        </div>
+        <div class="lg:col-span-4 lg:col-start-9">
+          <div class="border border-hairline bg-white p-1.5">
+            <img src="/images/job.png" alt="" class="w-full h-auto" loading="lazy" width="600" height="800" />
+          </div>
+        </div>
+      </div>
+    </section>
+  )}
+
+  {page === 'ourBrands' && (
+    <section class="max-w-[1200px] mx-auto px-5 lg:px-8 pt-12 lg:pt-20 pb-16 lg:pb-24">
+      <div class="flex items-baseline justify-between mb-2">
+        <p class="folio text-[0.8rem] text-ink-soft" aria-hidden="true">01–{pad(CATEGORIES.length - 1)}</p>
+      </div>
+      <h1 class="display text-[clamp(2.2rem,6vw,4rem)] mb-12">علاماتنا التجارية</h1>
+      <ol class="border-t border-hairline">
+        {CATEGORIES.map((cat, i) => (
+          <li class="border-b border-hairline">
+            <a
+              href={categoryPath(cat, 'ar')}
+              class="group grid grid-cols-[auto_1fr_auto] items-baseline gap-6 lg:gap-10 py-7 lg:py-8"
+            >
+              <span class="folio text-[1.6rem] lg:text-[1.9rem] text-accent leading-none" aria-hidden="true">{pad(i)}</span>
+              <span class="font-serif text-[1.35rem] lg:text-[1.7rem] text-ink-deep leading-snug group-hover:text-accent-deep transition-colors">
+                {cat.title.ar}
+              </span>
+              <span class="label-caps !text-[11px] text-end">
+                {T.ar.brands} <span class="folio text-accent-deep text-[0.85rem]">{pad(cat.items.length - 1)}</span>
+              </span>
+            </a>
+          </li>
+        ))}
+      </ol>
+    </section>
+  )}
+</BaseLayout>
+
+<style>
+  .values-index {
+    counter-reset: value;
+  }
+  .values-index li {
+    counter-increment: value;
+    display: flex;
+    align-items: baseline;
+    gap: 1.25rem;
+    padding-block: 0.85rem;
+    border-block-end: 1px solid var(--color-hairline);
+    font-family: var(--font-serif);
+    font-size: 1.1rem;
+    color: var(--color-ink-deep);
+  }
+  .values-index li::before {
+    content: "0" counter(value);
+    font-family: "Fraunces", Georgia, serif;
+    font-variant-numeric: tabular-nums;
+    color: var(--color-accent-deep);
+    font-size: 0.85rem;
+  }
+</style>

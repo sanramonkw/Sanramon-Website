@@ -1,0 +1,168 @@
+---
+import { SITE, T, type Lang } from '../data/site';
+import { CATEGORIES, categoryPath } from '../data/brands';
+
+interface Props {
+  lang: Lang;
+  altLangPath?: string;
+}
+const { lang, altLangPath } = Astro.props;
+const t = T[lang];
+const homeHref = lang === 'en' ? '/' : '/ar/';
+const careersHref = lang === 'en' ? '/careers/' : `/ar/${encodeURI('انضم-إلى-فريقنا')}/`;
+const orderHref = lang === 'en' ? SITE.orderUrl : SITE.orderUrlAr;
+const langHref = altLangPath ?? (lang === 'en' ? '/ar/' : '/');
+const siteName = SITE.name[lang];
+---
+
+<a
+  href="#main"
+  class="sr-only focus:not-sr-only focus:absolute focus:z-[100] focus:top-2 focus:start-2 focus:bg-dark focus:text-white focus:px-4 focus:py-2 focus:text-sm"
+  >{lang === 'en' ? 'Skip to content' : 'تخطى إلى المحتوى'}</a
+>
+
+<header class="site-header sticky top-0 z-50" data-site-header id="top">
+  <div class="header-inner mx-auto max-w-[1240px] px-5 lg:px-8 flex items-center justify-between gap-6">
+    <a href={homeHref} title={siteName} class="shrink-0 flex items-center gap-3 py-2.5">
+      <img
+        src="/images/logo-w.jpg"
+        alt={siteName}
+        class="logo-img w-12 h-12 object-cover border hairline"
+        width="180"
+        height="180"
+      />
+    </a>
+
+    {/* Desktop nav */}
+    <nav class="hidden md:block" aria-label="Main">
+      <ul class="flex items-center gap-7">
+        <li><a class="nav-link" href={homeHref}>{t.home}</a></li>
+        <li><a class="nav-link" href={`${homeHref}#about-us`}>{t.aboutUs}</a></li>
+        <li class="relative group">
+          <button class="nav-link inline-flex items-center gap-1.5 cursor-pointer" aria-haspopup="true">
+            {t.brands}
+            <svg width="8" height="5" viewBox="0 0 8 5" fill="none" aria-hidden="true" class="opacity-60">
+              <path d="M1 1l3 3 3-3" stroke="currentColor" stroke-width="1.2" />
+            </svg>
+          </button>
+          <div
+            class="absolute start-0 top-full hidden min-w-64 flex-col bg-white/95 backdrop-blur-md border hairline shadow-[0_24px_48px_-24px_rgba(35,39,43,0.35)] py-2 group-hover:flex group-focus-within:flex z-50"
+          >
+            {CATEGORIES.map((cat, i) => (
+              <a
+                class="flex items-baseline gap-3 px-5 py-2.5 text-[13px] text-ink hover:bg-paper hover:text-dark transition-colors"
+                href={categoryPath(cat, lang)}
+              >
+                <span class="text-[10px] tracking-[0.2em] text-accent-deep font-medium" aria-hidden="true">
+                  {String(i + 1).padStart(2, '0')}
+                </span>
+                {cat.title[lang]}
+              </a>
+            ))}
+          </div>
+        </li>
+        <li><a class="nav-link" href={careersHref}>{t.careers}</a></li>
+        <li>
+          <a
+            href={orderHref}
+            target="_blank"
+            rel="noopener"
+            class="btn-dark !px-5 !py-2.5 !text-[10.5px] rtl:!text-[13px]"
+          >
+            {t.orderNow}
+          </a>
+        </li>
+        <li>
+          <a href={langHref} lang={lang === 'en' ? 'ar' : 'en'} class="nav-link !tracking-normal font-semibold">
+            {t.langSwitch}
+          </a>
+        </li>
+      </ul>
+    </nav>
+
+    {/* Mobile: language link + hamburger (CSS-only off-canvas) */}
+    <div class="md:hidden flex items-center gap-4">
+      <a href={langHref} class="nav-link font-semibold !tracking-normal" lang={lang === 'en' ? 'ar' : 'en'}>{t.langSwitch}</a>
+      <label
+        for="nav-toggle"
+        class="bg-dark text-white p-3 cursor-pointer select-none"
+        aria-label="Open menu"
+      >
+        <svg width="20" height="14" viewBox="0 0 20 14" fill="none" aria-hidden="true">
+          <path d="M0 1h20M0 7h14M0 13h20" stroke="currentColor" stroke-width="1.5" />
+        </svg>
+      </label>
+    </div>
+  </div>
+</header>
+
+<input type="checkbox" id="nav-toggle" class="peer sr-only" />
+<div
+  class="fixed inset-y-0 end-0 w-72 translate-x-full peer-checked:translate-x-0 rtl:-translate-x-full rtl:peer-checked:translate-x-0 transition-transform duration-300 bg-white shadow-[0_0_60px_rgba(35,39,43,0.35)] z-[60] overflow-y-auto"
+>
+  <div class="text-center py-6 border-b hairline relative">
+    <label for="nav-toggle" class="absolute top-3 end-4 text-2xl cursor-pointer leading-none p-1" aria-label="Close menu">&times;</label>
+    <a href={homeHref} title={siteName}>
+      <img src="/images/logo-w.jpg" alt={siteName} class="inline-block w-20 h-auto" width="100" height="100" />
+    </a>
+  </div>
+  <nav aria-label="Mobile">
+    <ul class="uppercase text-[12px] tracking-[0.14em] font-medium rtl:tracking-normal rtl:text-[14px]">
+      <li class="border-b hairline"><a class="block px-6 py-3.5" href={homeHref}>{t.home}</a></li>
+      <li class="border-b hairline"><a class="block px-6 py-3.5" href={`${homeHref}#about-us`}>{t.aboutUs}</a></li>
+      <li class="border-b hairline px-6 py-3.5 text-accent-deep">{t.brands}</li>
+      {CATEGORIES.map((cat) => (
+        <li class="border-b hairline">
+          <a class="block ps-10 pe-6 py-2.5 font-normal normal-case tracking-normal text-[13px]" href={categoryPath(cat, lang)}>
+            {cat.title[lang]}
+          </a>
+        </li>
+      ))}
+      <li class="border-b hairline"><a class="block px-6 py-3.5" href={careersHref}>{t.careers}</a></li>
+    </ul>
+    <div class="px-6 py-5">
+      <a href={orderHref} target="_blank" rel="noopener" class="btn-dark block text-center !px-4 !py-3">
+        {t.orderNow}
+      </a>
+    </div>
+    <address class="not-italic px-6 py-2 text-sm leading-7 border-t hairline">
+      <h2 class="font-semibold text-sm mb-1 uppercase tracking-[0.14em] rtl:tracking-normal">{t.getInTouch}</h2>
+      <p>
+        <a href={SITE.phoneHref} dir="ltr" class="link-quiet">{SITE.phone}</a><br />
+        <a href={`mailto:${SITE.email}`} class="link-quiet">{SITE.email}</a><br />
+        <a href={SITE.mapUrl} target="_blank" rel="noopener" class="link-quiet">{t.viewOnMap}</a>
+      </p>
+    </address>
+  </nav>
+</div>
+<label
+  for="nav-toggle"
+  class="fixed inset-0 bg-graphite/50 opacity-0 pointer-events-none peer-checked:opacity-100 peer-checked:pointer-events-auto transition-opacity z-[55]"
+  aria-hidden="true"></label>
+
+<style>
+  /* Glass-blur condensed sticky header */
+  .site-header {
+    background: color-mix(in srgb, var(--color-paper) 82%, transparent);
+    -webkit-backdrop-filter: blur(14px);
+    backdrop-filter: blur(14px);
+    border-bottom: 1px solid var(--color-hairline);
+    transition: box-shadow 0.3s ease, background-color 0.3s ease;
+  }
+  .site-header.is-scrolled {
+    background: color-mix(in srgb, #ffffff 86%, transparent);
+    box-shadow: 0 12px 32px -24px rgba(35, 39, 43, 0.45);
+  }
+  .logo-img {
+    transition: transform 0.3s ease;
+  }
+  .site-header.is-scrolled .logo-img {
+    transform: scale(0.88);
+  }
+  @media (prefers-reduced-motion: reduce) {
+    .site-header,
+    .logo-img {
+      transition: none;
+    }
+  }
+</style>

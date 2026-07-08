@@ -1,0 +1,87 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import InnerBanner from '../components/InnerBanner.astro';
+import { AR_SLUGS } from '../data/site';
+---
+
+<BaseLayout
+  title="General Manager’s Message - San Ramon General Trading & Cont. Co."
+  description="A message from San Ramon’s General Manager: our five core values, mission and vision — expanding and distributing meticulously hand-picked products and services worldwide."
+  lang="en"
+  path="/message/"
+  altLangPath={`/ar/${encodeURI(AR_SLUGS.message)}/`}
+>
+  <InnerBanner image="/images/career-banner.png" alt="" />
+
+  {/* The GM's message set as a letter spread: drop cap, wide margins,
+      numbered values, hairline rules. */}
+  <article class="max-w-[1200px] mx-auto px-5 lg:px-8 pt-10 lg:pt-14 pb-16 lg:pb-24">
+    <div class="grid gap-8 lg:grid-cols-12">
+      <header class="lg:col-span-4">
+        <h1 class="display text-[clamp(2.2rem,4.5vw,3.4rem)] lg:sticky lg:top-8">General Manager’s Message</h1>
+      </header>
+      <div class="lg:col-span-7 lg:col-start-6">
+        <p class="drop-cap lede !text-[1.25rem] !leading-[1.9]">
+          We at San Ramon are well aware of the competitive market surrounding us locally and globally.
+          To distinct ourselves, we simplify the purchase process for customers. We find the highest
+          quality products in a wide range of departments, and do all the necessary work to ensure that
+          our products and services ring your door.
+        </p>
+
+        <section class="mt-12">
+          <div class="rule-double"></div>
+          <h2 class="font-serif text-[1.4rem] text-ink-deep pt-5 mb-4">Our 5 Core Values</h2>
+          <ol class="values-index">
+            <li>Collaboration and Partnership</li>
+            <li>Professionalism</li>
+            <li>Diversity</li>
+            <li>Growth</li>
+            <li>Quality</li>
+          </ol>
+        </section>
+
+        <section class="mt-12">
+          <div class="rule-double"></div>
+          <h2 class="font-serif text-[1.4rem] text-ink-deep pt-5 mb-3">Our Mission</h2>
+          <p class="lede !text-[1.15rem]">
+            To expand and distribute a wide-range of meticulously hand-picked products and services
+            worldwide.
+          </p>
+        </section>
+
+        <section class="mt-12">
+          <div class="rule-double"></div>
+          <h2 class="font-serif text-[1.4rem] text-ink-deep pt-5 mb-3">Our Vision</h2>
+          <p class="lede !text-[1.15rem]">
+            To change lives by offering the highest quality products and the most convenient services for
+            every customer and consumer across the world.
+          </p>
+        </section>
+      </div>
+    </div>
+  </article>
+</BaseLayout>
+
+<style>
+  .values-index {
+    counter-reset: value;
+  }
+  .values-index li {
+    counter-increment: value;
+    display: flex;
+    align-items: baseline;
+    gap: 1.25rem;
+    padding-block: 0.85rem;
+    border-block-end: 1px solid var(--color-hairline);
+    font-family: var(--font-serif);
+    font-size: 1.05rem;
+    color: var(--color-ink-deep);
+  }
+  .values-index li::before {
+    content: "0" counter(value);
+    font-family: "Fraunces", Georgia, serif;
+    font-variant-numeric: tabular-nums;
+    color: var(--color-accent-deep);
+    font-size: 0.85rem;
+  }
+</style>

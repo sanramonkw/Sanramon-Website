@@ -1,0 +1,31 @@
+---
+import { CLIENTS } from '../data/clients';
+import type { Lang } from '../data/site';
+
+interface Props {
+  lang: Lang;
+}
+const { lang } = Astro.props;
+const pad = (n: number) => String(n + 1).padStart(2, '0');
+---
+
+{/* Client wall as a tabular colophon: hairline lattice, folio number +
+    logo + small-caps name per cell. */}
+<div class="lattice grid-cols-2 sm:grid-cols-3 lg:grid-cols-5" role="list">
+  {CLIENTS.map((c, i) => (
+    <div role="listitem" class="relative flex flex-col items-center justify-between gap-3 p-4 pt-8 min-h-[8.5rem]">
+      <span class="folio absolute top-2.5 inset-inline-start-3 text-[0.72rem] text-accent-deep" aria-hidden="true">{pad(i)}</span>
+      <img
+        src={c.image}
+        alt=""
+        class="h-12 w-auto max-w-[70%] object-contain"
+        loading="lazy"
+        width="126"
+        height="61"
+      />
+      <span class="label-caps !text-[9px] !tracking-[0.14em] text-center leading-relaxed">
+        {lang === 'en' ? c.name : c.nameAr}
+      </span>
+    </div>
+  ))}
+</div>

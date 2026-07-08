@@ -1,0 +1,26 @@
+---
+/**
+ * Full-width page banner used on inner pages (brand categories, about, careers…).
+ * Mirrors the original .inner-banner-wrap / .banner-title markup.
+ */
+interface Props {
+  image: string;
+  title?: string;
+  kicker?: string;
+  alt?: string;
+}
+const { image, title, kicker, alt = '' } = Astro.props;
+---
+
+<section class="relative">
+  <img src={image} alt={alt} class="w-full h-auto" width="1920" height="500" fetchpriority="high" />
+  {title && (
+    <div
+      class="hidden lg:block absolute top-[40%] w-full text-center text-white"
+      style="background-image: linear-gradient(to right, transparent, transparent, transparent, rgba(0,0,0,0.6), transparent, transparent, transparent);"
+    >
+      {kicker && <p class="m-0 text-[13px] tracking-wide">{kicker}</p>}
+      <h1 class="m-0 text-[2rem] font-medium">{title}</h1>
+    </div>
+  )}
+</section>

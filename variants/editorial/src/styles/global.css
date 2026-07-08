@@ -1,0 +1,388 @@
+@import "tailwindcss";
+
+/*
+ * EDITORIAL MINIMAL variant — "annual report meets business journal".
+ *
+ * A calm neutral field (paper white / stone gray, near-black ink) with the
+ * brand blue #5aaecd used only as a precise accent: folios, hairline rules,
+ * links. Where the accent must carry small text it is darkened to
+ * #2c6e8a (≥ 4.5:1 on paper — WCAG AA).
+ *
+ * Type system:
+ *   display/serif : Fraunces (variable, opsz 9–144) — self-hosted woff2
+ *   text/sans     : Montserrat (variable) — inherited from the master
+ *   arabic        : El Messiri (variable) — inherited from the master
+ */
+@theme {
+  --font-sans: "Montserrat", ui-sans-serif, system-ui, sans-serif;
+  --font-serif: "Fraunces", "El Messiri", Georgia, serif;
+
+  /* Neutral field */
+  --color-paper: #faf9f7;
+  --color-stone: #f0eeea;
+  --color-hairline: #ddd9d2;
+  --color-ink: #414141; /* brand body ink (master token, kept) */
+  --color-ink-deep: #191918; /* headlines / rules */
+  --color-ink-soft: #6b6a66; /* captions, quiet metadata */
+
+  /* Brand accents */
+  --color-accent: #5aaecd; /* folios, thick rules, large decorative only */
+  --color-accent-deep: #2c6e8a; /* links & small accent text — AA on paper */
+  --color-dark: #343a40; /* master token, kept for reference */
+}
+
+/* ---- Self-hosted Montserrat (variable) — unchanged from master ---- */
+@font-face {
+  font-family: "Montserrat";
+  font-style: normal;
+  font-weight: 100 900;
+  font-display: swap;
+  src: url("/fonts/montserrat-variable-latin.woff2") format("woff2");
+  unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA,
+    U+02DC, U+0304, U+0308, U+0329, U+2000-206F, U+20AC, U+2122, U+2191, U+2193,
+    U+2212, U+2215, U+FEFF, U+FFFD;
+}
+@font-face {
+  font-family: "Montserrat";
+  font-style: normal;
+  font-weight: 100 900;
+  font-display: swap;
+  src: url("/fonts/montserrat-variable-latin-ext.woff2") format("woff2");
+  unicode-range: U+0100-02BA, U+02BD-02C5, U+02C7-02CC, U+02CE-02D7, U+02DD-02FF,
+    U+0304, U+0308, U+0329, U+1D00-1DBF, U+1E00-1EFF, U+2020, U+20A0-20AB,
+    U+20AD-20C0, U+2113, U+2C60-2C7F, U+A720-A7FF;
+}
+
+/* ---- Self-hosted Fraunces (variable wght 300-700, opsz 9-144) ---- */
+@font-face {
+  font-family: "Fraunces";
+  font-style: normal;
+  font-weight: 300 700;
+  font-display: swap;
+  src: url("/fonts/fraunces-variable-latin.woff2") format("woff2");
+  unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA,
+    U+02DC, U+0304, U+0308, U+0329, U+2000-206F, U+20AC, U+2122, U+2191, U+2193,
+    U+2212, U+2215, U+FEFF, U+FFFD;
+}
+@font-face {
+  font-family: "Fraunces";
+  font-style: normal;
+  font-weight: 300 700;
+  font-display: swap;
+  src: url("/fonts/fraunces-variable-latin-ext.woff2") format("woff2");
+  unicode-range: U+0100-02BA, U+02BD-02C5, U+02C7-02CC, U+02CE-02D7, U+02DD-02FF,
+    U+0304, U+0308, U+0329, U+1D00-1DBF, U+1E00-1E9F, U+1EF2-1EFF, U+2020,
+    U+20A0-20AB, U+20AD-20C0, U+2113, U+2C60-2C7F, U+A720-A7FF;
+}
+@font-face {
+  font-family: "Fraunces";
+  font-style: italic;
+  font-weight: 300 700;
+  font-display: swap;
+  src: url("/fonts/fraunces-variable-italic-latin.woff2") format("woff2");
+  unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA,
+    U+02DC, U+0304, U+0308, U+0329, U+2000-206F, U+20AC, U+2122, U+2191, U+2193,
+    U+2212, U+2215, U+FEFF, U+FFFD;
+}
+
+/* ---- Self-hosted El Messiri (variable wght 400-700) — unchanged ---- */
+@font-face {
+  font-family: "El Messiri";
+  font-style: normal;
+  font-weight: 400 700;
+  font-display: swap;
+  src: url("/fonts/el-messiri-variable-arabic.woff2") format("woff2");
+  unicode-range: U+0600-06FF, U+0750-077F, U+0870-088E, U+0890-0891, U+0897-08E1,
+    U+08E3-08FF, U+200C-200E, U+2010-2011, U+204F, U+2E41, U+FB50-FDFF,
+    U+FE70-FE74, U+FE76-FEFC;
+}
+@font-face {
+  font-family: "El Messiri";
+  font-style: normal;
+  font-weight: 400 700;
+  font-display: swap;
+  src: url("/fonts/el-messiri-variable-latin.woff2") format("woff2");
+  unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA,
+    U+02DC, U+0304, U+0308, U+0329, U+2000-206F, U+20AC, U+2122, U+2191, U+2193,
+    U+2212, U+2215, U+FEFF, U+FFFD;
+}
+
+@layer base {
+  html {
+    scroll-behavior: smooth;
+  }
+  @media (prefers-reduced-motion: reduce) {
+    html {
+      scroll-behavior: auto;
+    }
+    *,
+    *::before,
+    *::after {
+      animation-duration: 0.01ms !important;
+      animation-iteration-count: 1 !important;
+      transition-duration: 0.01ms !important;
+    }
+  }
+  body {
+    @apply font-sans text-ink bg-paper;
+    font-size: 15px;
+    font-weight: 400;
+    line-height: 1.75;
+    -webkit-font-smoothing: antialiased;
+    font-variant-numeric: tabular-nums;
+  }
+  p {
+    font-size: 0.9rem;
+    line-height: 1.85;
+  }
+  b,
+  strong {
+    font-weight: 600;
+  }
+  /* Arabic pages: El Messiri (as on the master), slightly larger paragraphs. */
+  [dir="rtl"] body,
+  body[dir="rtl"] {
+    font-family: "El Messiri", "Segoe UI", Tahoma, ui-sans-serif, system-ui, sans-serif;
+  }
+  [dir="rtl"] p {
+    font-size: 0.975rem;
+  }
+  ::selection {
+    background: color-mix(in srgb, var(--color-accent) 30%, transparent);
+  }
+  :focus-visible {
+    outline: 2px solid var(--color-accent-deep);
+    outline-offset: 3px;
+  }
+}
+
+@layer components {
+  /* ---------- Editorial type ---------- */
+
+  /* Display serif — quiet, huge, tight. Fraunces optical size does the rest. */
+  .display {
+    font-family: var(--font-serif);
+    font-weight: 380;
+    letter-spacing: -0.015em;
+    line-height: 1.06;
+    color: var(--color-ink-deep);
+    text-wrap: balance;
+  }
+  .display b,
+  .display strong {
+    font-weight: 540;
+  }
+  [dir="rtl"] .display {
+    letter-spacing: 0;
+    line-height: 1.35;
+    font-weight: 500;
+  }
+
+  /* Small-caps editorial label (kickers, column heads, folio labels). */
+  .label-caps {
+    font-family: var(--font-sans);
+    font-size: 0.6875rem;
+    font-weight: 600;
+    letter-spacing: 0.22em;
+    text-transform: uppercase;
+    color: var(--color-ink-soft);
+  }
+  [dir="rtl"] .label-caps {
+    font-family: "El Messiri", sans-serif;
+    letter-spacing: 0.04em;
+    font-size: 0.8125rem;
+  }
+
+  /* Accent variant of the label (used sparingly — AA-dark blue). */
+  .label-accent {
+    color: var(--color-accent-deep);
+  }
+
+  /* Serif folio numeral (index numbers, counts). Decorative sizes may use
+     the light accent; text-size folios use accent-deep. */
+  .folio {
+    font-family: "Fraunces", Georgia, serif;
+    font-variant-numeric: tabular-nums;
+    font-weight: 340;
+    letter-spacing: 0.02em;
+  }
+
+  /* Lede paragraph — the large serif opening line of a letter/spread. */
+  .lede {
+    font-family: var(--font-serif);
+    font-size: 1.375rem;
+    line-height: 1.55;
+    font-weight: 380;
+    color: var(--color-ink-deep);
+  }
+  [dir="rtl"] .lede {
+    font-weight: 500;
+  }
+
+  /* Drop cap for the GM letter (Latin only — Arabic gets the lede instead). */
+  .drop-cap::first-letter {
+    font-family: "Fraunces", Georgia, serif;
+    font-weight: 420;
+    float: inline-start;
+    font-size: 4.6em;
+    line-height: 0.78;
+    padding-inline-end: 0.12em;
+    padding-block-start: 0.06em;
+    color: var(--color-accent-deep);
+  }
+  [dir="rtl"] .drop-cap::first-letter {
+    font-size: inherit;
+    float: none;
+    padding: 0;
+    color: inherit;
+    font-family: inherit;
+    font-weight: inherit;
+    line-height: inherit;
+  }
+
+  /* ---------- Rules ---------- */
+
+  /* Newspaper double rule: a heavy ink rule sitting on a hairline. */
+  .rule-double {
+    border-block-start: 2.5px solid var(--color-ink-deep);
+    position: relative;
+  }
+  .rule-double::after {
+    content: "";
+    position: absolute;
+    inset-inline: 0;
+    top: 3px;
+    border-block-start: 1px solid var(--color-hairline);
+  }
+
+  .rule-hair {
+    border-block-start: 1px solid var(--color-hairline);
+  }
+
+  /* Short accent tick used before kickers. */
+  .tick {
+    display: inline-block;
+    width: 2rem;
+    height: 2px;
+    background: var(--color-accent);
+    vertical-align: middle;
+    margin-inline-end: 0.75rem;
+    margin-block-start: -0.15em;
+  }
+
+  /* ---------- Interactive ---------- */
+
+  /* Quiet editorial link — accent-deep with hairline underline. */
+  .link-edit {
+    color: var(--color-accent-deep);
+    text-decoration: underline;
+    text-decoration-thickness: 1px;
+    text-underline-offset: 4px;
+    text-decoration-color: color-mix(in srgb, var(--color-accent-deep) 45%, transparent);
+    transition: text-decoration-color 150ms ease;
+  }
+  .link-edit:hover {
+    text-decoration-color: var(--color-accent-deep);
+  }
+
+  /* Small-caps index link (nav, read-more). */
+  .link-caps {
+    font-size: 0.6875rem;
+    font-weight: 600;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    color: var(--color-ink-deep);
+    text-decoration: none;
+    padding-block: 0.25rem;
+    border-block-end: 1px solid transparent;
+    transition: border-color 150ms ease, color 150ms ease;
+  }
+  .link-caps:hover {
+    color: var(--color-accent-deep);
+    border-block-end-color: var(--color-accent-deep);
+  }
+  [dir="rtl"] .link-caps {
+    letter-spacing: 0.03em;
+    font-size: 0.8125rem;
+  }
+
+  /* Bordered editorial button (classified-ad style). */
+  .btn-edit {
+    display: inline-block;
+    border: 1px solid var(--color-ink-deep);
+    color: var(--color-ink-deep);
+    background: transparent;
+    padding: 0.7rem 2rem;
+    font-size: 0.6875rem;
+    font-weight: 600;
+    letter-spacing: 0.22em;
+    text-transform: uppercase;
+    transition: background-color 150ms ease, color 150ms ease, border-color 150ms ease;
+    cursor: pointer;
+  }
+  .btn-edit:hover {
+    background: var(--color-ink-deep);
+    color: var(--color-paper);
+  }
+  [dir="rtl"] .btn-edit {
+    letter-spacing: 0.04em;
+    font-size: 0.875rem;
+  }
+
+  /* Solid ink button (primary CTA). */
+  .btn-ink {
+    display: inline-block;
+    background: var(--color-ink-deep);
+    color: var(--color-paper);
+    border: 1px solid var(--color-ink-deep);
+    padding: 0.7rem 2rem;
+    font-size: 0.6875rem;
+    font-weight: 600;
+    letter-spacing: 0.22em;
+    text-transform: uppercase;
+    transition: background-color 150ms ease, color 150ms ease;
+    cursor: pointer;
+  }
+  .btn-ink:hover {
+    background: var(--color-accent-deep);
+    border-color: var(--color-accent-deep);
+    color: #ffffff;
+  }
+  [dir="rtl"] .btn-ink {
+    letter-spacing: 0.04em;
+    font-size: 0.875rem;
+  }
+
+  /* Underline-only form field on the paper ground. */
+  .field-line {
+    display: block;
+    width: 100%;
+    border: 0;
+    border-block-end: 1px solid var(--color-hairline);
+    background: transparent;
+    padding: 0.6rem 0.1rem;
+    font-size: 0.9rem;
+    font-weight: 400;
+    color: var(--color-ink-deep);
+    outline: none;
+    transition: border-color 150ms ease;
+  }
+  .field-line::placeholder {
+    color: var(--color-ink-soft);
+  }
+  .field-line:focus {
+    border-block-end-color: var(--color-accent-deep);
+  }
+
+  /* Tabular cell grid (client wall / brand strip): hairline lattice made of
+     a 1px gap over the hairline colour. */
+  .lattice {
+    display: grid;
+    gap: 1px;
+    background: var(--color-hairline);
+    border: 1px solid var(--color-hairline);
+  }
+  .lattice > * {
+    background: var(--color-paper);
+  }
+}
