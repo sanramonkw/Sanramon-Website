@@ -1,6 +1,7 @@
 ---
 import { CLIENTS } from '../data/clients';
 import type { Lang } from '../data/site';
+import { withBase } from '../utils/paths';
 
 interface Props {
   lang: Lang;
@@ -14,7 +15,7 @@ const { lang } = Astro.props;
     <li class="flex">
       <span class="flex w-full items-center justify-center rounded-xl bg-white border border-edge p-2.5 h-[72px] transition-transform duration-200 hover:scale-105">
         <img
-          src={c.image}
+          src={withBase(c.image)}
           alt={lang === 'en' ? c.name : c.nameAr}
           class="max-h-full w-auto max-w-full object-contain"
           loading="lazy"

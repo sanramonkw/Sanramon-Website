@@ -3,6 +3,7 @@ import BaseLayout from '../layouts/BaseLayout.astro';
 import InnerBanner from '../components/InnerBanner.astro';
 import CareersForm from '../components/CareersForm.astro';
 import { AR_SLUGS } from '../data/site';
+import { withBase } from '../utils/paths';
 ---
 
 <BaseLayout
@@ -25,7 +26,7 @@ import { AR_SLUGS } from '../data/site';
       </div>
       <div class="lg:col-span-4 lg:col-start-9">
         <div class="border border-hairline bg-white p-1.5">
-          <img src="/images/job.png" alt="" class="w-full h-auto" loading="lazy" width="600" height="800" />
+          <img src={withBase('/images/job.png')} alt="" class="w-full h-auto" loading="lazy" width="600" height="800" />
         </div>
       </div>
     </div>

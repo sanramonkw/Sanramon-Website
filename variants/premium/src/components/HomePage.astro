@@ -2,6 +2,7 @@
 import { SITE, T, type Lang, AR_SLUGS } from '../data/site';
 import { CATEGORIES, categoryPath, HOME_BRAND_LOGOS } from '../data/brands';
 import ClientsGrid from './ClientsGrid.astro';
+import { withBase } from '../utils/paths';
 
 interface Props {
   lang: Lang;
@@ -77,7 +78,7 @@ const banners = [
       <div class="hero-carousel relative overflow-hidden shadow-[0_40px_80px_-40px_rgba(35,39,43,0.5)]" data-interval="4500">
         {banners.map((bnr, i) => (
           <img
-            src={bnr.src}
+            src={withBase(bnr.src)}
             alt=""
             width={bnr.w}
             height={bnr.h}
@@ -108,7 +109,7 @@ const banners = [
       />
       <p class="text-ink/90">{copy.aboutBody}</p>
       <p class="mt-8">
-        <a class="btn-outline" href={copy.gmHref}>{t.gmMessage}</a>
+        <a class="btn-outline" href={withBase(copy.gmHref)}>{t.gmMessage}</a>
       </p>
     </div>
 
@@ -119,13 +120,13 @@ const banners = [
             <div class="flex items-start justify-between mb-6">
               <span class="index-num" aria-hidden="true">{String(i + 1).padStart(2, '0')}</span>
               {cat.homeImage && (
-                <img src={cat.homeImage} alt="" class="h-12 w-auto object-contain opacity-80" loading="lazy" width="90" height="90" />
+                <img src={withBase(cat.homeImage)} alt="" class="h-12 w-auto object-contain opacity-80" loading="lazy" width="90" height="90" />
               )}
             </div>
             <h3 class="display text-[1.45rem] mb-3">{cat.title[lang]}</h3>
             <p class="text-[13px] leading-[1.85] mb-6 flex-1">{cat.homeDesc[lang]}</p>
             <a
-              href={categoryPath(cat, lang)}
+              href={withBase(categoryPath(cat, lang))}
               class="link-quiet self-start uppercase text-[11px] tracking-[0.2em] font-medium text-dark rtl:text-[13px] rtl:tracking-normal"
             >
               {t.readMore}
@@ -140,7 +141,7 @@ const banners = [
 {/* ============ Brand portfolio — graphite band, medallion grid ============ */}
 <section id="brands-main" class="relative bg-graphite text-white overflow-hidden">
   <div class="absolute inset-0 opacity-[0.05] pointer-events-none" aria-hidden="true">
-    <img src="/images/brand-bg.png" alt="" class="w-full h-full object-cover" loading="lazy" width="1115" height="685" />
+    <img src={withBase('/images/brand-bg.png')} alt="" class="w-full h-full object-cover" loading="lazy" width="1115" height="685" />
   </div>
   <div class="relative mx-auto max-w-[1240px] px-5 lg:px-8 py-16 lg:py-24">
     <div data-reveal>
@@ -159,11 +160,11 @@ const banners = [
               aria-label={brnd.name}
               class="medallion w-[92px] h-[92px] lg:w-[108px] lg:h-[108px] p-3 transition-transform duration-300 hover:-translate-y-1.5 focus-visible:-translate-y-1.5"
             >
-              <img src={brnd.logo} alt={brnd.name} class="max-w-full max-h-full object-contain" loading="lazy" width="130" height="130" />
+              <img src={withBase(brnd.logo)} alt={brnd.name} class="max-w-full max-h-full object-contain" loading="lazy" width="130" height="130" />
             </a>
           ) : (
             <span class="medallion w-[92px] h-[92px] lg:w-[108px] lg:h-[108px] p-3">
-              <img src={brnd.logo} alt={brnd.name} class="max-w-full max-h-full object-contain" loading="lazy" width="130" height="130" />
+              <img src={withBase(brnd.logo)} alt={brnd.name} class="max-w-full max-h-full object-contain" loading="lazy" width="130" height="130" />
             </span>
           )}
         </li>
@@ -190,10 +191,10 @@ const banners = [
         <p class="eyebrow mb-6">{copy.careersKicker}</p>
         <h2 class="display text-[2rem] lg:text-[2.5rem] mb-4" set:html={copy.careersTitleHtml} />
         <p class="max-w-[52ch]">{copy.careersBody}</p>
-        <a href={copy.careersHref} class="btn-dark inline-block mt-8">{copy.careersCta}</a>
+        <a href={withBase(copy.careersHref)} class="btn-dark inline-block mt-8">{copy.careersCta}</a>
       </div>
       <div class="lg:col-span-4 text-center">
-        <img src="/images/job-bg.png" alt="" class="inline-block w-[200px] h-auto opacity-90" loading="lazy" width="240" height="240" />
+        <img src={withBase('/images/job-bg.png')} alt="" class="inline-block w-[200px] h-auto opacity-90" loading="lazy" width="240" height="240" />
       </div>
     </div>
   </div>

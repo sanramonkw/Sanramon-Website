@@ -4,6 +4,7 @@
  * small-caps metadata. Blue appears only in links.
  */
 import { SITE, T, type Lang, AR_SLUGS } from '../data/site';
+import { withBase } from '../utils/paths';
 
 interface Props {
   lang: Lang;
@@ -23,7 +24,7 @@ const siteName = SITE.name[lang];
       {/* Imprint */}
       <div class="lg:col-span-5">
         <img
-          src="/images/sanramon-logo.png"
+          src={withBase('/images/sanramon-logo.png')}
           alt={siteName}
           width="400"
           height="200"
@@ -60,11 +61,11 @@ const siteName = SITE.name[lang];
       <div class="lg:col-span-2">
         <nav aria-label="Footer">
           <ul class="space-y-2">
-            <li><a class="link-caps" href={homeHref}>{t.home}</a></li>
-            <li><a class="link-caps" href={`${homeHref}#brands-main`}>{t.brands}</a></li>
-            <li><a class="link-caps" href={careersHref}>{t.careers}</a></li>
+            <li><a class="link-caps" href={withBase(homeHref)}>{t.home}</a></li>
+            <li><a class="link-caps" href={withBase(`${homeHref}#brands-main`)}>{t.brands}</a></li>
+            <li><a class="link-caps" href={withBase(careersHref)}>{t.careers}</a></li>
             <li>
-              <a class="link-caps !text-accent-deep" href={lang === 'en' ? '/ar/' : '/'} lang={lang === 'en' ? 'ar' : 'en'}>
+              <a class="link-caps !text-accent-deep" href={withBase(lang === 'en' ? '/ar/' : '/')} lang={lang === 'en' ? 'ar' : 'en'}>
                 {t.langSwitch}
               </a>
             </li>

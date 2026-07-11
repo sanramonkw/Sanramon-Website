@@ -1,5 +1,6 @@
 ---
 import { SITE, T, type Lang, AR_SLUGS } from '../data/site';
+import { withBase } from '../utils/paths';
 
 interface Props {
   lang: Lang;
@@ -31,7 +32,7 @@ const siteName = SITE.name[lang];
       <div class="grid gap-8 lg:grid-cols-12 items-center px-4 lg:px-8">
         <div class="lg:col-span-5 text-center">
           <img
-            src="/images/sanramon-logo.png"
+            src={withBase('/images/sanramon-logo.png')}
             alt={siteName}
             width="400"
             height="200"
@@ -66,11 +67,11 @@ const siteName = SITE.name[lang];
   <div class="text-white text-center px-4 mt-6 grid gap-2 lg:grid-cols-2 lg:items-center">
     <nav aria-label="Footer">
       <ul class="flex flex-wrap justify-center gap-2.5 text-[13px]">
-        <li><a class="hover:underline" href={homeHref}>{t.home}</a></li>
-        <li><a class="hover:underline" href={`${homeHref}#brands-main`}>{t.brands}</a></li>
-        <li><a class="hover:underline" href={careersHref}>{t.careers}</a></li>
+        <li><a class="hover:underline" href={withBase(homeHref)}>{t.home}</a></li>
+        <li><a class="hover:underline" href={withBase(`${homeHref}#brands-main`)}>{t.brands}</a></li>
+        <li><a class="hover:underline" href={withBase(careersHref)}>{t.careers}</a></li>
         <li>
-          <a class="hover:underline" href={lang === 'en' ? '/ar/' : '/'} lang={lang === 'en' ? 'ar' : 'en'}>
+          <a class="hover:underline" href={withBase(lang === 'en' ? '/ar/' : '/')} lang={lang === 'en' ? 'ar' : 'en'}>
             {t.langSwitch}
           </a>
         </li>

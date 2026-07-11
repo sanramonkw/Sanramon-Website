@@ -5,7 +5,9 @@ import tailwindcss from '@tailwindcss/vite';
 
 // https://astro.build/config
 export default defineConfig({
-  site: 'https://sanramonkw.com',
+  // Production value (kept for reference): site: 'https://sanramonkw.com'
+  site: 'https://sanramonkw.github.io',
+  base: '/Sanramon-Website/variants/bold/',
   trailingSlash: 'ignore',
   integrations: [
     sitemap({

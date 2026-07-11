@@ -2,6 +2,7 @@
 import BaseLayout from '../layouts/BaseLayout.astro';
 import InnerBanner from '../components/InnerBanner.astro';
 import { AR_SLUGS } from '../data/site';
+import { withBase } from '../utils/paths';
 ---
 
 <BaseLayout
@@ -32,7 +33,7 @@ import { AR_SLUGS } from '../data/site';
         designing, and aspires to have more departments and collaborations in the near future.
       </p>
       <p class="mt-8">
-        <a class="btn-dark" href="/message/">General Manager’s Message</a>
+        <a class="btn-dark" href={withBase('/message/')}>General Manager’s Message</a>
       </p>
     </article>
   </section>

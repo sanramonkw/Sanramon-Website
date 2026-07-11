@@ -10,12 +10,13 @@ interface Props {
   alt?: string;
 }
 const { image, title, kicker, alt = '' } = Astro.props;
+import { withBase } from '../utils/paths';
 ---
 
 <section class="relative overflow-hidden border-b border-edge">
   {/* Image backdrop, duotone-washed toward the slate stage */}
   <div class="absolute inset-0" aria-hidden="true">
-    <img src={image} alt="" class="w-full h-full object-cover opacity-30" width="1920" height="500" fetchpriority="high" />
+    <img src={withBase(image)} alt="" class="w-full h-full object-cover opacity-30" width="1920" height="500" fetchpriority="high" />
     <div class="absolute inset-0 bg-gradient-to-t from-night via-night/70 to-night/30"></div>
     <div class="absolute inset-0 bg-accent/10 mix-blend-overlay"></div>
   </div>

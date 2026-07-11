@@ -1,5 +1,6 @@
 ---
 import { SITE, T, type Lang, AR_SLUGS } from '../data/site';
+import { withBase } from '../utils/paths';
 
 interface Props {
   lang: Lang;
@@ -21,9 +22,9 @@ const siteName = SITE.name[lang];
     <div class="grid gap-10 lg:grid-cols-12">
       {/* Wordmark + socials */}
       <div class="lg:col-span-5">
-        <a href={homeHref} title={siteName} class="inline-block rounded-2xl bg-white p-4">
+        <a href={withBase(homeHref)} title={siteName} class="inline-block rounded-2xl bg-white p-4">
           <img
-            src="/images/sanramon-logo.png"
+            src={withBase('/images/sanramon-logo.png')}
             alt={siteName}
             width="400"
             height="200"
@@ -72,11 +73,11 @@ const siteName = SITE.name[lang];
     <div class="mt-14 pt-6 border-t border-edge flex flex-col lg:flex-row items-center justify-between gap-3">
       <nav aria-label="Footer">
         <ul class="flex flex-wrap justify-center gap-x-6 gap-y-2 text-[13px] uppercase font-semibold tracking-wider">
-          <li><a class="text-fog hover:text-accent transition-colors" href={homeHref}>{t.home}</a></li>
-          <li><a class="text-fog hover:text-accent transition-colors" href={`${homeHref}#brands-main`}>{t.brands}</a></li>
-          <li><a class="text-fog hover:text-accent transition-colors" href={careersHref}>{t.careers}</a></li>
+          <li><a class="text-fog hover:text-accent transition-colors" href={withBase(homeHref)}>{t.home}</a></li>
+          <li><a class="text-fog hover:text-accent transition-colors" href={withBase(`${homeHref}#brands-main`)}>{t.brands}</a></li>
+          <li><a class="text-fog hover:text-accent transition-colors" href={withBase(careersHref)}>{t.careers}</a></li>
           <li>
-            <a class="text-fog hover:text-accent transition-colors" href={lang === 'en' ? '/ar/' : '/'} lang={lang === 'en' ? 'ar' : 'en'}>
+            <a class="text-fog hover:text-accent transition-colors" href={withBase(lang === 'en' ? '/ar/' : '/')} lang={lang === 'en' ? 'ar' : 'en'}>
               {t.langSwitch}
             </a>
           </li>

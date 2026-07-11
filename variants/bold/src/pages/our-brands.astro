@@ -2,6 +2,7 @@
 import BaseLayout from '../layouts/BaseLayout.astro';
 import { CATEGORIES, categoryPath } from '../data/brands';
 import { AR_SLUGS } from '../data/site';
+import { withBase } from '../utils/paths';
 ---
 
 <BaseLayout
@@ -19,7 +20,7 @@ import { AR_SLUGS } from '../data/site';
       <ul class="grid gap-5 sm:grid-cols-2 lg:grid-cols-3 list-none p-0">
         {CATEGORIES.map((cat, i) => (
           <li>
-            <a href={categoryPath(cat, 'en')} class="bento-tile block h-full !p-7 group">
+            <a href={withBase(categoryPath(cat, 'en'))} class="bento-tile block h-full !p-7 group">
               <span class="font-mono text-[13px] text-accent tracking-widest" aria-hidden="true">
                 {String(i + 1).padStart(2, '0')}
               </span>

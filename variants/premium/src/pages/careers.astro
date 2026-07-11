@@ -3,6 +3,7 @@ import BaseLayout from '../layouts/BaseLayout.astro';
 import InnerBanner from '../components/InnerBanner.astro';
 import CareersForm from '../components/CareersForm.astro';
 import { AR_SLUGS } from '../data/site';
+import { withBase } from '../utils/paths';
 ---
 
 <BaseLayout
@@ -19,7 +20,7 @@ import { AR_SLUGS } from '../data/site';
       <div class="hidden lg:block lg:col-span-5 relative" data-reveal>
         <div class="absolute -bottom-6 -start-6 w-2/3 h-1/2 bg-paper-deep -z-10" aria-hidden="true"></div>
         <img
-          src="/images/job.png"
+          src={withBase('/images/job.png')}
           alt=""
           class="w-full h-full object-cover shadow-[0_32px_64px_-40px_rgba(35,39,43,0.5)]"
           loading="lazy"
@@ -36,7 +37,7 @@ import { AR_SLUGS } from '../data/site';
         <CareersForm lang="en" />
       </div>
       <div class="lg:hidden" data-reveal>
-        <img src="/images/job.png" alt="" class="w-full h-auto" loading="lazy" width="600" height="800" />
+        <img src={withBase('/images/job.png')} alt="" class="w-full h-auto" loading="lazy" width="600" height="800" />
       </div>
     </div>
   </section>

@@ -1,6 +1,7 @@
 ---
 import { SITE, T, type Lang } from '../data/site';
 import { CATEGORIES, categoryPath } from '../data/brands';
+import { withBase } from '../utils/paths';
 
 interface Props {
   lang: Lang;
@@ -22,7 +23,7 @@ const pad = (n: number) => String(n + 1).padStart(2, '0');
     <div class="max-w-[1200px] mx-auto px-5 lg:px-8 flex items-center justify-between py-2">
       <p class="label-caps !text-[10px] truncate pe-4">{siteName}</p>
       <a
-        href={langHref}
+        href={withBase(langHref)}
         lang={lang === 'en' ? 'ar' : 'en'}
         class="link-caps !text-accent-deep shrink-0"
       >{t.langSwitch}</a>
@@ -31,9 +32,9 @@ const pad = (n: number) => String(n + 1).padStart(2, '0');
 
   {/* Masthead main row */}
   <div class="max-w-[1200px] mx-auto px-5 lg:px-8 flex items-center justify-between py-4 lg:py-5">
-    <a href={homeHref} title={siteName} class="shrink-0 flex items-center gap-4">
+    <a href={withBase(homeHref)} title={siteName} class="shrink-0 flex items-center gap-4">
       <img
-        src="/images/logo-w.jpg"
+        src={withBase('/images/logo-w.jpg')}
         alt={siteName}
         class="w-14 lg:w-16 h-auto"
         width="180"
@@ -44,8 +45,8 @@ const pad = (n: number) => String(n + 1).padStart(2, '0');
     {/* Desktop nav */}
     <nav class="hidden md:block" aria-label="Main">
       <ul class="flex items-center gap-7">
-        <li><a class="link-caps" href={homeHref}>{t.home}</a></li>
-        <li><a class="link-caps" href={`${homeHref}#about-us`}>{t.aboutUs}</a></li>
+        <li><a class="link-caps" href={withBase(homeHref)}>{t.home}</a></li>
+        <li><a class="link-caps" href={withBase(`${homeHref}#about-us`)}>{t.aboutUs}</a></li>
         <li class="relative group">
           <button class="link-caps cursor-pointer" aria-haspopup="true">
             {t.brands}<span aria-hidden="true" class="ms-1.5 text-[9px] align-middle">▾</span>
@@ -57,7 +58,7 @@ const pad = (n: number) => String(n + 1).padStart(2, '0');
             {CATEGORIES.map((cat, i) => (
               <a
                 class="flex items-baseline gap-4 px-5 py-3 border-b border-hairline last:border-b-0 hover:bg-stone transition-colors"
-                href={categoryPath(cat, lang)}
+                href={withBase(categoryPath(cat, lang))}
               >
                 <span class="folio text-[0.8rem] text-accent-deep" aria-hidden="true">{pad(i)}</span>
                 <span class="text-[0.85rem] text-ink-deep whitespace-nowrap">{cat.title[lang]}</span>
@@ -65,7 +66,7 @@ const pad = (n: number) => String(n + 1).padStart(2, '0');
             ))}
           </div>
         </li>
-        <li><a class="link-caps" href={careersHref}>{t.careers}</a></li>
+        <li><a class="link-caps" href={withBase(careersHref)}>{t.careers}</a></li>
         <li>
           <a href={orderHref} target="_blank" rel="noopener" class="btn-edit !px-4 !py-2">
             {t.orderNow}
@@ -99,26 +100,26 @@ const pad = (n: number) => String(n + 1).padStart(2, '0');
   >
     <div class="text-center py-6 border-b border-hairline relative">
       <label for="nav-toggle" class="absolute top-3 end-4 text-2xl cursor-pointer leading-none" aria-label="Close menu">&times;</label>
-      <a href={homeHref} title={siteName}>
-        <img src="/images/logo-w.jpg" alt={siteName} class="inline-block w-20 h-auto" width="100" height="100" />
+      <a href={withBase(homeHref)} title={siteName}>
+        <img src={withBase('/images/logo-w.jpg')} alt={siteName} class="inline-block w-20 h-auto" width="100" height="100" />
       </a>
     </div>
     <nav aria-label="Mobile">
       <ul>
-        <li class="border-b border-hairline"><a class="link-caps block px-6 py-4 !border-b-0" href={homeHref}>{t.home}</a></li>
-        <li class="border-b border-hairline"><a class="link-caps block px-6 py-4 !border-b-0" href={`${homeHref}#about-us`}>{t.aboutUs}</a></li>
+        <li class="border-b border-hairline"><a class="link-caps block px-6 py-4 !border-b-0" href={withBase(homeHref)}>{t.home}</a></li>
+        <li class="border-b border-hairline"><a class="link-caps block px-6 py-4 !border-b-0" href={withBase(`${homeHref}#about-us`)}>{t.aboutUs}</a></li>
         <li class="border-b border-hairline px-6 py-4"><span class="label-caps">{t.brands}</span></li>
         {CATEGORIES.map((cat, i) => (
           <li class="border-b border-hairline">
-            <a class="flex items-baseline gap-3 ps-8 pe-6 py-3 text-[0.85rem] text-ink-deep" href={categoryPath(cat, lang)}>
+            <a class="flex items-baseline gap-3 ps-8 pe-6 py-3 text-[0.85rem] text-ink-deep" href={withBase(categoryPath(cat, lang))}>
               <span class="folio text-[0.75rem] text-accent-deep" aria-hidden="true">{pad(i)}</span>
               {cat.title[lang]}
             </a>
           </li>
         ))}
-        <li class="border-b border-hairline"><a class="link-caps block px-6 py-4 !border-b-0" href={careersHref}>{t.careers}</a></li>
+        <li class="border-b border-hairline"><a class="link-caps block px-6 py-4 !border-b-0" href={withBase(careersHref)}>{t.careers}</a></li>
         <li class="border-b border-hairline">
-          <a class="link-caps block px-6 py-4 !border-b-0 !text-accent-deep" href={langHref} lang={lang === 'en' ? 'ar' : 'en'}>
+          <a class="link-caps block px-6 py-4 !border-b-0 !text-accent-deep" href={withBase(langHref)} lang={lang === 'en' ? 'ar' : 'en'}>
             {t.langSwitch}
           </a>
         </li>

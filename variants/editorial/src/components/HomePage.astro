@@ -2,6 +2,7 @@
 import { SITE, T, type Lang, AR_SLUGS } from '../data/site';
 import { CATEGORIES, categoryPath, HOME_BRAND_LOGOS } from '../data/brands';
 import ClientsGrid from './ClientsGrid.astro';
+import { withBase } from '../utils/paths';
 
 interface Props {
   lang: Lang;
@@ -78,7 +79,7 @@ const banners = [
       <div class="relative overflow-hidden">
         {banners.map((bnr, i) => (
           <img
-            src={bnr.src}
+            src={withBase(bnr.src)}
             alt=""
             width={bnr.w}
             height={bnr.h}
@@ -109,7 +110,7 @@ const banners = [
       <p class="label-caps label-accent mb-4"><span class="tick" aria-hidden="true"></span>{copy.aboutKicker}</p>
       <p class="lede" set:html={copy.aboutTagline.replace('high quality products', '<b>high quality products</b>')} />
       <p class="mt-8">
-        <a class="link-caps !text-accent-deep" href={copy.gmHref}>{t.gmMessage} <span aria-hidden="true">&#8594;</span></a>
+        <a class="link-caps !text-accent-deep" href={withBase(copy.gmHref)}>{t.gmMessage} <span aria-hidden="true">&#8594;</span></a>
       </p>
     </div>
     <div class="lg:col-span-8">
@@ -135,16 +136,16 @@ const banners = [
             <span class="folio text-[1.7rem] lg:text-[2rem] text-accent leading-none lg:col-span-1" aria-hidden="true">{pad(i)}</span>
             <div class="lg:col-span-3 flex items-center gap-4">
               {cat.homeImage && (
-                <img src={cat.homeImage} alt="" class="h-10 w-10 object-contain opacity-70" loading="lazy" width="40" height="40" />
+                <img src={withBase(cat.homeImage)} alt="" class="h-10 w-10 object-contain opacity-70" loading="lazy" width="40" height="40" />
               )}
               <h3 class="font-serif text-[1.35rem] lg:text-[1.55rem] text-ink-deep leading-snug">
-                <a href={categoryPath(cat, lang)} class="hover:text-accent-deep transition-colors">{cat.title[lang]}</a>
+                <a href={withBase(categoryPath(cat, lang))} class="hover:text-accent-deep transition-colors">{cat.title[lang]}</a>
               </h3>
             </div>
             <p class="col-span-2 lg:col-span-6 lg:col-start-5 text-[0.85rem] leading-[1.9] text-ink max-w-[62ch]">{cat.homeDesc[lang]}</p>
             <div class="col-span-2 lg:col-span-2 flex lg:flex-col items-baseline lg:items-end gap-4 lg:gap-2 justify-between">
               <span class="label-caps !text-[10px]">{t.brands} <span class="folio text-accent-deep text-[0.85rem]">{pad(cat.items.length - 1)}</span></span>
-              <a href={categoryPath(cat, lang)} class="link-caps !text-accent-deep">{t.readMore}</a>
+              <a href={withBase(categoryPath(cat, lang))} class="link-caps !text-accent-deep">{t.readMore}</a>
             </div>
           </div>
         </li>
@@ -161,10 +162,10 @@ const banners = [
         <div role="listitem" class="flex items-center justify-center p-4 aspect-square">
           {brnd.href ? (
             <a href={brnd.href} target="_blank" rel="noopener" aria-label={brnd.name} class="brand-mark block">
-              <img src={brnd.logo} alt={brnd.name} class="w-full h-auto max-w-[76px]" loading="lazy" width="130" height="130" />
+              <img src={withBase(brnd.logo)} alt={brnd.name} class="w-full h-auto max-w-[76px]" loading="lazy" width="130" height="130" />
             </a>
           ) : (
-            <img src={brnd.logo} alt={brnd.name} class="brand-mark w-full h-auto max-w-[76px]" loading="lazy" width="130" height="130" />
+            <img src={withBase(brnd.logo)} alt={brnd.name} class="brand-mark w-full h-auto max-w-[76px]" loading="lazy" width="130" height="130" />
           )}
         </div>
       ))}
@@ -198,8 +199,8 @@ const banners = [
         <p class="label-caps label-accent mb-4">{copy.careersKicker}</p>
         <h2 class="display text-[clamp(1.9rem,4vw,2.75rem)] mb-4" set:html={copy.careersTitleHtml} />
         <p class="max-w-[38ch] mx-auto">{copy.careersBody}</p>
-        <img src="/images/job-bg.png" alt="" class="mx-auto my-6 w-24 h-auto opacity-80" loading="lazy" width="96" height="96" />
-        <a href={copy.careersHref} class="btn-ink">{copy.careersCta}</a>
+        <img src={withBase('/images/job-bg.png')} alt="" class="mx-auto my-6 w-24 h-auto opacity-80" loading="lazy" width="96" height="96" />
+        <a href={withBase(copy.careersHref)} class="btn-ink">{copy.careersCta}</a>
       </div>
     </div>
   </div>

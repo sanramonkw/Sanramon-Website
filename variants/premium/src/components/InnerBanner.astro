@@ -11,11 +11,12 @@ interface Props {
   alt?: string;
 }
 const { image, title, kicker, alt = '' } = Astro.props;
+import { withBase } from '../utils/paths';
 ---
 
 <section class="relative overflow-hidden bg-graphite">
   <img
-    src={image}
+    src={withBase(image)}
     alt={alt}
     class={`w-full h-[38vh] min-h-[260px] max-h-[440px] object-cover ${title ? 'opacity-70' : 'opacity-85'}`}
     width="1920"

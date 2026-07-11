@@ -1,6 +1,7 @@
 ---
 import type { BrandItem } from '../data/brands';
 import type { Lang } from '../data/site';
+import { withBase } from '../utils/paths';
 
 interface Props {
   item: BrandItem;
@@ -11,7 +12,7 @@ const { item, lang } = Astro.props;
 
 <article class="border border-border-soft flex flex-col">
   <img
-    src={item.image}
+    src={withBase(item.image)}
     alt={item.name}
     width="500"
     height="200"
@@ -22,10 +23,10 @@ const { item, lang } = Astro.props;
   <div class="relative -mt-20 mx-auto w-[150px] h-[150px] bg-white border border-border-soft rounded-full flex items-center justify-center overflow-hidden">
     {item.logoLink ? (
       <a href={item.logoLink} target="_blank" rel="noopener" aria-label={item.name}>
-        <img src={item.logo} alt={`${item.name} logo`} class="max-w-[140px] max-h-[140px] object-contain" loading="lazy" width="140" height="140" />
+        <img src={withBase(item.logo)} alt={`${item.name} logo`} class="max-w-[140px] max-h-[140px] object-contain" loading="lazy" width="140" height="140" />
       </a>
     ) : (
-      <img src={item.logo} alt={`${item.name} logo`} class="max-w-[140px] max-h-[140px] object-contain" loading="lazy" width="140" height="140" />
+      <img src={withBase(item.logo)} alt={`${item.name} logo`} class="max-w-[140px] max-h-[140px] object-contain" loading="lazy" width="140" height="140" />
     )}
   </div>
   <p class="px-4 lg:px-6 mt-7 mb-6 text-center text-[14px] max-h-[180px] overflow-auto flex-1">
@@ -35,9 +36,9 @@ const { item, lang } = Astro.props;
     {item.socials.map((s) => (
       <a href={s.url} target="_blank" rel="noopener" class="opacity-50 hover:opacity-100 transition-opacity" aria-label={`${item.name} ${s.kind === 'instagram' ? 'Instagram' : 'website'}`}>
         {s.kind === 'instagram' ? (
-          <img src="/images/insta-round.png" alt="" width="50" height="50" loading="lazy" />
+          <img src={withBase('/images/insta-round.png')} alt="" width="50" height="50" loading="lazy" />
         ) : (
-          <img src="/images/web-round.png" alt="" width="47" height="47" loading="lazy" />
+          <img src={withBase('/images/web-round.png')} alt="" width="47" height="47" loading="lazy" />
         )}
       </a>
     ))}

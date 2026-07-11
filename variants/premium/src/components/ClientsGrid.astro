@@ -1,6 +1,7 @@
 ---
 import { CLIENTS } from '../data/clients';
 import type { Lang } from '../data/site';
+import { withBase } from '../utils/paths';
 
 interface Props {
   lang: Lang;
@@ -14,7 +15,7 @@ const { lang } = Astro.props;
   {CLIENTS.map((c) => (
     <li class="border-b border-e hairline bg-white flex items-center justify-center p-5 min-h-[104px]">
       <img
-        src={c.image}
+        src={withBase(c.image)}
         alt={lang === 'en' ? c.name : c.nameAr}
         class="max-w-[120px] max-h-[56px] w-auto h-auto object-contain grayscale opacity-60 transition-[opacity,filter,transform] duration-300 hover:grayscale-0 hover:opacity-100 hover:scale-105"
         loading="lazy"

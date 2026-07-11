@@ -1,6 +1,7 @@
 ---
 import { SITE, T, type Lang } from '../data/site';
 import { CATEGORIES, categoryPath } from '../data/brands';
+import { withBase } from '../utils/paths';
 
 interface Props {
   lang: Lang;
@@ -17,9 +18,9 @@ const siteName = SITE.name[lang];
 
 <header class="sticky top-0 z-50 bg-night/90 backdrop-blur border-b border-edge">
   <div class="mx-auto max-w-[1320px] px-4 lg:px-6 flex items-center justify-between gap-4 h-16 lg:h-[72px]">
-    <a href={homeHref} title={siteName} class="shrink-0 flex items-center gap-3">
+    <a href={withBase(homeHref)} title={siteName} class="shrink-0 flex items-center gap-3">
       <span class="inline-flex h-11 w-11 items-center justify-center overflow-hidden rounded-xl bg-white">
-        <img src="/images/logo-w.jpg" alt={siteName} class="h-9 w-9 object-contain" width="180" height="180" />
+        <img src={withBase('/images/logo-w.jpg')} alt={siteName} class="h-9 w-9 object-contain" width="180" height="180" />
       </span>
       <span class="hidden sm:inline font-extrabold uppercase tracking-tight text-mist text-sm leading-tight">
         San<span class="text-accent">&nbsp;Ramon</span>
@@ -29,8 +30,8 @@ const siteName = SITE.name[lang];
     {/* Desktop nav */}
     <nav class="hidden md:block" aria-label="Main">
       <ul class="flex items-center gap-7 uppercase text-[13px] font-semibold tracking-wider">
-        <li><a class="text-fog hover:text-accent transition-colors" href={homeHref}>{t.home}</a></li>
-        <li><a class="text-fog hover:text-accent transition-colors" href={`${homeHref}#about-us`}>{t.aboutUs}</a></li>
+        <li><a class="text-fog hover:text-accent transition-colors" href={withBase(homeHref)}>{t.home}</a></li>
+        <li><a class="text-fog hover:text-accent transition-colors" href={withBase(`${homeHref}#about-us`)}>{t.aboutUs}</a></li>
         <li class="relative group">
           <button class="uppercase text-fog hover:text-accent transition-colors cursor-pointer inline-flex items-center gap-1.5" aria-haspopup="true">
             {t.brands}
@@ -40,28 +41,28 @@ const siteName = SITE.name[lang];
             class="absolute start-0 top-full hidden min-w-60 flex-col rounded-xl border border-edge bg-panel py-2 shadow-[0_20px_40px_rgba(0,0,0,0.5)] group-hover:flex group-focus-within:flex z-50"
           >
             {CATEGORIES.map((cat, i) => (
-              <a class="flex items-baseline gap-3 px-5 py-2.5 text-fog normal-case hover:bg-panel-2 hover:text-accent transition-colors" href={categoryPath(cat, lang)}>
+              <a class="flex items-baseline gap-3 px-5 py-2.5 text-fog normal-case hover:bg-panel-2 hover:text-accent transition-colors" href={withBase(categoryPath(cat, lang))}>
                 <span class="font-mono text-[11px] text-accent" aria-hidden="true">{String(i + 1).padStart(2, '0')}</span>
                 {cat.title[lang]}
               </a>
             ))}
           </div>
         </li>
-        <li><a class="text-fog hover:text-accent transition-colors" href={careersHref}>{t.careers}</a></li>
+        <li><a class="text-fog hover:text-accent transition-colors" href={withBase(careersHref)}>{t.careers}</a></li>
         <li>
           <a href={orderHref} target="_blank" rel="noopener" class="btn-primary !px-5 !py-2 !text-[13px]">
             {t.orderNow}
           </a>
         </li>
         <li class="font-bold">
-          <a href={langHref} lang={lang === 'en' ? 'ar' : 'en'} class="text-mist hover:text-accent transition-colors">{t.langSwitch}</a>
+          <a href={withBase(langHref)} lang={lang === 'en' ? 'ar' : 'en'} class="text-mist hover:text-accent transition-colors">{t.langSwitch}</a>
         </li>
       </ul>
     </nav>
 
     {/* Mobile: language link + hamburger (CSS-only off-canvas) */}
     <div class="md:hidden flex items-center gap-4">
-      <a href={langHref} class="font-bold text-mist" lang={lang === 'en' ? 'ar' : 'en'}>{t.langSwitch}</a>
+      <a href={withBase(langHref)} class="font-bold text-mist" lang={lang === 'en' ? 'ar' : 'en'}>{t.langSwitch}</a>
       <label
         for="nav-toggle"
         class="bg-accent text-night rounded-lg px-3 py-3 cursor-pointer select-none"
@@ -80,23 +81,23 @@ const siteName = SITE.name[lang];
   >
     <div class="text-center py-5 relative">
       <label for="nav-toggle" class="absolute top-3 end-4 text-2xl cursor-pointer text-mist" aria-label="Close menu">&times;</label>
-      <a href={homeHref} title={siteName} class="inline-flex items-center justify-center rounded-xl bg-white p-2">
-        <img src="/images/logo-w.jpg" alt={siteName} class="inline-block w-16 h-auto" width="100" height="100" />
+      <a href={withBase(homeHref)} title={siteName} class="inline-flex items-center justify-center rounded-xl bg-white p-2">
+        <img src={withBase('/images/logo-w.jpg')} alt={siteName} class="inline-block w-16 h-auto" width="100" height="100" />
       </a>
     </div>
     <nav aria-label="Mobile">
       <ul class="uppercase text-[13px] font-bold text-mist">
-        <li class="border-b border-edge"><a class="block px-6 py-3" href={homeHref}>{t.home}</a></li>
-        <li class="border-b border-edge"><a class="block px-6 py-3" href={`${homeHref}#about-us`}>{t.aboutUs}</a></li>
+        <li class="border-b border-edge"><a class="block px-6 py-3" href={withBase(homeHref)}>{t.home}</a></li>
+        <li class="border-b border-edge"><a class="block px-6 py-3" href={withBase(`${homeHref}#about-us`)}>{t.aboutUs}</a></li>
         <li class="border-b border-edge px-6 py-3 text-accent">{t.brands}</li>
         {CATEGORIES.map((cat) => (
           <li class="border-b border-edge/60">
-            <a class="block ps-10 pe-6 py-2.5 font-normal normal-case text-fog" href={categoryPath(cat, lang)}>
+            <a class="block ps-10 pe-6 py-2.5 font-normal normal-case text-fog" href={withBase(categoryPath(cat, lang))}>
               {cat.title[lang]}
             </a>
           </li>
         ))}
-        <li class="border-b border-edge"><a class="block px-6 py-3" href={careersHref}>{t.careers}</a></li>
+        <li class="border-b border-edge"><a class="block px-6 py-3" href={withBase(careersHref)}>{t.careers}</a></li>
       </ul>
       <div class="px-6 py-5">
         <a href={orderHref} target="_blank" rel="noopener" class="btn-primary w-full justify-center !text-[13px]">

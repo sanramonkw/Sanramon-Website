@@ -4,6 +4,7 @@ import InnerBanner from '../../components/InnerBanner.astro';
 import CareersForm from '../../components/CareersForm.astro';
 import { AR_SLUGS, T } from '../../data/site';
 import { CATEGORIES, categoryPath } from '../../data/brands';
+import { withBase } from '../../utils/paths';
 
 /**
  * Arabic content pages. Slugs are preserved verbatim from the original
@@ -77,7 +78,7 @@ const meta = {
             التصميم الداخلي وتطمح للحصول على المزيد من الأقسام والمنتجات في المستقبل القريب.
           </p>
           <p class="mt-10 pt-6 border-t border-hairline">
-            <a class="link-caps !text-accent-deep" href={`/ar/${encodeURI(AR_SLUGS.message)}/`}>كلمة المدير العام <span aria-hidden="true">&#8592;</span></a>
+            <a class="link-caps !text-accent-deep" href={withBase(`/ar/${encodeURI(AR_SLUGS.message)}/`)}>كلمة المدير العام <span aria-hidden="true">&#8592;</span></a>
           </p>
         </div>
       </div>
@@ -139,7 +140,7 @@ const meta = {
         </div>
         <div class="lg:col-span-4 lg:col-start-9">
           <div class="border border-hairline bg-white p-1.5">
-            <img src="/images/job.png" alt="" class="w-full h-auto" loading="lazy" width="600" height="800" />
+            <img src={withBase('/images/job.png')} alt="" class="w-full h-auto" loading="lazy" width="600" height="800" />
           </div>
         </div>
       </div>
@@ -156,7 +157,7 @@ const meta = {
         {CATEGORIES.map((cat, i) => (
           <li class="border-b border-hairline">
             <a
-              href={categoryPath(cat, 'ar')}
+              href={withBase(categoryPath(cat, 'ar'))}
               class="group grid grid-cols-[auto_1fr_auto] items-baseline gap-6 lg:gap-10 py-7 lg:py-8"
             >
               <span class="folio text-[1.6rem] lg:text-[1.9rem] text-accent leading-none" aria-hidden="true">{pad(i)}</span>

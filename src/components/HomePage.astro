@@ -2,6 +2,7 @@
 import { SITE, T, type Lang, AR_SLUGS } from '../data/site';
 import { CATEGORIES, categoryPath, HOME_BRAND_LOGOS } from '../data/brands';
 import ClientsGrid from './ClientsGrid.astro';
+import { withBase } from '../utils/paths';
 
 interface Props {
   lang: Lang;
@@ -72,7 +73,7 @@ const banners = [
     <div class="hero-carousel relative overflow-hidden" data-interval="4500">
       {banners.map((bnr, i) => (
         <img
-          src={bnr.src}
+          src={withBase(bnr.src)}
           alt=""
           width={bnr.w}
           height={bnr.h}
@@ -100,7 +101,7 @@ const banners = [
       <h2 class="text-[1.75rem] leading-tight mb-3 font-normal" set:html={copy.aboutTitleHtml} />
       <p class="text-justify">{copy.aboutBody}</p>
       <p class="mt-5">
-        <a class="btn-outline" href={copy.gmHref}>{t.gmMessage}</a>
+        <a class="btn-outline" href={withBase(copy.gmHref)}>{t.gmMessage}</a>
       </p>
     </div>
     <div class="lg:col-span-9 lg:ps-8 lg:pt-[110px]">
@@ -108,11 +109,11 @@ const banners = [
         {CATEGORIES.map((cat) => (
           <article class="px-2">
             {cat.homeImage && (
-              <img src={cat.homeImage} alt="" class="pb-5 h-24 w-auto object-contain" loading="lazy" width="90" height="90" />
+              <img src={withBase(cat.homeImage)} alt="" class="pb-5 h-24 w-auto object-contain" loading="lazy" width="90" height="90" />
             )}
             <h3 class="font-medium text-xl mb-2">{cat.title[lang]}</h3>
             <p class="mb-4">{cat.homeDesc[lang]}</p>
-            <a href={categoryPath(cat, lang)} class="btn-outline">{t.readMore}</a>
+            <a href={withBase(categoryPath(cat, lang))} class="btn-outline">{t.readMore}</a>
           </article>
         ))}
       </div>
@@ -132,17 +133,17 @@ const banners = [
         {HOME_BRAND_LOGOS.map((brnd) =>
           brnd.href ? (
             <a href={brnd.href} target="_blank" rel="noopener" aria-label={brnd.name}>
-              <img src={brnd.logo} alt={brnd.name} class="w-[100px] lg:w-[130px] h-auto p-2.5" loading="lazy" width="130" height="130" />
+              <img src={withBase(brnd.logo)} alt={brnd.name} class="w-[100px] lg:w-[130px] h-auto p-2.5" loading="lazy" width="130" height="130" />
             </a>
           ) : (
-            <img src={brnd.logo} alt={brnd.name} class="w-[100px] lg:w-[130px] h-auto p-2.5" loading="lazy" width="130" height="130" />
+            <img src={withBase(brnd.logo)} alt={brnd.name} class="w-[100px] lg:w-[130px] h-auto p-2.5" loading="lazy" width="130" height="130" />
           )
         )}
       </div>
     </div>
   </div>
   <div class="hidden lg:block absolute top-[20%] end-0 -z-10 w-1/2">
-    <img src="/images/brand-bg.png" alt="" class="w-full h-auto" loading="lazy" width="1115" height="685" />
+    <img src={withBase('/images/brand-bg.png')} alt="" class="w-full h-auto" loading="lazy" width="1115" height="685" />
   </div>
 </section>
 
@@ -160,10 +161,10 @@ const banners = [
       <p class="kicker mb-2">{copy.careersKicker}</p>
       <h2 class="text-[1.75rem] mb-3 font-light" set:html={copy.careersTitleHtml} />
       <p>{copy.careersBody}</p>
-      <a href={copy.careersHref} class="btn-dark rounded mt-6">{copy.careersCta}</a>
+      <a href={withBase(copy.careersHref)} class="btn-dark rounded mt-6">{copy.careersCta}</a>
     </div>
     <div class="text-center py-3">
-      <img src="/images/job-bg.png" alt="" class="inline-block w-[240px] h-auto" loading="lazy" width="240" height="240" />
+      <img src={withBase('/images/job-bg.png')} alt="" class="inline-block w-[240px] h-auto" loading="lazy" width="240" height="240" />
     </div>
   </div>
 </section>

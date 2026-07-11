@@ -1,6 +1,7 @@
 ---
 import { CLIENTS } from '../data/clients';
 import type { Lang } from '../data/site';
+import { withBase } from '../utils/paths';
 
 interface Props {
   lang: Lang;
@@ -16,7 +17,7 @@ const pad = (n: number) => String(n + 1).padStart(2, '0');
     <div role="listitem" class="relative flex flex-col items-center justify-between gap-3 p-4 pt-8 min-h-[8.5rem]">
       <span class="folio absolute top-2.5 inset-inline-start-3 text-[0.72rem] text-accent-deep" aria-hidden="true">{pad(i)}</span>
       <img
-        src={c.image}
+        src={withBase(c.image)}
         alt=""
         class="h-12 w-auto max-w-[70%] object-contain"
         loading="lazy"

@@ -3,6 +3,10 @@ import '../styles/global.css';
 import { SITE, type Lang } from '../data/site';
 import Header from '../components/Header.astro';
 import Footer from '../components/Footer.astro';
+import { withBase } from '../utils/paths';
+// The preloaded font also lives in the bundled CSS (@font-face); import it so
+// the preload points at the same hashed asset URL under any base path.
+import montserratLatin from '../assets/fonts/montserrat-variable-latin.woff2';
 
 interface Props {
   title: string;
@@ -103,7 +107,7 @@ const localBusinessSchema = {
     <title>{title}</title>
     <meta name="description" content={description} />
     <link rel="canonical" href={canonical} />
-    <link rel="icon" type="image/jpeg" href="/favicon.jpg" />
+    <link rel="icon" type="image/jpeg" href={withBase('/favicon.jpg')} />
     <meta name="robots" content="index, follow, max-image-preview:large, max-snippet:-1, max-video-preview:-1" />
     <meta name="generator" content={Astro.generator} />
 
@@ -134,13 +138,13 @@ const localBusinessSchema = {
     {/* Fonts: self-hosted Montserrat, preloaded */}
     <link
       rel="preload"
-      href="/fonts/montserrat-variable-latin.woff2"
+      href={montserratLatin}
       as="font"
       type="font/woff2"
       crossorigin
     />
 
-    <link rel="sitemap" href="/sitemap-index.xml" />
+    <link rel="sitemap" href={withBase('/sitemap-index.xml')} />
 
     {/* Structured data: Organization + LocalBusiness (Kuwait local SEO) */}
     <script type="application/ld+json" set:html={JSON.stringify(organizationSchema)} />
