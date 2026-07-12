@@ -2,6 +2,7 @@
 import BaseLayout from '../layouts/BaseLayout.astro';
 import { CATEGORIES, categoryPath } from '../data/brands';
 import { AR_SLUGS, T } from '../data/site';
+import { withBase } from '../utils/paths';
 const pad = (n: number) => String(n + 1).padStart(2, '0');
 ---
 
@@ -24,7 +25,7 @@ const pad = (n: number) => String(n + 1).padStart(2, '0');
       {CATEGORIES.map((cat, i) => (
         <li class="border-b border-hairline">
           <a
-            href={categoryPath(cat, 'en')}
+            href={withBase(categoryPath(cat, 'en'))}
             class="group grid grid-cols-[auto_1fr_auto] items-baseline gap-6 lg:gap-10 py-7 lg:py-8"
           >
             <span class="folio text-[1.6rem] lg:text-[1.9rem] text-accent leading-none" aria-hidden="true">{pad(i)}</span>

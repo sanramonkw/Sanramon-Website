@@ -2,7 +2,7 @@
 import { defineConfig } from 'astro/config';
 import sitemap from '@astrojs/sitemap';
 import tailwindcss from '@tailwindcss/vite';
-import { SITE, ROUTES } from './src/data/site.ts';
+import { SITE, ROUTES, BASE_PATH } from './src/data/site.ts';
 import { CATEGORIES, categoryPath } from './src/data/brands.ts';
 
 // Build an explicit path -> { ar, en } alternate map so the sitemap's
@@ -22,9 +22,20 @@ for (const category of CATEGORIES) {
   altMap.set(ar, en);
 }
 
+// `BASE_PATH` without its trailing slash, e.g. "" at the root or
+// "/Sanramon-Website" under GitHub Pages — used to add/strip the base
+// prefix around the base-less paths that `altMap`/`ROUTES`/`categoryPath`
+// deal in.
+const BASE_PREFIX = BASE_PATH === '/' ? '' : BASE_PATH.replace(/\/$/, '');
+
 function withLocaleLinks(item) {
   const url = new URL(item.url);
-  const pathname = url.pathname;
+  // Sitemap URLs are built from the actual deployed paths, so under a
+  // subpath deploy (GitHub Pages) they carry the `base` prefix — strip it
+  // before looking the path up in `altMap` (which is base-less), then add
+  // it back when constructing the alternate links.
+  const rawPathname = url.pathname;
+  const pathname = BASE_PREFIX && rawPathname.startsWith(BASE_PREFIX) ? rawPathname.slice(BASE_PREFIX.length) : rawPathname;
   const altPathname = altMap.get(pathname);
   if (!altPathname) return item;
 
@@ -35,16 +46,21 @@ function withLocaleLinks(item) {
   return {
     ...item,
     links: [
-      { lang: 'ar', url: new URL(arPath, SITE.url).href },
-      { lang: 'en', url: new URL(enPath, SITE.url).href },
-      { lang: 'x-default', url: new URL(arPath, SITE.url).href },
+      { lang: 'ar', url: new URL(BASE_PREFIX + arPath, SITE.url).href },
+      { lang: 'en', url: new URL(BASE_PREFIX + enPath, SITE.url).href },
+      { lang: 'x-default', url: new URL(BASE_PREFIX + arPath, SITE.url).href },
     ],
   };
 }
 
 // https://astro.build/config
 export default defineConfig({
-  site: 'https://sanramonkw.com',
+  // `site`/`base` are env-driven (DEPLOY_TARGET=pages → GitHub Pages review
+  // deploy under /Sanramon-Website/; unset/anything else → production at the
+  // domain root). See src/data/site.ts and DEPLOYMENT.md → "GitHub Pages
+  // review deploys". Production builds must NOT set DEPLOY_TARGET.
+  site: SITE.url,
+  base: BASE_PATH,
   trailingSlash: 'ignore',
   integrations: [
     sitemap({

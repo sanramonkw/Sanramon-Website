@@ -1,5 +1,6 @@
 ---
 import BaseLayout from '../layouts/BaseLayout.astro';
+import { withBase } from '../utils/paths';
 ---
 
 <BaseLayout
@@ -13,9 +14,9 @@ import BaseLayout from '../layouts/BaseLayout.astro';
     <div class="relative mx-auto max-w-3xl px-4">
       <h1 class="display text-[clamp(2.4rem,6vw,4.5rem)] mb-6">404 — الصفحة غير موجودة</h1>
       <p class="mb-10 text-dim">الصفحة التي تبحث عنها غير موجودة أو تم نقلها.</p>
-      <a href="/" class="btn-primary">العودة للرئيسية</a>
+      <a href={withBase('/')} class="btn-primary">العودة للرئيسية</a>
       <p class="mt-8 text-sm">
-        <a href="/en/" class="underline text-dim hover:text-accent">English version</a>
+        <a href={withBase('/en/')} class="underline text-dim hover:text-accent">English version</a>
       </p>
     </div>
   </section>

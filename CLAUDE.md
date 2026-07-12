@@ -1,5 +1,26 @@
 # San Ramon General Trading & Cont. Co. — Astro rebuild of sanramonkw.com
 
+## Base-path/Pages tooling merge (2026-07-12)
+
+A developer branch (`m.fashid`, "feat: add base-path support for all variants
+and one-command deploy") was built in parallel against the pre-promotion
+design and merged into this Bold+Arabic-first promotion. Kept from that
+branch: `scripts/build-all.sh` + `scripts/publish-dist.sh` (combined-dist
+GitHub Pages review build), `public/.nojekyll`, the `gh-pages` devDependency
+and `build:all`/`deploy:all`/`deploy` npm scripts, and the pattern of moving
+CSS-referenced fonts into `src/assets/fonts/` (bundler-hashed) instead of
+`public/fonts/` (unhashed, referenced by absolute `/fonts/...` URL). Their
+hardcoded GitHub Pages `site`/`base` and `withBase()` helper were
+**re-implemented as env-driven** on top of the promoted code (see "Commands"
+below and `src/utils/paths.ts`/`src/data/site.ts`) rather than taken as-is,
+since the promoted `astro.config.mjs` needed to default to production
+(`https://sanramonkw.com`, base `/`) with Arabic at the root — the
+developer's version had EN-at-root baked into its `site`/`base` (obsolete
+after the promotion) and no production option at all. `variants/bold/` was
+deleted (already gone from the promotion); `variants/premium/` and
+`variants/editorial/` took the developer's base-path/asset changes as-is
+(both are review-only, always built for the GitHub Pages target).
+
 ## Master design + Arabic-default promotion (2026-07-12)
 
 The owner chose the **Bold design variant ("The Slate Stage")** as the final
@@ -48,14 +69,26 @@ fetched page.
 ```bash
 npm install
 npm run dev       # localhost:4321
-npm run build     # → dist/ (23 pages; build verified passing)
+npm run build     # → dist/ (production: site root, 23 pages; build verified passing)
 npm run preview
 ```
 
+`site`/`base` in `astro.config.mjs` are **env-driven** via `DEPLOY_TARGET`
+(see `src/data/site.ts`): plain `npm run build` (no env var) is the
+**production** build — `https://sanramonkw.com`, base `/`. Setting
+`DEPLOY_TARGET=pages` switches to the **GitHub Pages review** build —
+`https://sanramonkw.github.io`, base `/Sanramon-Website/` — used only for
+`npm run build:all`/`deploy:all` and `npm run deploy` (see "Deployment"
+below and `scripts/build-all.sh`). **Never set `DEPLOY_TARGET` for the real
+production build/deploy** — every internal href/asset/canonical/sitemap
+entry is prefixed with `base` via `withBase()` (`src/utils/paths.ts`), so a
+stray `DEPLOY_TARGET=pages` in production would 404 every link.
+
 ## Deployment
 
-See **DEPLOYMENT.md** (read before deploying): pure static `dist/`, Node 20+, no env
-vars, encoded-Arabic-URL proxy caveat, pre-launch checklist (tenant-bleed on the old
+See **DEPLOYMENT.md** (read before deploying): pure static `dist/`, Node 20+,
+`DEPLOY_TARGET` env switch (production vs. GitHub Pages review),
+encoded-Arabic-URL proxy caveat, pre-launch checklist (tenant-bleed on the old
 shared host, careers-form wiring, geo pin, 301 map, analytics) and post-launch smoke test.
 
 ## Local preview

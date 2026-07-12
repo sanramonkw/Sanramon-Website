@@ -2,6 +2,7 @@
 import BaseLayout from '../layouts/BaseLayout.astro';
 import { CATEGORIES, categoryPath } from '../data/brands';
 import { AR_SLUGS } from '../data/site';
+import { withBase } from '../utils/paths';
 ---
 
 <BaseLayout
@@ -22,7 +23,7 @@ import { AR_SLUGS } from '../data/site';
       {CATEGORIES.map((cat, i) => (
         <li class="border-b hairline">
           <a
-            href={categoryPath(cat, 'en')}
+            href={withBase(categoryPath(cat, 'en'))}
             class="group flex items-baseline gap-6 py-6 px-2 transition-colors hover:bg-white"
           >
             <span class="index-num !text-[1.2rem] min-w-[2.5ch]" aria-hidden="true">

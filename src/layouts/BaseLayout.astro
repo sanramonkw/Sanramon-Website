@@ -3,6 +3,10 @@ import '../styles/global.css';
 import { SITE, type Lang } from '../data/site';
 import Header from '../components/Header.astro';
 import Footer from '../components/Footer.astro';
+import { withBase } from '../utils/paths';
+// The preloaded font also lives in the bundled CSS (@font-face); import it so
+// the preload points at the same hashed asset URL under any base path.
+import montserratLatin from '../assets/fonts/montserrat-variable-latin.woff2';
 
 interface Props {
   title: string;
@@ -24,20 +28,21 @@ const {
   ogImage = '/images/sanramon-logo.png',
 } = Astro.props;
 
-const canonical = new URL(path, SITE.url).href;
+const canonical = new URL(withBase(path), SITE.url).href;
 const altLang: Lang = lang === 'en' ? 'ar' : 'en';
-const altUrl = altLangPath ? new URL(altLangPath, SITE.url).href : undefined;
+const altUrl = altLangPath ? new URL(withBase(altLangPath), SITE.url).href : undefined;
 const siteName = SITE.name[lang];
 const dir = lang === 'ar' ? 'rtl' : 'ltr';
 
+const siteRoot = new URL(withBase('/'), SITE.url).href;
 const organizationSchema = {
   '@context': 'https://schema.org',
   '@type': 'Organization',
-  '@id': `${SITE.url}/#organization`,
+  '@id': `${siteRoot}#organization`,
   name: SITE.name.en,
   alternateName: [SITE.name.ar, 'San Ramon', 'Sanramon Kuwait'],
-  url: SITE.url,
-  logo: `${SITE.url}/images/sanramon-logo.png`,
+  url: siteRoot,
+  logo: new URL(withBase('/images/sanramon-logo.png'), SITE.url).href,
   email: SITE.email,
   telephone: '+96522204332',
   foundingDate: '2004',
@@ -69,10 +74,10 @@ const organizationSchema = {
 const localBusinessSchema = {
   '@context': 'https://schema.org',
   '@type': 'LocalBusiness',
-  '@id': `${SITE.url}/#localbusiness`,
+  '@id': `${siteRoot}#localbusiness`,
   name: SITE.name.en,
-  image: `${SITE.url}/images/sanramon-logo.png`,
-  url: SITE.url,
+  image: new URL(withBase('/images/sanramon-logo.png'), SITE.url).href,
+  url: siteRoot,
   telephone: '+96522204332',
   email: SITE.email,
   priceRange: '$$',
@@ -91,7 +96,7 @@ const localBusinessSchema = {
   },
   hasMap: SITE.mapUrl,
   areaServed: ['Kuwait', 'GCC'],
-  parentOrganization: { '@id': `${SITE.url}/#organization` },
+  parentOrganization: { '@id': `${siteRoot}#organization` },
 };
 ---
 
@@ -103,7 +108,7 @@ const localBusinessSchema = {
     <title>{title}</title>
     <meta name="description" content={description} />
     <link rel="canonical" href={canonical} />
-    <link rel="icon" type="image/jpeg" href="/favicon.jpg" />
+    <link rel="icon" type="image/jpeg" href={withBase('/favicon.jpg')} />
     <meta name="robots" content="index, follow, max-image-preview:large, max-snippet:-1, max-video-preview:-1" />
     <meta name="generator" content={Astro.generator} />
 
@@ -121,7 +126,7 @@ const localBusinessSchema = {
     <meta property="og:description" content={description} />
     <meta property="og:url" content={canonical} />
     <meta property="og:site_name" content={siteName} />
-    <meta property="og:image" content={new URL(ogImage, SITE.url).href} />
+    <meta property="og:image" content={new URL(withBase(ogImage), SITE.url).href} />
     <meta property="article:publisher" content={SITE.social.facebook} />
 
     {/* Twitter */}
@@ -129,18 +134,18 @@ const localBusinessSchema = {
     <meta name="twitter:site" content={SITE.social.twitterHandle} />
     <meta name="twitter:title" content={title} />
     <meta name="twitter:description" content={description} />
-    <meta name="twitter:image" content={new URL(ogImage, SITE.url).href} />
+    <meta name="twitter:image" content={new URL(withBase(ogImage), SITE.url).href} />
 
     {/* Fonts: self-hosted Montserrat, preloaded */}
     <link
       rel="preload"
-      href="/fonts/montserrat-variable-latin.woff2"
+      href={montserratLatin}
       as="font"
       type="font/woff2"
       crossorigin
     />
 
-    <link rel="sitemap" href="/sitemap-index.xml" />
+    <link rel="sitemap" href={withBase('/sitemap-index.xml')} />
 
     {/* Structured data: Organization + LocalBusiness (Kuwait local SEO) */}
     <script type="application/ld+json" set:html={JSON.stringify(organizationSchema)} />

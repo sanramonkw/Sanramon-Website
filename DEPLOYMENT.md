@@ -16,9 +16,42 @@ Vercel (static), S3+CloudFront, GitHub Pages, or plain nginx/Apache serving the 
 - `npm ci` (lockfile is committed).
 - `npm run build` → expect **23 pages** in the build summary, plus
   `sitemap-index.xml` / `sitemap-0.xml`, `robots.txt`, `llms.txt`, `favicon.jpg`.
-- **No environment variables.** Nothing to configure; `site` is hard-coded to
-  `https://sanramonkw.com` in `astro.config.mjs`.
+- **`DEPLOY_TARGET` env var — production must NOT set it.** Plain `npm run
+  build` (no env var) is the production build: `site` = `https://sanramonkw.com`,
+  `base` = `/`. Setting `DEPLOY_TARGET=pages` switches both to the GitHub
+  Pages review values (`https://sanramonkw.github.io`, base
+  `/Sanramon-Website/`) — see "GitHub Pages review deploys" below. Every
+  internal href/asset/canonical/sitemap entry is generated through
+  `withBase()` (`src/utils/paths.ts`) so it automatically carries whichever
+  `base` was active at build time; **do not** set `DEPLOY_TARGET=pages` for
+  the real production build/deploy, or every link on the live site would gain
+  a bogus `/Sanramon-Website/` prefix and 404.
 - Local check: `npx astro preview` and click through `/` (Arabic) and `/en/` (English).
+
+## GitHub Pages review deploys
+
+A separate, review-only deploy path exists for showing the owner the master
+design alongside the `premium`/`editorial` variants on one GitHub Pages site
+(`sanramonkw.github.io/Sanramon-Website/`) — **this is not the production
+deploy target** and must never be pointed at by DNS.
+
+- `npm run build:all` (`scripts/build-all.sh`): builds the master with
+  `DEPLOY_TARGET=pages` plus the `premium`/`editorial` variants (each
+  variant's own `astro.config.mjs` hardcodes its own
+  `/Sanramon-Website/variants/<name>/` base — no env var needed there), then
+  assembles everything into one combined `dist/`:
+  `dist/` → master, `dist/variants/premium/`, `dist/variants/editorial/`.
+- `npm run deploy:all` (`scripts/build-all.sh` + `scripts/publish-dist.sh`):
+  builds, then publishes the combined `dist/` to the repo's `gh-pages` branch
+  (Windows-safe: pushes from inside `dist/` with `git add -A`, avoiding the
+  `gh-pages` npm package's `ENAMETOOLONG` failure mode on very long file
+  lists). `public/.nojekyll` is included site-wide so GitHub Pages serves the
+  underscore-prefixed `_astro/` asset directory.
+- `npm run deploy`: a lighter one-shot alternative for just the master
+  (`DEPLOY_TARGET=pages npm run build` piped into the `gh-pages` npm
+  package) — use `deploy:all` when the variants also need to be current.
+- `variants/bold/` was deleted (it was promoted to master); only `premium`
+  and `editorial` remain as review variants.
 
 ## URL handling (important)
 

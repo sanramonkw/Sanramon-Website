@@ -11,11 +11,12 @@ interface Props {
   alt?: string;
 }
 const { image, title, kicker, alt = '' } = Astro.props;
+import { withBase } from '../utils/paths';
 ---
 
 <section class="max-w-[1200px] mx-auto px-5 lg:px-8 pt-8 lg:pt-12">
   <div class="border border-hairline bg-white p-2 lg:p-3">
-    <img src={image} alt={alt} class="w-full h-[220px] lg:h-[320px] object-cover" width="1920" height="500" fetchpriority="high" />
+    <img src={withBase(image)} alt={alt} class="w-full h-[220px] lg:h-[320px] object-cover" width="1920" height="500" fetchpriority="high" />
   </div>
   {title && (
     <div class="pt-8 lg:pt-12">

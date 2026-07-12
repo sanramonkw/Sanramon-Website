@@ -3,6 +3,7 @@ import { SITE, T, type Lang, AR_SLUGS } from '../data/site';
 import { CATEGORIES, categoryPath, HOME_BRAND_LOGOS } from '../data/brands';
 import { CLIENTS } from '../data/clients';
 import ClientsGrid from './ClientsGrid.astro';
+import { withBase } from '../utils/paths';
 
 interface Props {
   lang: Lang;
@@ -109,8 +110,8 @@ const bentoSpan = [
         </span><span class="caret text-accent" aria-hidden="true">|</span>
       </h1>
       <div class="mt-10 flex flex-wrap items-center gap-4">
-        <a href={`${lang === 'en' ? '/en/' : '/'}#brands-main`} class="btn-primary">{t.brands}</a>
-        <a href={copy.gmHref} class="btn-ghost">{t.gmMessage}</a>
+        <a href={withBase(`${lang === 'en' ? '/en/' : '/'}#brands-main`)} class="btn-primary">{t.brands}</a>
+        <a href={withBase(copy.gmHref)} class="btn-ghost">{t.gmMessage}</a>
       </div>
     </div>
 
@@ -120,7 +121,7 @@ const bentoSpan = [
       <div class="hero-carousel relative overflow-hidden rounded-3xl border border-edge" data-interval="4500">
         {banners.map((bnr, i) => (
           <img
-            src={bnr.src}
+            src={withBase(bnr.src)}
             alt=""
             width={bnr.w}
             height={bnr.h}
@@ -162,7 +163,7 @@ const bentoSpan = [
       <h2 class="display !text-dark text-[clamp(1.9rem,3.6vw,3rem)]" set:html={copy.aboutTitleHtml} />
       <p class="mt-6 text-lg font-medium !text-dark" set:html={copy.aboutTagline.replace('high quality products', '<b>high quality products</b>')} />
       <p class="mt-8">
-        <a class="btn-dark" href={copy.gmHref}>{t.gmMessage}</a>
+        <a class="btn-dark" href={withBase(copy.gmHref)}>{t.gmMessage}</a>
       </p>
     </div>
     <div class="lg:col-span-6 lg:col-start-7 lg:pt-16 reveal">
@@ -174,7 +175,7 @@ const bentoSpan = [
 {/* ============ Departments bento grid ============ */}
 <section class="relative mt-20 lg:mt-28 overflow-hidden">
   <div class="hidden lg:block absolute top-0 end-0 -z-10 w-1/2 opacity-20" aria-hidden="true">
-    <img src="/images/brand-bg.png" alt="" class="w-full h-auto" loading="lazy" width="1115" height="685" />
+    <img src={withBase('/images/brand-bg.png')} alt="" class="w-full h-auto" loading="lazy" width="1115" height="685" />
   </div>
   <div class="mx-auto max-w-[1320px] px-4 lg:px-6">
     <div class="grid gap-5 lg:grid-cols-12">
@@ -187,7 +188,7 @@ const bentoSpan = [
               </span>
               {cat.homeImage && (
                 <span class="inline-flex h-16 w-16 items-center justify-center rounded-2xl bg-white shrink-0">
-                  <img src={cat.homeImage} alt="" class="h-10 w-10 object-contain" loading="lazy" width="90" height="90" />
+                  <img src={withBase(cat.homeImage)} alt="" class="h-10 w-10 object-contain" loading="lazy" width="90" height="90" />
                 </span>
               )}
             </div>
@@ -199,7 +200,7 @@ const bentoSpan = [
               <p class="text-dim">{cat.homeDesc[lang]}</p>
             </div>
             <p class="mt-auto">
-              <a href={categoryPath(cat, lang)} class="inline-flex items-center gap-3 font-bold uppercase text-[13px] tracking-wider text-mist hover:text-accent transition-colors">
+              <a href={withBase(categoryPath(cat, lang))} class="inline-flex items-center gap-3 font-bold uppercase text-[13px] tracking-wider text-mist hover:text-accent transition-colors">
                 {t.readMore}
                 <span class="chip-arrow" aria-hidden="true">
                   <svg width="12" height="12" viewBox="0 0 12 12" fill="none"><path d="M2 6h8m0 0L6.5 2.5M10 6l-3.5 3.5" stroke="currentColor" stroke-width="1.5"/></svg>
@@ -233,11 +234,11 @@ const bentoSpan = [
             aria-label={brnd.name}
             class="group flex items-center justify-center rounded-2xl bg-white p-3 aspect-square transition-transform duration-200 hover:-translate-y-1"
           >
-            <img src={brnd.logo} alt={brnd.name} class="max-h-full w-auto object-contain" loading="lazy" width="130" height="130" />
+            <img src={withBase(brnd.logo)} alt={brnd.name} class="max-h-full w-auto object-contain" loading="lazy" width="130" height="130" />
           </a>
         ) : (
           <span class="flex items-center justify-center rounded-2xl bg-white p-3 aspect-square">
-            <img src={brnd.logo} alt={brnd.name} class="max-h-full w-auto object-contain" loading="lazy" width="130" height="130" />
+            <img src={withBase(brnd.logo)} alt={brnd.name} class="max-h-full w-auto object-contain" loading="lazy" width="130" height="130" />
           </span>
         )
       )}
@@ -272,13 +273,13 @@ const bentoSpan = [
         </p>
         <h2 class="display !text-night text-[clamp(2.4rem,6vw,4.6rem)]" set:html={copy.careersTitleHtml} />
         <p class="mt-5 !text-night/85 !text-[15px] max-w-xl font-medium">{copy.careersBody}</p>
-        <a href={copy.careersHref} class="mt-8 inline-flex items-center gap-3 bg-night text-mist font-bold uppercase text-sm tracking-wide px-9 py-4 rounded-full transition-transform duration-200 hover:-translate-y-1 hover:scale-[1.03]">
+        <a href={withBase(copy.careersHref)} class="mt-8 inline-flex items-center gap-3 bg-night text-mist font-bold uppercase text-sm tracking-wide px-9 py-4 rounded-full transition-transform duration-200 hover:-translate-y-1 hover:scale-[1.03]">
           {copy.careersCta}
           <span aria-hidden="true">&#8599;</span>
         </a>
       </div>
       <div class="lg:col-span-4 text-center">
-        <img src="/images/job-bg.png" alt="" class="inline-block w-[220px] lg:w-[260px] h-auto" loading="lazy" width="240" height="240" />
+        <img src={withBase('/images/job-bg.png')} alt="" class="inline-block w-[220px] lg:w-[260px] h-auto" loading="lazy" width="240" height="240" />
       </div>
     </div>
   </div>

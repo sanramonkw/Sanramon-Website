@@ -1,7 +1,18 @@
 export type Lang = 'en' | 'ar';
 
+/**
+ * Deploy target switch (env-driven, mirrors `astro.config.mjs`):
+ * - default / unset → production, served at the domain root.
+ * - `DEPLOY_TARGET=pages` → GitHub Pages review deploy, served under a
+ *   project-pages subpath. See DEPLOYMENT.md → "GitHub Pages review deploys".
+ */
+const IS_PAGES_TARGET = process.env.DEPLOY_TARGET === 'pages';
+
+/** Astro `base` for this build — kept in sync with `astro.config.mjs`. */
+export const BASE_PATH = IS_PAGES_TARGET ? '/Sanramon-Website/' : '/';
+
 export const SITE = {
-  url: 'https://sanramonkw.com',
+  url: IS_PAGES_TARGET ? 'https://sanramonkw.github.io' : 'https://sanramonkw.com',
   name: {
     en: 'San Ramon General Trading & Cont. Co.',
     ar: 'شركة سان ريمون للتجارة العامة والمقاولات',
