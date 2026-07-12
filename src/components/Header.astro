@@ -8,63 +8,63 @@ interface Props {
 }
 const { lang, altLangPath } = Astro.props;
 const t = T[lang];
-const homeHref = lang === 'en' ? '/' : '/ar/';
-const careersHref = lang === 'en' ? '/careers/' : `/ar/${encodeURI('انضم-إلى-فريقنا')}/`;
+const homeHref = lang === 'en' ? '/en/' : '/';
+const careersHref = lang === 'en' ? '/en/careers/' : `/${encodeURI('انضم-إلى-فريقنا')}/`;
 const orderHref = lang === 'en' ? SITE.orderUrl : SITE.orderUrlAr;
-const langHref = altLangPath ?? (lang === 'en' ? '/ar/' : '/');
+const langHref = altLangPath ?? (lang === 'en' ? '/' : '/en/');
 const siteName = SITE.name[lang];
 ---
 
-<header class="relative z-50">
-  <div class="flex items-start justify-between">
-    <a href={homeHref} title={siteName} class="shrink-0">
-      <img
-        src="/images/logo-w.jpg"
-        alt={siteName}
-        class="w-20 md:w-44 h-auto"
-        width="180"
-        height="180"
-      />
+<header class="sticky top-0 z-50 bg-night/90 backdrop-blur border-b border-edge">
+  <div class="mx-auto max-w-[1320px] px-4 lg:px-6 flex items-center justify-between gap-4 h-16 lg:h-[72px]">
+    <a href={homeHref} title={siteName} class="shrink-0 flex items-center gap-3">
+      <span class="inline-flex h-11 w-11 items-center justify-center overflow-hidden rounded-xl bg-white">
+        <img src="/images/logo-w.jpg" alt={siteName} class="h-9 w-9 object-contain" width="180" height="180" />
+      </span>
+      <span class="hidden sm:inline font-extrabold uppercase tracking-tight text-mist text-sm leading-tight">
+        San<span class="text-accent">&nbsp;Ramon</span>
+      </span>
     </a>
 
     {/* Desktop nav */}
-    <nav class="hidden md:block pt-4 pe-4" aria-label="Main">
-      <ul class="flex items-center gap-6 uppercase text-sm font-normal">
-        <li><a class="text-[#333] hover:text-dark" href={homeHref}>{t.home}</a></li>
-        <li><a class="text-[#333] hover:text-dark" href={`${homeHref}#about-us`}>{t.aboutUs}</a></li>
+    <nav class="hidden md:block" aria-label="Main">
+      <ul class="flex items-center gap-7 uppercase text-[13px] font-semibold tracking-wider">
+        <li><a class="text-fog hover:text-accent transition-colors" href={homeHref}>{t.home}</a></li>
+        <li><a class="text-fog hover:text-accent transition-colors" href={`${homeHref}#about-us`}>{t.aboutUs}</a></li>
         <li class="relative group">
-          <button class="uppercase text-[#333] hover:text-dark cursor-pointer" aria-haspopup="true">
+          <button class="uppercase text-fog hover:text-accent transition-colors cursor-pointer inline-flex items-center gap-1.5" aria-haspopup="true">
             {t.brands}
+            <svg width="10" height="6" viewBox="0 0 10 6" fill="none" aria-hidden="true"><path d="M1 1l4 4 4-4" stroke="currentColor" stroke-width="1.5"/></svg>
           </button>
           <div
-            class="absolute start-0 top-full hidden min-w-56 flex-col bg-white shadow-lg border border-border-faint py-2 group-hover:flex group-focus-within:flex z-50"
+            class="absolute start-0 top-full hidden min-w-60 flex-col rounded-xl border border-edge bg-panel py-2 shadow-[0_20px_40px_rgba(0,0,0,0.5)] group-hover:flex group-focus-within:flex z-50"
           >
-            {CATEGORIES.map((cat) => (
-              <a class="px-4 py-2 text-[#333] normal-case hover:bg-border-faint" href={categoryPath(cat, lang)}>
+            {CATEGORIES.map((cat, i) => (
+              <a class="flex items-baseline gap-3 px-5 py-2.5 text-fog normal-case hover:bg-panel-2 hover:text-accent transition-colors" href={categoryPath(cat, lang)}>
+                <span class="font-mono text-[11px] text-accent" aria-hidden="true">{String(i + 1).padStart(2, '0')}</span>
                 {cat.title[lang]}
               </a>
             ))}
           </div>
         </li>
-        <li><a class="text-[#333] hover:text-dark" href={careersHref}>{t.careers}</a></li>
+        <li><a class="text-fog hover:text-accent transition-colors" href={careersHref}>{t.careers}</a></li>
         <li>
-          {/* original .btn-bnr: 8px 10px padding, 14px, weight 400 */}
-          <a href={orderHref} target="_blank" rel="noopener" class="btn-dark !px-2.5 !py-2 text-sm">
+          <a href={orderHref} target="_blank" rel="noopener" class="btn-primary !px-5 !py-2 !text-[13px]">
             {t.orderNow}
           </a>
         </li>
         <li class="font-bold">
-          <a href={langHref} lang={lang === 'en' ? 'ar' : 'en'}>{t.langSwitch}</a>
+          <a href={langHref} lang={lang === 'en' ? 'ar' : 'en'} class="text-mist hover:text-accent transition-colors">{t.langSwitch}</a>
         </li>
       </ul>
     </nav>
 
     {/* Mobile: language link + hamburger (CSS-only off-canvas) */}
-    <div class="md:hidden flex items-center gap-4 pt-3 pe-0">
-      <a href={langHref} class="font-bold" lang={lang === 'en' ? 'ar' : 'en'}>{t.langSwitch}</a>
+    <div class="md:hidden flex items-center gap-4">
+      <a href={langHref} class="font-bold text-mist" lang={lang === 'en' ? 'ar' : 'en'}>{t.langSwitch}</a>
       <label
         for="nav-toggle"
-        class="bg-dark text-white px-3 py-3 cursor-pointer select-none"
+        class="bg-accent text-night rounded-lg px-3 py-3 cursor-pointer select-none"
         aria-label="Open menu"
       >
         <svg width="20" height="14" viewBox="0 0 20 14" fill="none" aria-hidden="true">
@@ -76,45 +76,45 @@ const siteName = SITE.name[lang];
 
   <input type="checkbox" id="nav-toggle" class="peer sr-only" />
   <div
-    class="fixed inset-y-0 end-0 w-64 translate-x-full peer-checked:translate-x-0 rtl:-translate-x-full rtl:peer-checked:translate-x-0 transition-transform duration-300 bg-white shadow-xl z-50 overflow-y-auto"
+    class="fixed inset-y-0 end-0 w-72 translate-x-full peer-checked:translate-x-0 rtl:-translate-x-full rtl:peer-checked:translate-x-0 transition-transform duration-300 bg-panel border-s border-edge shadow-xl z-50 overflow-y-auto"
   >
-    <div class="text-center py-4">
-      <label for="nav-toggle" class="absolute top-2 end-3 text-2xl cursor-pointer" aria-label="Close menu">&times;</label>
-      <a href={homeHref} title={siteName}>
-        <img src="/images/logo-w.jpg" alt={siteName} class="inline-block w-24 h-auto" width="100" height="100" />
+    <div class="text-center py-5 relative">
+      <label for="nav-toggle" class="absolute top-3 end-4 text-2xl cursor-pointer text-mist" aria-label="Close menu">&times;</label>
+      <a href={homeHref} title={siteName} class="inline-flex items-center justify-center rounded-xl bg-white p-2">
+        <img src="/images/logo-w.jpg" alt={siteName} class="inline-block w-16 h-auto" width="100" height="100" />
       </a>
     </div>
     <nav aria-label="Mobile">
-      <ul class="uppercase text-[13px] font-bold">
-        <li class="border-b border-border-soft"><a class="block px-6 py-3" href={homeHref}>{t.home}</a></li>
-        <li class="border-b border-border-soft"><a class="block px-6 py-3" href={`${homeHref}#about-us`}>{t.aboutUs}</a></li>
-        <li class="border-b border-border-soft px-6 py-3">{t.brands}</li>
+      <ul class="uppercase text-[13px] font-bold text-mist">
+        <li class="border-b border-edge"><a class="block px-6 py-3" href={homeHref}>{t.home}</a></li>
+        <li class="border-b border-edge"><a class="block px-6 py-3" href={`${homeHref}#about-us`}>{t.aboutUs}</a></li>
+        <li class="border-b border-edge px-6 py-3 text-accent">{t.brands}</li>
         {CATEGORIES.map((cat) => (
-          <li class="border-b border-border-faint">
-            <a class="block ps-10 pe-6 py-2 font-normal normal-case" href={categoryPath(cat, lang)}>
+          <li class="border-b border-edge/60">
+            <a class="block ps-10 pe-6 py-2.5 font-normal normal-case text-fog" href={categoryPath(cat, lang)}>
               {cat.title[lang]}
             </a>
           </li>
         ))}
-        <li class="border-b border-border-soft"><a class="block px-6 py-3" href={careersHref}>{t.careers}</a></li>
+        <li class="border-b border-edge"><a class="block px-6 py-3" href={careersHref}>{t.careers}</a></li>
       </ul>
-      <div class="px-6 py-4">
-        <a href={orderHref} target="_blank" rel="noopener" class="btn-dark block text-center !px-2.5 !py-2 text-sm">
+      <div class="px-6 py-5">
+        <a href={orderHref} target="_blank" rel="noopener" class="btn-primary w-full justify-center !text-[13px]">
           {t.orderNow}
         </a>
       </div>
-      <address class="not-italic px-6 py-2 text-sm leading-7">
-        <h2 class="font-semibold text-base mb-1">{t.getInTouch}</h2>
+      <address class="not-italic px-6 py-2 text-sm leading-7 text-fog">
+        <h2 class="font-semibold text-base mb-1 text-mist">{t.getInTouch}</h2>
         <p>
-          <a href={SITE.phoneHref} dir="ltr">{SITE.phone}</a><br />
-          <a href={`mailto:${SITE.email}`}>{SITE.email}</a><br />
-          <a href={SITE.mapUrl} target="_blank" rel="noopener">{t.viewOnMap}</a>
+          <a href={SITE.phoneHref} dir="ltr" class="hover:text-accent">{SITE.phone}</a><br />
+          <a href={`mailto:${SITE.email}`} class="hover:text-accent">{SITE.email}</a><br />
+          <a href={SITE.mapUrl} target="_blank" rel="noopener" class="hover:text-accent">{t.viewOnMap}</a>
         </p>
       </address>
     </nav>
   </div>
   <label
     for="nav-toggle"
-    class="fixed inset-0 bg-black/40 opacity-0 pointer-events-none peer-checked:opacity-100 peer-checked:pointer-events-auto transition-opacity z-40"
+    class="fixed inset-0 bg-black/60 opacity-0 pointer-events-none peer-checked:opacity-100 peer-checked:pointer-events-auto transition-opacity z-40"
     aria-hidden="true"></label>
 </header>

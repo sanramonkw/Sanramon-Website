@@ -6,86 +6,93 @@ interface Props {
 }
 const { lang } = Astro.props;
 const t = T[lang];
-const homeHref = lang === 'en' ? '/' : '/ar/';
-const careersHref = lang === 'en' ? '/careers/' : `/ar/${encodeURI(AR_SLUGS.careers)}/`;
+const homeHref = lang === 'en' ? '/en/' : '/';
+const careersHref = lang === 'en' ? '/en/careers/' : `/${encodeURI(AR_SLUGS.careers)}/`;
 const siteName = SITE.name[lang];
 ---
 
-<footer class="bg-dark mt-12 pb-4 relative">
-  <div class="flex">
-    {/* Social rail (original: col-2/col-lg-1, fa-2x icons, #8f8f8f) */}
-    <div class="w-16 lg:w-[8.333%] shrink-0 pt-12 text-center text-[#8f8f8f] flex flex-col items-center gap-5">
-      <a href={SITE.social.facebook} aria-label="Facebook" class="hover:text-white">
-        <svg width="28" height="28" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M22 12.06C22 6.5 17.52 2 12 2S2 6.5 2 12.06c0 5.02 3.66 9.18 8.44 9.94v-7.03H7.9v-2.9h2.54V9.85c0-2.5 1.5-3.9 3.77-3.9 1.1 0 2.24.2 2.24.2v2.46H15.2c-1.24 0-1.63.77-1.63 1.56v1.88h2.78l-.45 2.9h-2.33V22c4.78-.76 8.44-4.92 8.44-9.94Z"/></svg>
-      </a>
-      <a href={SITE.social.instagram} target="_blank" rel="noopener" aria-label="Instagram" class="hover:text-white">
-        <svg width="28" height="28" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M12 2.16c3.2 0 3.58.01 4.85.07 1.17.05 1.8.25 2.23.41.56.22.96.48 1.38.9.42.42.68.82.9 1.38.16.42.36 1.06.41 2.23.06 1.27.07 1.65.07 4.85s-.01 3.58-.07 4.85c-.05 1.17-.25 1.8-.41 2.23-.22.56-.48.96-.9 1.38-.42.42-.82.68-1.38.9-.42.16-1.06.36-2.23.41-1.27.06-1.65.07-4.85.07s-3.58-.01-4.85-.07c-1.17-.05-1.8-.25-2.23-.41a3.72 3.72 0 0 1-1.38-.9 3.72 3.72 0 0 1-.9-1.38c-.16-.42-.36-1.06-.41-2.23C2.17 15.58 2.16 15.2 2.16 12s.01-3.58.07-4.85c.05-1.17.25-1.8.41-2.23.22-.56.48-.96.9-1.38.42-.42.82-.68 1.38-.9.42-.16 1.06-.36 2.23-.41C8.42 2.17 8.8 2.16 12 2.16Zm0 1.8c-3.15 0-3.52.01-4.77.07-1.08.05-1.66.23-2.05.38-.51.2-.88.44-1.26.82-.38.38-.62.75-.82 1.26-.15.39-.33.97-.38 2.05-.06 1.25-.07 1.62-.07 4.77s.01 3.52.07 4.77c.05 1.08.23 1.66.38 2.05.2.51.44.88.82 1.26.38.38.75.62 1.26.82.39.15.97.33 2.05.38 1.25.06 1.62.07 4.77.07s3.52-.01 4.77-.07c1.08-.05 1.66-.23 2.05-.38.51-.2.88-.44 1.26-.82.38-.38.62-.75.82-1.26.15-.39.33-.97.38-2.05.06-1.25.07-1.62.07-4.77s-.01-3.52-.07-4.77c-.05-1.08-.23-1.66-.38-2.05-.2-.51-.44-.88-.82-1.26a3.4 3.4 0 0 0-1.26-.82c-.39-.15-.97-.33-2.05-.38-1.25-.06-1.62-.07-4.77-.07Zm0 3.06a5 5 0 1 1 0 10 5 5 0 0 1 0-10Zm0 8.2a3.2 3.2 0 1 0 0-6.4 3.2 3.2 0 0 0 0 6.4Zm6.4-8.4a1.17 1.17 0 1 1-2.34 0 1.17 1.17 0 0 1 2.34 0Z"/></svg>
-      </a>
-      <a href={SITE.social.twitter} aria-label="Twitter" class="hover:text-white">
-        <svg width="28" height="28" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M23.95 4.57a10 10 0 0 1-2.82.77 4.96 4.96 0 0 0 2.16-2.72c-.95.56-2 .97-3.13 1.19a4.92 4.92 0 0 0-8.38 4.48A13.98 13.98 0 0 1 1.64 3.16a4.92 4.92 0 0 0 1.52 6.57 4.9 4.9 0 0 1-2.23-.61v.06a4.92 4.92 0 0 0 3.95 4.83 4.94 4.94 0 0 1-2.22.08 4.93 4.93 0 0 0 4.6 3.42A9.87 9.87 0 0 1 0 19.54a13.94 13.94 0 0 0 7.55 2.21c9.06 0 14.01-7.5 14.01-14.01 0-.21 0-.42-.02-.63a10 10 0 0 0 2.41-2.54Z"/></svg>
-      </a>
-    </div>
+<footer class="relative mt-24 border-t border-edge bg-night overflow-hidden">
+  {/* Ghost wordmark backdrop */}
+  <p class="ghost absolute -bottom-6 start-0 text-[22vw] lg:text-[16vw] whitespace-nowrap opacity-60" aria-hidden="true">
+    San Ramon
+  </p>
 
-    {/* Light band with logo + address */}
-    <div class="flex-1 bg-[#f8f9fa] py-12">
-      <div class="grid gap-8 lg:grid-cols-12 items-center px-4 lg:px-8">
-        <div class="lg:col-span-5 text-center">
+  <div class="relative mx-auto max-w-[1320px] px-4 lg:px-6 pt-16 pb-10">
+    <div class="grid gap-10 lg:grid-cols-12">
+      {/* Wordmark + socials */}
+      <div class="lg:col-span-5">
+        <a href={homeHref} title={siteName} class="inline-block rounded-2xl bg-white p-4">
           <img
             src="/images/sanramon-logo.png"
             alt={siteName}
             width="400"
             height="200"
-            class="inline-block max-w-full h-auto"
+            class="max-w-[260px] h-auto"
             loading="lazy"
           />
-        </div>
-        <address class="lg:col-span-3 not-italic">
-          <h2 class="font-medium text-xl mb-2">{t.address}</h2>
-          <p class="leading-[2.5]">
-            {SITE.address[lang].map((line, i) => (
-              <>
-                {line}
-                {i < SITE.address[lang].length - 1 && <br />}
-              </>
-            ))}
-          </p>
-        </address>
-        <div class="lg:col-span-3">
-          <h2 class="font-medium text-xl mb-2">{t.getInTouch}</h2>
-          <p class="leading-[2.5]">
-            <a href={SITE.phoneHref} dir="ltr" class="hover:text-dark">{SITE.phone}</a><br />
-            <a href={`mailto:${SITE.email}`} class="hover:text-dark">{SITE.email}</a><br />
-            <a href={SITE.mapUrl} target="_blank" rel="noopener" class="hover:text-dark">{t.viewOnMap}</a>
-          </p>
+        </a>
+        <div class="mt-7 flex items-center gap-3 text-dim">
+          <a href={SITE.social.facebook} aria-label="Facebook" class="inline-flex h-11 w-11 items-center justify-center rounded-full border border-edge hover:border-accent hover:text-accent transition-colors">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M22 12.06C22 6.5 17.52 2 12 2S2 6.5 2 12.06c0 5.02 3.66 9.18 8.44 9.94v-7.03H7.9v-2.9h2.54V9.85c0-2.5 1.5-3.9 3.77-3.9 1.1 0 2.24.2 2.24.2v2.46H15.2c-1.24 0-1.63.77-1.63 1.56v1.88h2.78l-.45 2.9h-2.33V22c4.78-.76 8.44-4.92 8.44-9.94Z"/></svg>
+          </a>
+          <a href={SITE.social.instagram} target="_blank" rel="noopener" aria-label="Instagram" class="inline-flex h-11 w-11 items-center justify-center rounded-full border border-edge hover:border-accent hover:text-accent transition-colors">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M12 2.16c3.2 0 3.58.01 4.85.07 1.17.05 1.8.25 2.23.41.56.22.96.48 1.38.9.42.42.68.82.9 1.38.16.42.36 1.06.41 2.23.06 1.27.07 1.65.07 4.85s-.01 3.58-.07 4.85c-.05 1.17-.25 1.8-.41 2.23-.22.56-.48.96-.9 1.38-.42.42-.82.68-1.38.9-.42.16-1.06.36-2.23.41-1.27.06-1.65.07-4.85.07s-3.58-.01-4.85-.07c-1.17-.05-1.8-.25-2.23-.41a3.72 3.72 0 0 1-1.38-.9 3.72 3.72 0 0 1-.9-1.38c-.16-.42-.36-1.06-.41-2.23C2.17 15.58 2.16 15.2 2.16 12s.01-3.58.07-4.85c.05-1.17.25-1.8.41-2.23.22-.56.48-.96.9-1.38.42-.42.82-.68 1.38-.9.42-.16 1.06-.36 2.23-.41C8.42 2.17 8.8 2.16 12 2.16Zm0 1.8c-3.15 0-3.52.01-4.77.07-1.08.05-1.66.23-2.05.38-.51.2-.88.44-1.26.82-.38.38-.62.75-.82 1.26-.15.39-.33.97-.38 2.05-.06 1.25-.07 1.62-.07 4.77s.01 3.52.07 4.77c.05 1.08.23 1.66.38 2.05.2.51.44.88.82 1.26.38.38.75.62 1.26.82.39.15.97.33 2.05.38 1.25.06 1.62.07 4.77.07s3.52-.01 4.77-.07c1.08-.05 1.66-.23 2.05-.38.51-.2.88-.44 1.26-.82.38-.38.62-.75.82-1.26.15-.39.33-.97.38-2.05.06-1.25.07-1.62.07-4.77s-.01-3.52-.07-4.77c-.05-1.08-.23-1.66-.38-2.05-.2-.51-.44-.88-.82-1.26a3.4 3.4 0 0 0-1.26-.82c-.39-.15-.97-.33-2.05-.38-1.25-.06-1.62-.07-4.77-.07Zm0 3.06a5 5 0 1 1 0 10 5 5 0 0 1 0-10Zm0 8.2a3.2 3.2 0 1 0 0-6.4 3.2 3.2 0 0 0 0 6.4Zm6.4-8.4a1.17 1.17 0 1 1-2.34 0 1.17 1.17 0 0 1 2.34 0Z"/></svg>
+          </a>
+          <a href={SITE.social.twitter} aria-label="Twitter" class="inline-flex h-11 w-11 items-center justify-center rounded-full border border-edge hover:border-accent hover:text-accent transition-colors">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M23.95 4.57a10 10 0 0 1-2.82.77 4.96 4.96 0 0 0 2.16-2.72c-.95.56-2 .97-3.13 1.19a4.92 4.92 0 0 0-8.38 4.48A13.98 13.98 0 0 1 1.64 3.16a4.92 4.92 0 0 0 1.52 6.57 4.9 4.9 0 0 1-2.23-.61v.06a4.92 4.92 0 0 0 3.95 4.83 4.94 4.94 0 0 1-2.22.08 4.93 4.93 0 0 0 4.6 3.42A9.87 9.87 0 0 1 0 19.54a13.94 13.94 0 0 0 7.55 2.21c9.06 0 14.01-7.5 14.01-14.01 0-.21 0-.42-.02-.63a10 10 0 0 0 2.41-2.54Z"/></svg>
+          </a>
         </div>
       </div>
+
+      {/* Address */}
+      <address class="lg:col-span-3 not-italic">
+        <h2 class="font-bold uppercase tracking-wider text-sm text-accent mb-4">{t.address}</h2>
+        <p class="leading-[2.3] text-fog">
+          {SITE.address[lang].map((line, i) => (
+            <>
+              {line}
+              {i < SITE.address[lang].length - 1 && <br />}
+            </>
+          ))}
+        </p>
+      </address>
+
+      {/* Get in touch */}
+      <div class="lg:col-span-4">
+        <h2 class="font-bold uppercase tracking-wider text-sm text-accent mb-4">{t.getInTouch}</h2>
+        <p class="leading-[2.3]">
+          <a href={SITE.phoneHref} dir="ltr" class="text-fog hover:text-accent transition-colors">{SITE.phone}</a><br />
+          <a href={`mailto:${SITE.email}`} class="text-fog hover:text-accent transition-colors">{SITE.email}</a><br />
+          <a href={SITE.mapUrl} target="_blank" rel="noopener" class="text-fog hover:text-accent transition-colors">{t.viewOnMap}</a>
+        </p>
+      </div>
+    </div>
+
+    {/* Bottom strip: menu + copyright */}
+    <div class="mt-14 pt-6 border-t border-edge flex flex-col lg:flex-row items-center justify-between gap-3">
+      <nav aria-label="Footer">
+        <ul class="flex flex-wrap justify-center gap-x-6 gap-y-2 text-[13px] uppercase font-semibold tracking-wider">
+          <li><a class="text-fog hover:text-accent transition-colors" href={homeHref}>{t.home}</a></li>
+          <li><a class="text-fog hover:text-accent transition-colors" href={`${homeHref}#brands-main`}>{t.brands}</a></li>
+          <li><a class="text-fog hover:text-accent transition-colors" href={careersHref}>{t.careers}</a></li>
+          <li>
+            <a class="text-fog hover:text-accent transition-colors" href={lang === 'en' ? '/' : '/en/'} lang={lang === 'en' ? 'ar' : 'en'}>
+              {t.langSwitch}
+            </a>
+          </li>
+        </ul>
+      </nav>
+      <p class="text-[12px] text-dim text-center">{t.copyright}</p>
     </div>
   </div>
 
-  {/* Dark strip: menu + copyright (original: two centered half-columns) */}
-  <div class="text-white text-center px-4 mt-6 grid gap-2 lg:grid-cols-2 lg:items-center">
-    <nav aria-label="Footer">
-      <ul class="flex flex-wrap justify-center gap-2.5 text-[13px]">
-        <li><a class="hover:underline" href={homeHref}>{t.home}</a></li>
-        <li><a class="hover:underline" href={`${homeHref}#brands-main`}>{t.brands}</a></li>
-        <li><a class="hover:underline" href={careersHref}>{t.careers}</a></li>
-        <li>
-          <a class="hover:underline" href={lang === 'en' ? '/ar/' : '/'} lang={lang === 'en' ? 'ar' : 'en'}>
-            {t.langSwitch}
-          </a>
-        </li>
-      </ul>
-    </nav>
-    <p class="text-[13px]">{t.copyright}</p>
-  </div>
-
-  {/* Back-to-top vertical ribbon (original .read-btn-vrt-r: 30px 10px padding) */}
+  {/* Back-to-top ribbon */}
   <a
     href="#top"
-    class="hidden lg:flex absolute top-0 end-0 bg-dark text-white px-2.5 py-[30px] [writing-mode:vertical-rl] items-center gap-2 text-base"
+    class="hidden lg:flex absolute top-0 end-0 bg-accent text-night font-bold px-2.5 py-[26px] [writing-mode:vertical-rl] items-center gap-2 text-sm uppercase tracking-widest"
     aria-label="Back to top"
   >
     {t.top}
-    <span class="inline-block w-[2px] h-10 bg-white" aria-hidden="true"></span>
+    <span class="inline-block w-[2px] h-8 bg-night" aria-hidden="true"></span>
   </a>
 </footer>

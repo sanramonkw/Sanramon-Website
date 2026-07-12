@@ -354,7 +354,8 @@ export const CATEGORIES: BrandCategory[] = [
 ];
 
 export function categoryPath(cat: BrandCategory, lang: Lang): string {
-  return lang === 'en' ? `/brands/${cat.slug}/` : `/ar/brands/${encodeURI(cat.slugAr)}/`;
+  // Arabic is the default locale at root; English lives under /en/.
+  return lang === 'en' ? `/en/brands/${cat.slug}/` : `/brands/${encodeURI(cat.slugAr)}/`;
 }
 
 /** Brand logo strip shown on the home page (order preserved from the live site). */

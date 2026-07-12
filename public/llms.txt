@@ -34,17 +34,20 @@ Gardens Coffee, Aseer Time, Healthy Life, Olive, Aastha Enterprises.
 - Email: info@sanramonkw.com
 - Address: P.O.Box 5485, Hawalli 32085, Kuwait
 - Online ordering: https://srkw.co/ and https://order.sanramonkw.com/
-- Languages: English (https://sanramonkw.com/) and Arabic (https://sanramonkw.com/ar/)
+- Languages: Arabic, the default (https://sanramonkw.com/) and English (https://sanramonkw.com/en/)
 
 ## Pages
 
-- [Home](https://sanramonkw.com/): company overview, departments, brand and client portfolio
-- [About](https://sanramonkw.com/about-sanramon/): company history from 2004 to today
-- [General Manager’s Message](https://sanramonkw.com/message/): core values, mission, vision
-- [Brands – Oil & Gas](https://sanramonkw.com/brands/oil-gas/)
-- [Brands – Products](https://sanramonkw.com/brands/products/)
-- [Brands – Food & Beverages](https://sanramonkw.com/brands/food-beverages/)
-- [Brands – Café & Restaurants](https://sanramonkw.com/brands/cafe-restaurants/)
-- [Brands – Beauty Products](https://sanramonkw.com/brands/beauty/)
-- [Brands – Interior Design](https://sanramonkw.com/brands/interior-design/)
-- [Careers](https://sanramonkw.com/careers/): CV upload / job applications
+Arabic is the default locale (served at the site root, original Arabic URL slugs);
+English lives under `/en/`.
+
+- [الرئيسية / Home](https://sanramonkw.com/) · [EN](https://sanramonkw.com/en/): company overview, departments, brand and client portfolio
+- [حول سان ريمون / About](https://sanramonkw.com/حول-سان-ريمون/) · [EN](https://sanramonkw.com/en/about-sanramon/): company history from 2004 to today
+- [كلمة المدير العام / General Manager’s Message](https://sanramonkw.com/كلمة-المدير-العام/) · [EN](https://sanramonkw.com/en/message/): core values, mission, vision
+- [Brands – Oil & Gas](https://sanramonkw.com/brands/النفط-والغاز/) · [EN](https://sanramonkw.com/en/brands/oil-gas/)
+- [Brands – Products](https://sanramonkw.com/brands/منتجات/) · [EN](https://sanramonkw.com/en/brands/products/)
+- [Brands – Food & Beverages](https://sanramonkw.com/brands/الأطعمة-والمشروبات/) · [EN](https://sanramonkw.com/en/brands/food-beverages/)
+- [Brands – Café & Restaurants](https://sanramonkw.com/brands/المطاعم-والمقاهي/) · [EN](https://sanramonkw.com/en/brands/cafe-restaurants/)
+- [Brands – Beauty Products](https://sanramonkw.com/brands/منتجات-التجميل/) · [EN](https://sanramonkw.com/en/brands/beauty/)
+- [Brands – Interior Design](https://sanramonkw.com/brands/تصميم-داخلي/) · [EN](https://sanramonkw.com/en/brands/interior-design/)
+- [انضم إلى فريقنا / Careers](https://sanramonkw.com/انضم-إلى-فريقنا/) · [EN](https://sanramonkw.com/en/careers/): CV upload / job applications

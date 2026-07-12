@@ -1,5 +1,25 @@
 # San Ramon General Trading & Cont. Co. — Astro rebuild of sanramonkw.com
 
+## Master design + Arabic-default promotion (2026-07-12)
+
+The owner chose the **Bold design variant ("The Slate Stage")** as the final
+design for this site, and it has been **promoted to master** (this root
+project) — `variants/bold/` no longer exists as a separate folder; its
+`src/`, `public/`, and config are now the ones described below. Its former
+`VARIANT.md` design-token/jury notes are folded into "Design tokens" and
+"Bold design system" further down.
+
+At the same time, **Arabic became the default landing locale site-wide**:
+Arabic pages moved from `/ar/<slug>/` to the root `/<slug>/` (original Arabic
+slugs preserved verbatim), and English pages moved from the root to `/en/`.
+`x-default` hreflang now points at the Arabic URL of each pair. See "Page
+inventory" below for the full before/after URL map, and **DEPLOYMENT.md →
+"301 redirect map"** for the exact host-level redirects this requires.
+
+A `pre-bold-promotion` branch snapshots the repo immediately before this
+change (EN-default root + `/ar/` Arabic + three design variants including
+Bold) — use it to diff or roll back if needed.
+
 ## Purpose
 
 Modern static rebuild of the owner's own company site, **https://sanramonkw.com** (San Ramon
@@ -51,6 +71,60 @@ The owner previews it via SSH port-forwarding: `ssh cybertruck -L 4323:127.0.0.1
 then http://127.0.0.1:4323. **Never create public tunnels for previews**, and never
 touch the machine's `cybertruck` cloudflared tunnel — it is a system service carrying
 the owner's SSH.
+
+## Bold design system — "The Slate Stage" (now master)
+
+Concept: an ambitious-Gulf-conglomerate rebrand — the whole stage goes near-black (a
+deepened ramp of the brand dark `#343a40`), and the brand accent `#5aaecd` becomes the
+electric moment (kickers, counters, CTAs, ribbons). Massive Montserrat display type
+carries the identity ("SAN RAMON" ghost watermarks, kinetic typewriter hero headline,
+oversized section headlines), the 6 departments form a bento grid with live brand-count
+badges, and real data (22 brands / 6 departments / 25 clients / est. 2004) drives an
+animated counter strip. Editorial pages sit on light "paper" panels cut with diagonal
+breaks for contrast rhythm.
+
+Tokens (`src/styles/global.css` `@theme`):
+
+| Token | Value | Role |
+| --- | --- | --- |
+| `--color-night` | `#0e1116` | page background (deepened `#343a40`) |
+| `--color-panel` / `--color-panel-2` | `#171b21` / `#1f242c` | cards, dropdown, drawer |
+| `--color-edge` | `#2c333c` | hairlines on dark |
+| `--color-mist` / `--color-fog` / `--color-dim` | `#eef2f5` / `#c3ccd3` / `#9aa5ae` | type on dark (~16:1 / ~10:1 / ~6.7:1) |
+| `--color-accent` | `#5aaecd` | unchanged brand accent; on dark ≈6.9:1 (AA) |
+| `--color-accent-bright` | `#8fd0e8` | large display type on dark |
+| `--color-accent-deep` | `#2f7896` | accent **text on white** (≈4.9:1 AA) — `#5aaecd` fails on white |
+| `--color-paper` | `#f4f6f8` | light editorial panels |
+
+Component classes: `.display` (massive Montserrat 800, RTL switches to El Messiri 700
+with neutral tracking), `.ghost` (outlined watermark type, `aria-hidden`), `.kicker-x`
+(mono index label + accent tick), `.btn-primary` / `.btn-ghost` / `.btn-dark` (pill
+buttons), `.chip-arrow`, `.paper`, `.cut-top/.cut-bottom/.cut-both` (diagonal
+clip-path breaks), `.bento-tile`, `.deck-card` (hover tilt), `.field-line`, `.reveal`.
+
+Accessibility/perf: one `h1` per page, semantic lists/landmarks, global
+`:focus-visible`, all decorative type `aria-hidden`, WCAG AA verified for every
+text/background pair, JS limited to the two inline scripts (carousel fade,
+typewriter) + one IntersectionObserver module (`.reveal` + `[data-count]`
+count-ups), `prefers-reduced-motion` disables carousel autoplay/typewriter/
+counters/reveals/tilts. RTL: drawer slide direction, kicker ticks, chip arrows and
+bento order all mirror correctly; `.display` drops negative tracking for El Messiri.
+
+Self-critique log from the original variant pass (still relevant — check before
+touching reveal/overflow/RTL logic in `BaseLayout.astro` or `global.css`):
+
+1. **Reveal fragility** — fast scripted scrolls/anchor jumps could leave sections
+   unrevealed; the observer also reveals anything whose top has already passed the
+   viewport (`boundingClientRect.top < 0`), threshold `[0, 0.1]`, rootMargin `-5%`.
+   (Confirmed again during the 2026-07-12 promotion: a full-page screenshot taken
+   without first scrolling through the page will show blank/unrevealed sections —
+   scroll top→bottom→top before capturing.)
+2. **Horizontal overflow** — off-canvas drawer and ghost display type extended
+   `scrollWidth`; fixed via `overflow-x: clip` on `html, body`.
+3. **Contrast audit** — `#5aaecd` kept off white text; `#2f7896` used on paper; dim
+   text ≥4.5:1 on both panel and night.
+4. **Counters** — derived from the data model (`CATEGORIES`/`CLIENTS`) so they can
+   never drift from the real brand/department/client counts.
 
 ## Design tokens (extracted from the original theme CSS)
 
@@ -115,22 +189,34 @@ Corrections applied (live value ← wrong rebuild value):
   the rebuild serves them on both (kept deliberately). Live's WOW/owl animations hide
   brand-strip logos until scroll-triggered; rebuild shows them statically (documented gap).
 
-## Page inventory (all rebuilt; EN ↔ AR pairs share components)
+## Page inventory (all rebuilt; AR ↔ EN pairs share components)
 
-| English | Arabic (original slugs preserved) | Source file |
+**Arabic is the default locale (root, original slugs preserved); English lives
+under `/en/`.** This is the reverse of the original rebuild (which had EN at
+root and AR under `/ar/`) — see "Master design + Arabic-default promotion"
+above and DEPLOYMENT.md's 301 map for the full old→new URL translation.
+
+| Arabic (default, original slugs preserved) | English | Source file |
 | --- | --- | --- |
-| `/` | `/ar/` | `src/pages/index.astro`, `src/pages/ar/index.astro` → `components/HomePage.astro` |
-| `/about-sanramon/` | `/ar/حول-سان-ريمون/` | `about-sanramon.astro`, `ar/[slug].astro` |
-| `/message/` (GM's Message) | `/ar/كلمة-المدير-العام/` | `message.astro`, `ar/[slug].astro` |
-| `/careers/` | `/ar/انضم-إلى-فريقنا/` | `careers.astro`, `ar/[slug].astro` |
-| `/our-brands/` | `/ar/علاماتنا-التجارية/` | `our-brands.astro`, `ar/[slug].astro` |
-| `/brands/oil-gas/` (7 brands) | `/ar/brands/النفط-والغاز/` | `brands/[category].astro`, `ar/brands/[category].astro` |
-| `/brands/products/` (6) | `/ar/brands/منتجات/` | 〃 |
-| `/brands/food-beverages/` (4) | `/ar/brands/الأطعمة-والمشروبات/` | 〃 |
-| `/brands/cafe-restaurants/` (2) | `/ar/brands/المطاعم-والمقاهي/` | 〃 |
-| `/brands/beauty/` (2) | `/ar/brands/منتجات-التجميل/` | 〃 |
-| `/brands/interior-design/` (1) | `/ar/brands/تصميم-داخلي/` | 〃 |
-| `/404` | — | `404.astro` (new; WP served a generic 404) |
+| `/` | `/en/` | `src/pages/index.astro`, `src/pages/en/index.astro` → `components/HomePage.astro` |
+| `/حول-سان-ريمون/` | `/en/about-sanramon/` | `src/pages/[slug].astro`, `en/about-sanramon.astro` |
+| `/كلمة-المدير-العام/` (GM's Message) | `/en/message/` | `[slug].astro`, `en/message.astro` |
+| `/انضم-إلى-فريقنا/` | `/en/careers/` | `[slug].astro`, `en/careers.astro` |
+| `/علاماتنا-التجارية/` | `/en/our-brands/` | `[slug].astro`, `en/our-brands.astro` |
+| `/brands/النفط-والغاز/` (7 brands) | `/en/brands/oil-gas/` | `src/pages/brands/[category].astro`, `en/brands/[category].astro` |
+| `/brands/منتجات/` (6) | `/en/brands/products/` | 〃 |
+| `/brands/الأطعمة-والمشروبات/` (4) | `/en/brands/food-beverages/` | 〃 |
+| `/brands/المطاعم-والمقاهي/` (2) | `/en/brands/cafe-restaurants/` | 〃 |
+| `/brands/منتجات-التجميل/` (2) | `/en/brands/beauty/` | 〃 |
+| `/brands/تصميم-داخلي/` (1) | `/en/brands/interior-design/` | 〃 |
+| `/404` (Arabic, with an English-version link) | — | `404.astro` (new; WP served a generic 404) |
+
+Note the Arabic content pages (about/message/careers/ourBrands) are one dynamic
+route `src/pages/[slug].astro` keyed off `AR_SLUGS` in `src/data/site.ts`, while
+their English counterparts are four separate static pages under `src/pages/en/`.
+Route pairing for hreflang/language-switcher/sitemap is centralized in
+`ROUTES`/`altPath()` (`src/data/site.ts`) and `categoryPath()`
+(`src/data/brands.ts`) — update those, not per-page literals, if URLs change again.
 
 Not rebuilt as standalone pages (intentional):
 - **25 `/client/<name>/` posts** — on WP these are bare logo attachment pages with no content;
@@ -153,8 +239,15 @@ Favicon = original `logo-w.jpg` (copied to `public/favicon.jpg`).
 ## SEO / GEO implemented
 
 - Per-page `<title>`/description (originals from Yoast preserved where they existed), canonical,
-  OG (`og:locale` en_US/ar_AR + alternate), Twitter card + `@sanramonkw`.
-- **hreflang** `en`/`ar`/`x-default` on every page (layout prop `altLangPath`) + in sitemap.
+  OG (`og:locale` ar_AR/en_US + alternate), Twitter card + `@sanramonkw`.
+- **hreflang** `ar`/`en`/`x-default` on every page (layout prop `altLangPath`,
+  `src/layouts/BaseLayout.astro`) + in the sitemap. **`x-default` always points at the
+  Arabic URL** of the pair (Arabic is the default locale). The built-in
+  `@astrojs/sitemap` i18n auto-pairing doesn't work here (Arabic and English slugs
+  differ, e.g. `/كلمة-المدير-العام/` vs `/en/message/`), so `astro.config.mjs` supplies
+  an explicit `serialize()` callback that builds every alternate link from `ROUTES`
+  (`src/data/site.ts`) and `categoryPath()` (`src/data/brands.ts`) — keep those two
+  sources in sync with any URL changes, the sitemap hreflang depends on them.
 - **JSON-LD `Organization` + `LocalBusiness`** in `src/layouts/BaseLayout.astro` with real
   data: phone +965 22204332, info@sanramonkw.com, P.O.Box 5485 Hawalli 32085 Kuwait,
   Tunisia St, map link `goo.gl/maps/vzY41EVzRwad5GEW9`, brand list, `areaServed` Kuwait/GCC.
@@ -162,7 +255,8 @@ Favicon = original `logo-w.jpg` (copied to `public/favicon.jpg`).
   the Maps listing "San Ramon General Trading & Cont. Co., Tunisia St, Hawally") — replace
   with exact pin coordinates from Google Business Profile when available.
 - `public/robots.txt` (+ sitemap URL), `public/llms.txt` (company/services/location summary
-  for generative engines), `sitemap-index.xml` via integration.
+  for generative engines, updated with the Arabic-default URL map), `sitemap-index.xml` via
+  integration.
 
 ## Contact form wiring (TODO)
 
@@ -202,3 +296,9 @@ Must support `multipart/form-data` for the CV upload. Add success/error states a
 - Raw crawl snapshots are NOT in the repo (they were in a session scratchpad); re-fetch with
   the cache-busting caveat above if you need to re-verify against live.
 - Build was green as of 2026-07-02 (`npm run build`, 23 pages, no broken local refs).
+- **2026-07-12**: Bold variant promoted to master + Arabic made the default locale
+  (see the top-of-file note). Build re-verified green after the restructuring (23
+  pages: `/`, `/en/`, 4 AR content pages + 4 EN, 6 AR brand categories + 6 EN, `/404`).
+  Playwright-verified: AR home renders RTL with ghost watermarks/bento/counters
+  (2004/25/6/22), EN home LTR, all pages 200, hreflang triples both ways in-page and
+  in the sitemap. `pre-bold-promotion` branch holds the prior state.

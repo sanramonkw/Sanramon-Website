@@ -18,7 +18,7 @@ interface Props {
 const {
   title,
   description,
-  lang = 'en',
+  lang = 'ar',
   path = Astro.url.pathname,
   altLangPath,
   ogImage = '/images/sanramon-logo.png',
@@ -107,11 +107,11 @@ const localBusinessSchema = {
     <meta name="robots" content="index, follow, max-image-preview:large, max-snippet:-1, max-video-preview:-1" />
     <meta name="generator" content={Astro.generator} />
 
-    {/* hreflang — the site is bilingual EN/AR */}
+    {/* hreflang — the site is bilingual AR/EN, Arabic is the default (x-default) locale */}
     <link rel="alternate" href={canonical} hreflang={lang} />
     {altUrl && <link rel="alternate" href={altUrl} hreflang={altLang} />}
-    {altUrl && lang !== 'en' && <link rel="alternate" href={altUrl} hreflang="x-default" />}
-    {lang === 'en' && <link rel="alternate" href={canonical} hreflang="x-default" />}
+    {altUrl && lang !== 'ar' && <link rel="alternate" href={altUrl} hreflang="x-default" />}
+    {lang === 'ar' && <link rel="alternate" href={canonical} hreflang="x-default" />}
 
     {/* Open Graph */}
     <meta property="og:locale" content={lang === 'en' ? 'en_US' : 'ar_AR'} />
@@ -146,11 +146,72 @@ const localBusinessSchema = {
     <script type="application/ld+json" set:html={JSON.stringify(organizationSchema)} />
     <script type="application/ld+json" set:html={JSON.stringify(localBusinessSchema)} />
   </head>
-  <body class="min-h-screen flex flex-col">
+  <body class="min-h-screen flex flex-col bg-night">
+    <script is:inline>
+      // Progressive enhancement flag: scroll-reveals only activate with JS.
+      document.documentElement.classList.add('js');
+    </script>
     <Header lang={lang} altLangPath={altLangPath} />
     <main class="flex-1">
       <slot />
     </main>
     <Footer lang={lang} />
+
+    <script>
+      // Scroll-triggered reveals + animated counters (transform/opacity only).
+      const reduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+      const revealEls = document.querySelectorAll<HTMLElement>('.reveal');
+      if (reduced || !('IntersectionObserver' in window)) {
+        revealEls.forEach((el) => el.classList.add('is-in'));
+      } else {
+        const io = new IntersectionObserver(
+          (entries) => {
+            entries.forEach((e) => {
+              // Reveal when entering the viewport — or when already scrolled
+              // past (fast scrolls / anchor jumps must never leave holes).
+              if (e.isIntersecting || e.boundingClientRect.top < 0) {
+                (e.target as HTMLElement).classList.add('is-in');
+                io.unobserve(e.target);
+              }
+            });
+          },
+          { rootMargin: '0px 0px -5% 0px', threshold: [0, 0.1] }
+        );
+        revealEls.forEach((el) => io.observe(el));
+      }
+
+      // Count-up stats: <span data-count="22" data-suffix="+">
+      const counters = document.querySelectorAll<HTMLElement>('[data-count]');
+      const finish = (el: HTMLElement) => {
+        el.textContent = `${el.dataset.count}${el.dataset.suffix ?? ''}`;
+      };
+      if (reduced || !('IntersectionObserver' in window)) {
+        counters.forEach(finish);
+      } else {
+        const cio = new IntersectionObserver(
+          (entries) => {
+            entries.forEach((e) => {
+              if (!e.isIntersecting) return;
+              cio.unobserve(e.target);
+              const el = e.target as HTMLElement;
+              const target = Number(el.dataset.count ?? '0');
+              const suffix = el.dataset.suffix ?? '';
+              const dur = 1400;
+              const t0 = performance.now();
+              const step = (now: number) => {
+                const p = Math.min((now - t0) / dur, 1);
+                const eased = 1 - Math.pow(1 - p, 3);
+                el.textContent = `${Math.round(target * eased)}${suffix}`;
+                if (p < 1) requestAnimationFrame(step);
+              };
+              requestAnimationFrame(step);
+            });
+          },
+          { threshold: 0.4 }
+        );
+        counters.forEach((el) => cio.observe(el));
+      }
+    </script>
   </body>
 </html>

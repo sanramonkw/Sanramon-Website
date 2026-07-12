@@ -9,35 +9,37 @@ interface Props {
 const { item, lang } = Astro.props;
 ---
 
-<article class="border border-border-soft flex flex-col">
-  <img
-    src={item.image}
-    alt={item.name}
-    width="500"
-    height="200"
-    class="w-full h-auto object-cover"
-    loading="lazy"
-  />
-  {/* Original .brand-list-logo: ~150px circle, 1px #ccc border, pulled 80px up over the image */}
-  <div class="relative -mt-20 mx-auto w-[150px] h-[150px] bg-white border border-border-soft rounded-full flex items-center justify-center overflow-hidden">
+<article class="deck-card reveal">
+  <div class="overflow-hidden">
+    <img
+      src={item.image}
+      alt={item.name}
+      width="500"
+      height="200"
+      class="w-full h-auto object-cover"
+      loading="lazy"
+    />
+  </div>
+  {/* Circular brand medallion pulled over the image (original motif, re-cut) */}
+  <div class="relative -mt-16 mx-auto w-[128px] h-[128px] bg-white border-4 border-accent/40 rounded-full flex items-center justify-center overflow-hidden shadow-[0_10px_30px_rgba(0,0,0,0.45)]">
     {item.logoLink ? (
       <a href={item.logoLink} target="_blank" rel="noopener" aria-label={item.name}>
-        <img src={item.logo} alt={`${item.name} logo`} class="max-w-[140px] max-h-[140px] object-contain" loading="lazy" width="140" height="140" />
+        <img src={item.logo} alt={`${item.name} logo`} class="max-w-[110px] max-h-[110px] object-contain" loading="lazy" width="140" height="140" />
       </a>
     ) : (
-      <img src={item.logo} alt={`${item.name} logo`} class="max-w-[140px] max-h-[140px] object-contain" loading="lazy" width="140" height="140" />
+      <img src={item.logo} alt={`${item.name} logo`} class="max-w-[110px] max-h-[110px] object-contain" loading="lazy" width="140" height="140" />
     )}
   </div>
-  <p class="px-4 lg:px-6 mt-7 mb-6 text-center text-[14px] max-h-[180px] overflow-auto flex-1">
+  <p class="px-6 lg:px-7 mt-6 mb-6 text-center text-fog max-h-[200px] overflow-auto flex-1">
     {item.desc[lang]}
   </p>
-  <div class="text-center pb-5 flex justify-center gap-3">
+  <div class="text-center pb-6 flex justify-center gap-3">
     {item.socials.map((s) => (
-      <a href={s.url} target="_blank" rel="noopener" class="opacity-50 hover:opacity-100 transition-opacity" aria-label={`${item.name} ${s.kind === 'instagram' ? 'Instagram' : 'website'}`}>
+      <a href={s.url} target="_blank" rel="noopener" class="rounded-full bg-white opacity-70 hover:opacity-100 transition-opacity" aria-label={`${item.name} ${s.kind === 'instagram' ? 'Instagram' : 'website'}`}>
         {s.kind === 'instagram' ? (
-          <img src="/images/insta-round.png" alt="" width="50" height="50" loading="lazy" />
+          <img src="/images/insta-round.png" alt="" width="44" height="44" loading="lazy" class="rounded-full" />
         ) : (
-          <img src="/images/web-round.png" alt="" width="47" height="47" loading="lazy" />
+          <img src="/images/web-round.png" alt="" width="44" height="44" loading="lazy" class="rounded-full" />
         )}
       </a>
     ))}

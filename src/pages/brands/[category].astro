@@ -5,7 +5,7 @@ import { CATEGORIES, categoryPath } from '../../data/brands';
 
 export function getStaticPaths() {
   return CATEGORIES.map((category) => ({
-    params: { category: category.slug },
+    params: { category: category.slugAr },
     props: { category },
   }));
 }
@@ -14,12 +14,12 @@ const { category } = Astro.props;
 ---
 
 <BaseLayout
-  title={`${category.title.en} Archives - San Ramon General Trading & Cont. Co.`}
-  description={category.homeDesc.en}
-  lang="en"
-  path={categoryPath(category, 'en')}
-  altLangPath={categoryPath(category, 'ar')}
+  title={`${category.title.ar} - شركة سان ريمون للتجارة العامة والمقاولات`}
+  description={category.homeDesc.ar}
+  lang="ar"
+  path={categoryPath(category, 'ar')}
+  altLangPath={categoryPath(category, 'en')}
   ogImage={category.banner}
 >
-  <CategorySection category={category} lang="en" />
+  <CategorySection category={category} lang="ar" />
 </BaseLayout>

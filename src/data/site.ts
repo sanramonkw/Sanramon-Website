@@ -76,12 +76,16 @@ export const AR_SLUGS = {
 
 const enc = (s: string) => encodeURI(s);
 
+/**
+ * Arabic is the default landing locale site-wide: Arabic pages live at the
+ * root (original Arabic slugs preserved), English pages live under `/en/`.
+ */
 export const ROUTES: { en: string; ar: string }[] = [
-  { en: '/', ar: '/ar/' },
-  { en: '/about-sanramon/', ar: `/ar/${enc(AR_SLUGS.about)}/` },
-  { en: '/message/', ar: `/ar/${enc(AR_SLUGS.message)}/` },
-  { en: '/careers/', ar: `/ar/${enc(AR_SLUGS.careers)}/` },
-  { en: '/our-brands/', ar: `/ar/${enc(AR_SLUGS.ourBrands)}/` },
+  { en: '/en/', ar: '/' },
+  { en: '/en/about-sanramon/', ar: `/${enc(AR_SLUGS.about)}/` },
+  { en: '/en/message/', ar: `/${enc(AR_SLUGS.message)}/` },
+  { en: '/en/careers/', ar: `/${enc(AR_SLUGS.careers)}/` },
+  { en: '/en/our-brands/', ar: `/${enc(AR_SLUGS.ourBrands)}/` },
 ];
 
 export function altPath(path: string, lang: Lang): string | undefined {

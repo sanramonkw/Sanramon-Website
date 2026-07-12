@@ -40,8 +40,8 @@ const t =
       };
 ---
 
-<div class="px-4 lg:px-12">
-  <h1 class="uppercase text-[2rem] font-bold text-dark mb-2">{t.heading}</h1>
+<div class="px-6 lg:px-12">
+  <h1 class="display !text-dark text-[clamp(2rem,4vw,3rem)] mb-3">{t.heading}</h1>
   <form
     method="post"
     action="#"
@@ -50,7 +50,7 @@ const t =
     aria-label="Careers application form"
     class="space-y-[30px]"
   >
-    <p class="text-black/50">{t.intro}</p>
+    <p class="text-[#5a6067]">{t.intro}</p>
     <label class="block">
       <span class="sr-only">{t.name}</span>
       <input class="field-line" type="text" name="your-name" maxlength="400" placeholder={t.name} required />
@@ -72,7 +72,6 @@ const t =
       <input class="field-line" type="file" name="file-cv" accept=".pdf,.doc,.docx" required />
     </label>
     <p>{t.cvNote}</p>
-    {/* original CF7 submit: 16px, 0.8rem 2.5rem padding */}
-    <button type="submit" class="btn-dark !px-10 !py-[0.8rem] cursor-pointer">{t.submit}</button>
+    <button type="submit" class="btn-dark !px-10 !py-4 cursor-pointer">{t.submit}</button>
   </form>
 </div>

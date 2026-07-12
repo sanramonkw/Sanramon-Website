@@ -3,14 +3,20 @@ import BaseLayout from '../layouts/BaseLayout.astro';
 ---
 
 <BaseLayout
-  title="Page not found - San Ramon General Trading & Cont. Co."
-  description="The page you are looking for could not be found."
-  lang="en"
+  title="الصفحة غير موجودة - شركة سان ريمون للتجارة العامة والمقاولات"
+  description="الصفحة التي تبحث عنها غير موجودة."
+  lang="ar"
   path="/404"
 >
-  <section class="max-w-5xl mx-auto px-4 py-32 text-center">
-    <h1 class="text-4xl font-light text-dark mb-4">404 — Page not found</h1>
-    <p class="mb-8">The page you are looking for does not exist or has been moved.</p>
-    <a href="/" class="btn-dark">Back to Home</a>
+  <section class="relative overflow-hidden text-center py-32 lg:py-44">
+    <p class="ghost absolute inset-x-0 top-10 text-[38vw] lg:text-[24vw] whitespace-nowrap" aria-hidden="true">404</p>
+    <div class="relative mx-auto max-w-3xl px-4">
+      <h1 class="display text-[clamp(2.4rem,6vw,4.5rem)] mb-6">404 — الصفحة غير موجودة</h1>
+      <p class="mb-10 text-dim">الصفحة التي تبحث عنها غير موجودة أو تم نقلها.</p>
+      <a href="/" class="btn-primary">العودة للرئيسية</a>
+      <p class="mt-8 text-sm">
+        <a href="/en/" class="underline text-dim hover:text-accent">English version</a>
+      </p>
+    </div>
   </section>
 </BaseLayout>

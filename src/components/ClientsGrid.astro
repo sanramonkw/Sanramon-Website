@@ -8,17 +8,20 @@ interface Props {
 const { lang } = Astro.props;
 ---
 
-{/* Original #client-logo .logo: 126x61, object-fit contain, 1px #d9d9d9 border,
-    4px padding, 5px margin, white bg, hover scale(1.2). */}
-<div class="flex flex-wrap items-center py-4">
+{/* Client wall: 25 logos on white chips over the slate stage. */}
+<ul class="grid grid-cols-3 sm:grid-cols-4 md:grid-cols-5 lg:grid-cols-8 gap-3 list-none p-0">
   {CLIENTS.map((c) => (
-    <img
-      src={c.image}
-      alt={lang === 'en' ? c.name : c.nameAr}
-      class="w-[126px] h-[61px] object-contain border border-[#d9d9d9] p-1 m-[5px] bg-white transition-transform duration-200 hover:scale-120 hover:border-white"
-      loading="lazy"
-      width="126"
-      height="61"
-    />
+    <li class="flex">
+      <span class="flex w-full items-center justify-center rounded-xl bg-white border border-edge p-2.5 h-[72px] transition-transform duration-200 hover:scale-105">
+        <img
+          src={c.image}
+          alt={lang === 'en' ? c.name : c.nameAr}
+          class="max-h-full w-auto max-w-full object-contain"
+          loading="lazy"
+          width="126"
+          height="61"
+        />
+      </span>
+    </li>
   ))}
-</div>
+</ul>

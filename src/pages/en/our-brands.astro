@@ -1,0 +1,41 @@
+---
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import { CATEGORIES, categoryPath } from '../../data/brands';
+import { AR_SLUGS } from '../../data/site';
+---
+
+<BaseLayout
+  title="Our Brands - San Ramon General Trading & Cont. Co."
+  description="Explore San Ramon’s brand portfolio across six departments: Oil & Gas, Products, Food & Beverages, Café & Restaurants, Beauty Products and Interior Design."
+  lang="en"
+  path="/en/our-brands/"
+  altLangPath={`/${encodeURI(AR_SLUGS.ourBrands)}/`}
+>
+  <section class="relative overflow-hidden">
+    <p class="ghost absolute top-4 start-0 text-[20vw] lg:text-[13vw] whitespace-nowrap" aria-hidden="true">Brands</p>
+    <div class="relative mx-auto max-w-[1320px] px-4 lg:px-6 pt-20 lg:pt-28 pb-6">
+      <h1 class="display text-[clamp(2.4rem,6vw,4.6rem)] mb-12">Our <b class="text-accent">Brands</b></h1>
+      {/* The original page was an empty stub; we list the six departments for usability. */}
+      <ul class="grid gap-5 sm:grid-cols-2 lg:grid-cols-3 list-none p-0">
+        {CATEGORIES.map((cat, i) => (
+          <li>
+            <a href={categoryPath(cat, 'en')} class="bento-tile block h-full !p-7 group">
+              <span class="font-mono text-[13px] text-accent tracking-widest" aria-hidden="true">
+                {String(i + 1).padStart(2, '0')}
+              </span>
+              <span class="display block text-[clamp(1.3rem,2.2vw,1.8rem)] mt-3 mb-4 group-hover:text-accent transition-colors">
+                {cat.title.en}
+              </span>
+              <span class="inline-flex items-center gap-3 font-bold uppercase text-[12px] tracking-wider text-dim">
+                {cat.items.length === 1 ? '1 brand' : `${cat.items.length} brands`}
+                <span class="chip-arrow" aria-hidden="true">
+                  <svg width="12" height="12" viewBox="0 0 12 12" fill="none"><path d="M2 6h8m0 0L6.5 2.5M10 6l-3.5 3.5" stroke="currentColor" stroke-width="1.5"/></svg>
+                </span>
+              </span>
+            </a>
+          </li>
+        ))}
+      </ul>
+    </div>
+  </section>
+</BaseLayout>

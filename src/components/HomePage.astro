@@ -1,6 +1,7 @@
 ---
 import { SITE, T, type Lang, AR_SLUGS } from '../data/site';
 import { CATEGORIES, categoryPath, HOME_BRAND_LOGOS } from '../data/brands';
+import { CLIENTS } from '../data/clients';
 import ClientsGrid from './ClientsGrid.astro';
 
 interface Props {
@@ -19,7 +20,7 @@ const copy =
         aboutTitleHtml: 'About <b>San Ramon General Trading &amp; Cont. Co.</b>',
         aboutBody:
           'San Ramon General Trading & Cont. Co. is a trademark in Kuwait which offers high quality products and services locally and globally. San Ramon’s competitive advantage lies in its wide distribution network. In 2004, San Ramon established its first department, producing products under the gas and oil sector. A few years later in 2012, San Ramon expanded to include food and beverages with a focus on production and distribution. San Ramon is the owner and main manufacturer of many brands under this department, namely Karak Tea, Shahad Honey, Food Hacks, and Food Experts. A year later in 2013, San Ramon added further diversity by offering beauty products, and in 2015, San Ramon opened it fourth department, cafes and restaurants to offer services. Soon enough in 2018, San Ramon established its fifth department under interior designing, and aspires to have more departments and collaborations in the near future.',
-        gmHref: '/message/',
+        gmHref: '/en/message/',
         brandsKicker: 'Explore',
         brandsTitleHtml: 'Our <b>Brands</b>',
         clientsKicker: 'The esteemed',
@@ -28,7 +29,13 @@ const copy =
         careersTitleHtml: 'Join Our <b>TEAM</b>',
         careersBody: 'Please feel free to upload your Resume if you are interested to join us!',
         careersCta: 'Apply Now',
-        careersHref: '/careers/',
+        careersHref: '/en/careers/',
+        // Counter-strip labels (new module sanctioned by the redesign brief)
+        statBrands: 'Brands',
+        statDepts: 'Departments',
+        statClients: 'Clients',
+        statEst: 'Established',
+        brandCountLabel: (n: number) => (n === 1 ? '1 brand' : `${n} brands`),
       }
     : {
         bannerKicker: 'المنتجات العالمية  الي باب بيتك',
@@ -38,7 +45,7 @@ const copy =
         aboutTitleHtml: 'حول سان ريمون للتجارة العامة والمقاولات',
         aboutBody:
           'سان ريمون للتجارة العامة والمقاولات علامة تجارية في الكويت تقدم منتجات وخدمات عالية الجودة محليًا وعالميًا. نحن في سان ريمون نطمح لتقديم منتجاتنا وخدماتنا للجميع وتوسيع شبكة توزيعنا في جميع أنحاء العالم. تبدأ قصتنا في عام 2004 عندما أنشأت شركة سان ريمون أول قسم لها لإنتاج المنتجات في قطاع الغاز والنفط. توسعت شركتنا في عام 2012 لتشمل الأطعمة والمشروبات مع التركيز على الإنتاج والتوزيع. سان ريمون هي الشركة المصنعة الرئيسية للعديد من العلامات التجارية تحت قسم الأطعمة والمشروبات منها "شاي كرك" و"عسل شهد" و"فود هاكز" و"فود اكسبرتز". أضافت شركة سان ريمون مزيدًا من التنوع إلى اقسامها في عام 2013 من خلال تقديم منتجات التجميل وفي عام 2015 افتتحت شركة سان ريمون قسم المقاهي والمطاعم لتقدم الخدمات إضافة إلى المنتجات. في عام 2018 أنشأت سان ريمون قسمها الخامس تحت التصميم الداخلي وتطمح للحصول على المزيد من الأقسام والمنتجات في المستقبل القريب.',
-        gmHref: `/ar/${encodeURI(AR_SLUGS.message)}/`,
+        gmHref: `/${encodeURI(AR_SLUGS.message)}/`,
         brandsKicker: 'اكتشف',
         brandsTitleHtml: 'علاماتنا التجارية',
         clientsKicker: 'أكبر العلامات التجارية',
@@ -47,7 +54,12 @@ const copy =
         careersTitleHtml: 'انضم إلى فريقنا',
         careersBody: '!لا تتردد في تحميل سيرتك الذاتية ، إذا كنت مهتمًا بالانضمام إلينا!',
         careersCta: 'قدم الآن',
-        careersHref: `/ar/${encodeURI(AR_SLUGS.careers)}/`,
+        careersHref: `/${encodeURI(AR_SLUGS.careers)}/`,
+        statBrands: 'علامة تجارية',
+        statDepts: 'أقسام',
+        statClients: 'عميل',
+        statEst: 'سنة التأسيس',
+        brandCountLabel: (n: number) => (n === 1 ? 'علامة تجارية واحدة' : `${n} علامات تجارية`),
       };
 
 const banners = [
@@ -56,114 +68,218 @@ const banners = [
   { src: '/images/banner-1603776635.png', w: 1097, h: 794 },
   { src: '/images/banner-1608543316.png', w: 1099, h: 797 },
 ];
+
+// Real numbers straight from the data model.
+const totalBrands = CATEGORIES.reduce((n, c) => n + c.items.length, 0); // 22
+const deptCount = CATEGORIES.length; // 6
+const clientCount = CLIENTS.length; // 25
+const estYear = 2004; // "In 2004, San Ramon established its first department" (about copy)
+
+const stats = [
+  { value: totalBrands, suffix: '', label: copy.statBrands },
+  { value: deptCount, suffix: '', label: copy.statDepts },
+  { value: clientCount, suffix: '', label: copy.statClients },
+  { value: estYear, suffix: '', label: copy.statEst },
+];
+
+// Bento spans: 12-col grid → [7,5] / [4,4,4] / [12]
+const bentoSpan = [
+  'lg:col-span-7',
+  'lg:col-span-5',
+  'lg:col-span-4',
+  'lg:col-span-4',
+  'lg:col-span-4',
+  'lg:col-span-12',
+];
 ---
 
-{/* ============ Hero banner ============ */}
-<section class="grid lg:grid-cols-12 items-center gap-4" id="top">
-  <div class="lg:col-span-5 ps-4 lg:ps-12 pt-6">
-    <p class="text-base tracking-wide">{copy.bannerKicker}</p>
-    <h1 class="font-bold text-3xl lg:text-[2.5rem] leading-[1.2] min-h-[1.2em]">
-      <span class="typewrite" data-period="2000" data-words={JSON.stringify(copy.typewriter)}>
-        {copy.typewriter[0]}
-      </span><span class="caret" aria-hidden="true">|</span>
-    </h1>
-  </div>
-  <div class="lg:col-span-7 relative">
-    <div class="hero-carousel relative overflow-hidden" data-interval="4500">
-      {banners.map((bnr, i) => (
-        <img
-          src={bnr.src}
-          alt=""
-          width={bnr.w}
-          height={bnr.h}
-          class={`hero-slide w-full h-auto transition-opacity duration-700 ${i === 0 ? '' : 'absolute inset-0 opacity-0'}`}
-          loading={i === 0 ? 'eager' : 'lazy'}
-          fetchpriority={i === 0 ? 'high' : undefined}
-        />
-      ))}
-      <button
-        type="button"
-        class="hero-next absolute bottom-0 end-0 bg-dark text-white text-[40px] font-extralight px-2.5 py-[15px] leading-none cursor-pointer"
-        aria-label="Next slide"
-      >&#8250;</button>
+{/* ============ Hero: slate stage, massive kinetic headline ============ */}
+<section class="relative overflow-hidden" id="top">
+  {/* Ghost wordmark */}
+  <p class="ghost absolute top-6 start-0 text-[24vw] lg:text-[15vw] whitespace-nowrap" aria-hidden="true">
+    San Ramon
+  </p>
+
+  <div class="relative mx-auto max-w-[1320px] px-4 lg:px-6 grid lg:grid-cols-12 items-center gap-10 pt-14 lg:pt-24 pb-16 lg:pb-28">
+    <div class="lg:col-span-5">
+      <p class="kicker-x mb-6">{copy.bannerKicker}</p>
+      <h1 class="display text-[clamp(2.6rem,7vw,5rem)] min-h-[2em]">
+        <span class="typewrite text-accent-bright" data-period="2000" data-words={JSON.stringify(copy.typewriter)}>
+          {copy.typewriter[0]}
+        </span><span class="caret text-accent" aria-hidden="true">|</span>
+      </h1>
+      <div class="mt-10 flex flex-wrap items-center gap-4">
+        <a href={`${lang === 'en' ? '/en/' : '/'}#brands-main`} class="btn-primary">{t.brands}</a>
+        <a href={copy.gmHref} class="btn-ghost">{t.gmMessage}</a>
+      </div>
     </div>
-    <div class="hidden lg:block absolute -bottom-[70px] end-0 w-[85%] h-[250px] bg-dark -z-10" aria-hidden="true"></div>
+
+    <div class="lg:col-span-7 relative">
+      {/* Accent offset slab behind the carousel */}
+      <div class="hidden lg:block absolute -bottom-8 -end-8 w-[70%] h-[65%] rounded-3xl bg-accent/15 border border-accent/30" aria-hidden="true"></div>
+      <div class="hero-carousel relative overflow-hidden rounded-3xl border border-edge" data-interval="4500">
+        {banners.map((bnr, i) => (
+          <img
+            src={bnr.src}
+            alt=""
+            width={bnr.w}
+            height={bnr.h}
+            class={`hero-slide w-full h-auto transition-opacity duration-700 ${i === 0 ? '' : 'absolute inset-0 opacity-0'}`}
+            loading={i === 0 ? 'eager' : 'lazy'}
+            fetchpriority={i === 0 ? 'high' : undefined}
+          />
+        ))}
+        <button
+          type="button"
+          class="hero-next absolute bottom-4 end-4 inline-flex h-12 w-12 items-center justify-center rounded-full bg-accent text-night text-[28px] leading-none cursor-pointer transition-transform hover:-translate-y-0.5"
+          aria-label="Next slide"
+        >&#8250;</button>
+      </div>
+    </div>
   </div>
 </section>
 
-{/* ============ About + departments ============ */}
-<section class="relative mt-16" id="about-us">
-  <div class="max-w-[1140px] mx-auto px-4 grid gap-10 lg:grid-cols-12">
-    <div class="lg:col-span-3">
-      <p class="mb-6 font-light text-base" set:html={copy.aboutTagline.replace('high quality products', '<b>high quality products</b>')} />
-      <p class="kicker mb-2">{copy.aboutKicker}</p>
-      <h2 class="text-[1.75rem] leading-tight mb-3 font-normal" set:html={copy.aboutTitleHtml} />
-      <p class="text-justify">{copy.aboutBody}</p>
-      <p class="mt-5">
-        <a class="btn-outline" href={copy.gmHref}>{t.gmMessage}</a>
+{/* ============ Animated counter strip (real data) ============ */}
+<section class="border-y border-edge bg-panel" aria-label={lang === 'en' ? 'Key figures' : 'أرقام رئيسية'}>
+  <div class="mx-auto max-w-[1320px] px-4 lg:px-6 grid grid-cols-2 lg:grid-cols-4">
+    {stats.map((s, i) => (
+      <div class={`reveal py-10 lg:py-12 text-center ${i > 0 ? 'border-s border-edge' : ''} ${i === 2 ? 'max-lg:border-s-0' : ''} ${i >= 2 ? 'max-lg:border-t max-lg:border-edge' : ''}`}>
+        <p class="display text-[clamp(2.2rem,4.5vw,3.6rem)] !text-accent" aria-hidden="true">
+          <span data-count={s.value} data-suffix={s.suffix}>0</span>
+        </p>
+        <p class="sr-only">{s.value}{s.suffix}</p>
+        <p class="mt-2 uppercase tracking-[0.25em] text-[12px] text-dim font-semibold">{s.label}</p>
+      </div>
+    ))}
+  </div>
+</section>
+
+{/* ============ About: light paper panel, asymmetric ============ */}
+<section class="paper cut-both mt-0 py-20 lg:py-28" id="about-us">
+  <div class="mx-auto max-w-[1320px] px-4 lg:px-6 grid gap-10 lg:grid-cols-12">
+    <div class="lg:col-span-5 reveal">
+      <p class="kicker-x mb-5">{copy.aboutKicker}</p>
+      <h2 class="display !text-dark text-[clamp(1.9rem,3.6vw,3rem)]" set:html={copy.aboutTitleHtml} />
+      <p class="mt-6 text-lg font-medium !text-dark" set:html={copy.aboutTagline.replace('high quality products', '<b>high quality products</b>')} />
+      <p class="mt-8">
+        <a class="btn-dark" href={copy.gmHref}>{t.gmMessage}</a>
       </p>
     </div>
-    <div class="lg:col-span-9 lg:ps-8 lg:pt-[110px]">
-      <div class="grid gap-8 sm:grid-cols-2 xl:grid-cols-3">
-        {CATEGORIES.map((cat) => (
-          <article class="px-2">
-            {cat.homeImage && (
-              <img src={cat.homeImage} alt="" class="pb-5 h-24 w-auto object-contain" loading="lazy" width="90" height="90" />
-            )}
-            <h3 class="font-medium text-xl mb-2">{cat.title[lang]}</h3>
-            <p class="mb-4">{cat.homeDesc[lang]}</p>
-            <a href={categoryPath(cat, lang)} class="btn-outline">{t.readMore}</a>
-          </article>
-        ))}
-      </div>
+    <div class="lg:col-span-6 lg:col-start-7 lg:pt-16 reveal">
+      <p class="text-justify !text-[15px] leading-loose">{copy.aboutBody}</p>
+    </div>
+  </div>
+</section>
+
+{/* ============ Departments bento grid ============ */}
+<section class="relative mt-20 lg:mt-28 overflow-hidden">
+  <div class="hidden lg:block absolute top-0 end-0 -z-10 w-1/2 opacity-20" aria-hidden="true">
+    <img src="/images/brand-bg.png" alt="" class="w-full h-auto" loading="lazy" width="1115" height="685" />
+  </div>
+  <div class="mx-auto max-w-[1320px] px-4 lg:px-6">
+    <div class="grid gap-5 lg:grid-cols-12">
+      {CATEGORIES.map((cat, i) => (
+        <article class={`bento-tile reveal ${bentoSpan[i]}`}>
+          <div class={`flex flex-col gap-5 h-full ${i === 5 ? 'lg:flex-row lg:items-center lg:gap-12' : ''}`}>
+            <div class="flex items-start justify-between gap-4">
+              <span class="font-mono text-[13px] text-accent tracking-widest" aria-hidden="true">
+                {String(i + 1).padStart(2, '0')}
+              </span>
+              {cat.homeImage && (
+                <span class="inline-flex h-16 w-16 items-center justify-center rounded-2xl bg-white shrink-0">
+                  <img src={cat.homeImage} alt="" class="h-10 w-10 object-contain" loading="lazy" width="90" height="90" />
+                </span>
+              )}
+            </div>
+            <div class="flex-1">
+              <h3 class="display text-[clamp(1.4rem,2.4vw,2rem)] mb-3">{cat.title[lang]}</h3>
+              <span class="inline-block rounded-full bg-accent/15 text-accent text-[12px] font-bold uppercase tracking-wider px-3 py-1 mb-4">
+                {copy.brandCountLabel(cat.items.length)}
+              </span>
+              <p class="text-dim">{cat.homeDesc[lang]}</p>
+            </div>
+            <p class="mt-auto">
+              <a href={categoryPath(cat, lang)} class="inline-flex items-center gap-3 font-bold uppercase text-[13px] tracking-wider text-mist hover:text-accent transition-colors">
+                {t.readMore}
+                <span class="chip-arrow" aria-hidden="true">
+                  <svg width="12" height="12" viewBox="0 0 12 12" fill="none"><path d="M2 6h8m0 0L6.5 2.5M10 6l-3.5 3.5" stroke="currentColor" stroke-width="1.5"/></svg>
+                </span>
+              </a>
+            </p>
+          </div>
+        </article>
+      ))}
     </div>
   </div>
 </section>
 
 {/* ============ Our Brands logo strip ============ */}
-<section id="brands-main" class="mt-20 relative">
-  <div class="bg-dark py-6 lg:w-2/3">
-    <div class="px-4 lg:px-12 text-white">
-      <div class="lg:ms-12 pt-2">
-        <p class="kicker kicker-light mb-2 text-white">{copy.brandsKicker}</p>
-        <h2 class="text-[1.75rem] font-light" set:html={copy.brandsTitleHtml} />
+<section id="brands-main" class="mt-24 lg:mt-32">
+  <div class="mx-auto max-w-[1320px] px-4 lg:px-6">
+    <div class="flex flex-wrap items-end justify-between gap-6 mb-10 reveal">
+      <div>
+        <p class="kicker-x mb-4">{copy.brandsKicker}</p>
+        <h2 class="display text-[clamp(2.2rem,5vw,4rem)]" set:html={copy.brandsTitleHtml} />
       </div>
-      <div class="mt-3 mb-4 flex flex-wrap items-center gap-1">
-        {HOME_BRAND_LOGOS.map((brnd) =>
-          brnd.href ? (
-            <a href={brnd.href} target="_blank" rel="noopener" aria-label={brnd.name}>
-              <img src={brnd.logo} alt={brnd.name} class="w-[100px] lg:w-[130px] h-auto p-2.5" loading="lazy" width="130" height="130" />
-            </a>
-          ) : (
-            <img src={brnd.logo} alt={brnd.name} class="w-[100px] lg:w-[130px] h-auto p-2.5" loading="lazy" width="130" height="130" />
-          )
-        )}
-      </div>
+      <p class="uppercase tracking-[0.25em] text-[12px] text-dim font-semibold">{totalBrands} / {deptCount} {copy.statDepts}</p>
     </div>
-  </div>
-  <div class="hidden lg:block absolute top-[20%] end-0 -z-10 w-1/2">
-    <img src="/images/brand-bg.png" alt="" class="w-full h-auto" loading="lazy" width="1115" height="685" />
+    <div class="grid grid-cols-3 sm:grid-cols-4 md:grid-cols-5 lg:grid-cols-7 gap-3 reveal">
+      {HOME_BRAND_LOGOS.map((brnd) =>
+        brnd.href ? (
+          <a
+            href={brnd.href}
+            target="_blank"
+            rel="noopener"
+            aria-label={brnd.name}
+            class="group flex items-center justify-center rounded-2xl bg-white p-3 aspect-square transition-transform duration-200 hover:-translate-y-1"
+          >
+            <img src={brnd.logo} alt={brnd.name} class="max-h-full w-auto object-contain" loading="lazy" width="130" height="130" />
+          </a>
+        ) : (
+          <span class="flex items-center justify-center rounded-2xl bg-white p-3 aspect-square">
+            <img src={brnd.logo} alt={brnd.name} class="max-h-full w-auto object-contain" loading="lazy" width="130" height="130" />
+          </span>
+        )
+      )}
+    </div>
   </div>
 </section>
 
 {/* ============ Our Clients ============ */}
-<section class="max-w-[1140px] mx-auto px-4 mt-12">
-  <p class="kicker mb-2">{copy.clientsKicker}</p>
-  <h2 class="text-[1.75rem] mb-3 font-light" set:html={copy.clientsTitleHtml} />
-  <ClientsGrid lang={lang} />
+<section class="mt-24 lg:mt-32">
+  <div class="mx-auto max-w-[1320px] px-4 lg:px-6">
+    <div class="reveal">
+      <p class="kicker-x mb-4">{copy.clientsKicker}</p>
+      <h2 class="display text-[clamp(2.2rem,5vw,4rem)] mb-10" set:html={copy.clientsTitleHtml} />
+    </div>
+    <div class="reveal">
+      <ClientsGrid lang={lang} />
+    </div>
+  </div>
 </section>
 
-{/* ============ Careers CTA (original .quick-link-hm: left half, mt 120px) ============ */}
-<section class="lg:w-1/2 px-4 lg:ps-12 mt-10 lg:mt-[120px]">
-  <div class="grid gap-8 lg:grid-cols-2 items-center">
-    <div class="lg:mt-12">
-      <p class="kicker mb-2">{copy.careersKicker}</p>
-      <h2 class="text-[1.75rem] mb-3 font-light" set:html={copy.careersTitleHtml} />
-      <p>{copy.careersBody}</p>
-      <a href={copy.careersHref} class="btn-dark rounded mt-6">{copy.careersCta}</a>
-    </div>
-    <div class="text-center py-3">
-      <img src="/images/job-bg.png" alt="" class="inline-block w-[240px] h-auto" loading="lazy" width="240" height="240" />
+{/* ============ Careers: magnetic CTA block ============ */}
+<section class="mt-24 lg:mt-32 mx-auto max-w-[1320px] px-4 lg:px-6">
+  <div class="reveal relative overflow-hidden rounded-3xl bg-gradient-to-br from-accent to-accent-deep px-8 py-14 lg:px-16 lg:py-20">
+    <p class="ghost absolute -top-2 end-0 text-[18vw] lg:text-[10vw] whitespace-nowrap !opacity-100 [-webkit-text-stroke:1px_rgba(14,17,22,0.18)]" aria-hidden="true">
+      {copy.careersKicker}
+    </p>
+    <div class="relative grid gap-10 lg:grid-cols-12 items-center">
+      <div class="lg:col-span-8">
+        <p class="inline-flex items-center gap-3 uppercase font-mono text-[12px] tracking-[0.35em] text-night/80 font-bold mb-5">
+          <span class="inline-block h-[2px] w-8 bg-night/70" aria-hidden="true"></span>
+          {copy.careersKicker}
+        </p>
+        <h2 class="display !text-night text-[clamp(2.4rem,6vw,4.6rem)]" set:html={copy.careersTitleHtml} />
+        <p class="mt-5 !text-night/85 !text-[15px] max-w-xl font-medium">{copy.careersBody}</p>
+        <a href={copy.careersHref} class="mt-8 inline-flex items-center gap-3 bg-night text-mist font-bold uppercase text-sm tracking-wide px-9 py-4 rounded-full transition-transform duration-200 hover:-translate-y-1 hover:scale-[1.03]">
+          {copy.careersCta}
+          <span aria-hidden="true">&#8599;</span>
+        </a>
+      </div>
+      <div class="lg:col-span-4 text-center">
+        <img src="/images/job-bg.png" alt="" class="inline-block w-[220px] lg:w-[260px] h-auto" loading="lazy" width="240" height="240" />
+      </div>
     </div>
   </div>
 </section>
@@ -178,9 +294,16 @@ const banners = [
       opacity: 0;
     }
   }
+  @media (prefers-reduced-motion: reduce) {
+    .caret {
+      animation: none;
+    }
+  }
 </style>
 
 <script>
+  const reducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
   // Hero carousel — fade between slides, mirrors the original Bootstrap carousel-fade.
   document.querySelectorAll<HTMLElement>('.hero-carousel').forEach((root) => {
     const slides = Array.from(root.querySelectorAll<HTMLImageElement>('.hero-slide'));
@@ -196,18 +319,19 @@ const banners = [
       i = (i + 1) % slides.length;
       show(i);
     };
-    let timer = setInterval(next, Number(root.dataset.interval ?? 4500));
+    const interval = Number(root.dataset.interval ?? 4500);
+    let timer = reducedMotion ? undefined : setInterval(next, interval);
     root.querySelector('.hero-next')?.addEventListener('click', () => {
-      clearInterval(timer);
+      if (timer) clearInterval(timer);
       next();
-      timer = setInterval(next, Number(root.dataset.interval ?? 4500));
+      if (!reducedMotion) timer = setInterval(next, interval);
     });
   });
 
   // Typewriter headline — mirrors the original .typewrite behaviour.
   document.querySelectorAll<HTMLElement>('.typewrite').forEach((el) => {
     const words: string[] = JSON.parse(el.dataset.words ?? '[]');
-    if (!words.length) return;
+    if (!words.length || reducedMotion) return;
     const period = Number(el.dataset.period ?? 2000);
     let wi = 0;
     let txt = '';

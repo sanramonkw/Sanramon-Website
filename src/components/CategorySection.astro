@@ -19,13 +19,18 @@ const sectionTitleHtml = lang === 'en' ? 'OUR <b>BRANDS</b>' : 'علاماتنا
   alt={category.title[lang]}
 />
 
-<section class="text-center my-10">
-  <h2 class="text-[1.75rem] font-light text-dark" set:html={sectionTitleHtml} />
-  <p class="uppercase text-[#595959]">{category.title[lang]}</p>
+<section class="mx-auto max-w-[1320px] px-4 lg:px-6 mt-14 lg:mt-20 mb-12 flex flex-wrap items-end justify-between gap-4 reveal">
+  <div>
+    <p class="kicker-x mb-4">{category.title[lang]}</p>
+    <h2 class="display text-[clamp(1.9rem,4vw,3.2rem)]" set:html={sectionTitleHtml} />
+  </div>
+  <p class="uppercase tracking-[0.25em] text-[12px] text-dim font-semibold">
+    {String(category.items.length).padStart(2, '0')}
+  </p>
 </section>
 
-<section class="max-w-[1140px] mx-auto px-4">
-  <div class="grid gap-[30px] md:grid-cols-2 lg:grid-cols-3">
+<section class="mx-auto max-w-[1320px] px-4 lg:px-6">
+  <div class="grid gap-7 md:grid-cols-2 lg:grid-cols-3">
     {category.items.map((item) => (
       <BrandCard item={item} lang={lang} />
     ))}
