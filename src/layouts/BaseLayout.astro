@@ -108,8 +108,9 @@ const localBusinessSchema = {
     <title>{title}</title>
     <meta name="description" content={description} />
     <link rel="canonical" href={canonical} />
+    {import.meta.env.DEPLOY_TARGET === 'pages' && <meta name="robots" content="noindex, nofollow" />}
     <link rel="icon" type="image/jpeg" href={withBase('/favicon.jpg')} />
-    <meta name="robots" content="index, follow, max-image-preview:large, max-snippet:-1, max-video-preview:-1" />
+    {import.meta.env.DEPLOY_TARGET !== 'pages' && <meta name="robots" content="index, follow, max-image-preview:large, max-snippet:-1, max-video-preview:-1" />}
     <meta name="generator" content={Astro.generator} />
 
     {/* hreflang — the site is bilingual AR/EN, Arabic is the default (x-default) locale */}
