@@ -83,6 +83,19 @@ variant ("The Slate Stage") was promoted to master. Any host fronting this build
 (Cloudflare Pages `_redirects`, nginx, CDN rules, etc.) **must** implement these
 301s so old indexed URLs and inbound links keep resolving:
 
+> **Status (2026-08-07): NOT APPLIED on the live host.** Verified by request:
+> `/careers/`, `/about-sanramon/`, `/message/`, `/our-brands/`,
+> `/brands/oil-gas/` and `/ar/` all returned **404**. The custom 404 page was
+> also unwired (nginx served its own 153-byte default), nginx emitted `http://`
+> Location headers for its trailing-slash redirects, and **no host
+> canonicalisation existed at all** — `http://`, `https://`, `www.` and apex
+> each served identical content at 200.
+>
+> **`deploy/nginx-redirects.conf` in this repo now implements all of the
+> above.** Apply that file rather than hand-typing rules onto a server: this
+> map was lost during the server migration precisely because it existed only
+> as prose in this document.
+
 **Old English-at-root URLs → new `/en/...`:**
 
 | Old (301 from) | New (301 to) |
