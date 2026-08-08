@@ -358,6 +358,37 @@ export function categoryPath(cat: BrandCategory, lang: Lang): string {
   return lang === 'en' ? `/en/brands/${cat.slug}/` : `/brands/${encodeURI(cat.slugAr)}/`;
 }
 
+/**
+ * Stable in-page anchor id for a brand card, e.g. "PHE Polymers" -> "phe-polymers".
+ *
+ * Used so an old WordPress brand permalink can 301 to its category page AND land
+ * the visitor on that specific card (`/en/brands/oil-gas/#chase`) rather than at
+ * the top of a page listing 7 brands. Note this is a *usability* device only —
+ * search engines strip the fragment and treat the target as the category page.
+ */
+export function brandAnchor(name: string): string {
+  return name
+    .toLowerCase()
+    .normalize('NFKD')
+    .replace(/[^a-z0-9]+/g, '-')
+    .replace(/^-+|-+$/g, '');
+}
+
+/**
+ * Anchors for one category's items, de-duplicated positionally. Brand names are
+ * not guaranteed unique (e.g. "Chase" appears more than once in the data), and a
+ * repeated id would make the second card unreachable by anchor.
+ */
+export function categoryAnchors(cat: BrandCategory): string[] {
+  const seen = new Map<string, number>();
+  return cat.items.map((item) => {
+    const base = brandAnchor(item.name);
+    const n = seen.get(base) ?? 0;
+    seen.set(base, n + 1);
+    return n === 0 ? base : `${base}-${n + 1}`;
+  });
+}
+
 /** Brand logo strip shown on the home page (order preserved from the live site). */
 export const HOME_BRAND_LOGOS: { logo: string; href?: string; name: string }[] = [
   { logo: '/images/icon-1603894955.png', name: 'Chase' },

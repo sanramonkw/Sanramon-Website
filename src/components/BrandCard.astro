@@ -6,11 +6,13 @@ import { withBase } from '../utils/paths';
 interface Props {
   item: BrandItem;
   lang: Lang;
+  /** In-page anchor id, so old per-brand WordPress permalinks can deep-link here. */
+  anchor?: string;
 }
-const { item, lang } = Astro.props;
+const { item, lang, anchor } = Astro.props;
 ---
 
-<article class="deck-card reveal">
+<article class="deck-card reveal" id={anchor}>
   <div class="overflow-hidden">
     <img
       src={withBase(item.image)}

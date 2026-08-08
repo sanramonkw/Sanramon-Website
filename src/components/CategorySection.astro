@@ -1,5 +1,6 @@
 ---
 import type { BrandCategory } from '../data/brands';
+import { categoryAnchors } from '../data/brands';
 import type { Lang } from '../data/site';
 import InnerBanner from './InnerBanner.astro';
 import BrandCard from './BrandCard.astro';
@@ -9,6 +10,7 @@ interface Props {
   lang: Lang;
 }
 const { category, lang } = Astro.props;
+const anchors = categoryAnchors(category);
 const sectionTitleHtml = lang === 'en' ? 'OUR <b>BRANDS</b>' : 'علاماتنا التجارية';
 ---
 
@@ -31,8 +33,8 @@ const sectionTitleHtml = lang === 'en' ? 'OUR <b>BRANDS</b>' : 'علاماتنا
 
 <section class="mx-auto max-w-[1320px] px-4 lg:px-6">
   <div class="grid gap-7 md:grid-cols-2 lg:grid-cols-3">
-    {category.items.map((item) => (
-      <BrandCard item={item} lang={lang} />
+    {category.items.map((item, i) => (
+      <BrandCard item={item} lang={lang} anchor={anchors[i]} />
     ))}
   </div>
 </section>

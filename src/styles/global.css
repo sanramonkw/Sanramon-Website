@@ -99,6 +99,11 @@
       scroll-behavior: auto;
     }
   }
+  /* Anchor targets (old WordPress permalinks 301 to `<page>#<section|brand>`)
+     should not land flush against the top edge of the viewport. */
+  :target {
+    scroll-margin-top: 2rem;
+  }
   /* The off-canvas drawer and oversized ghost type must never create a
      horizontal scrollbar. `clip` avoids creating a new scroll container. */
   html,
